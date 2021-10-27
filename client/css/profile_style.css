@@ -1,0 +1,163 @@
+html,body{
+    margin: 0px;
+    height: 100%;
+}
+
+body {
+    background-color: whitesmoke;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    display: flex;
+}
+#profileHeader {
+    height: 100%;
+    width: 300px;
+    background-color: rgba(0, 0, 0, 0.904);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 3px;
+}
+
+#profilePhoto {
+    position: relative;
+    top: 37px;
+    width: 190px;
+    height: 190px;
+    border: 2px solid silver;
+    border-radius: 50%;
+}
+
+#username {
+    color: aliceblue;
+    padding: 5px;
+    position: relative;
+    top: 25px;
+    text-align: center;
+}
+
+.profileStats ul li {
+    list-style: none;
+    font-weight: bold;
+    color: aliceblue;
+    text-align: center;
+    padding: 18px;
+    font-size: 18px;
+}
+
+.profileStats ul {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+}
+
+.profileStatsNum {
+    display: block;
+    color:#6012a5;
+    font-size: 150%;
+}
+
+#followBtn {
+    color: aliceblue;
+    background-color: rgb(63, 13, 156);
+    border: 0.5px solid rgb(45, 0, 128);
+    border-radius: 5px;
+    width: 100px;
+    font-size: 17px;
+
+}
+
+#reportBtn {
+    color: aliceblue;
+    background-color: rgba(221, 3, 3, 0.863);
+    border: 0.5px solid rgb(45, 0, 128);
+    border-radius: 5px;
+    width: 100px;
+    font-size: 17px;
+    margin-top: auto;
+    
+
+}
+
+#profileContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.box{
+    background-color: rgb(63, 13, 156);
+    border: 0.5px solid rgb(45, 0, 128);
+    color: aliceblue;
+    border-radius: 12px;
+    height: 200px;
+    width: 80%;
+    margin: 35px;
+    box-shadow: 0px 4px 4px 3px rgba(161, 160, 160, 0.959);
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.largeBox{
+    background-color: rgb(63, 13, 156);
+    border: 0.5px solid rgb(45, 0, 128);
+    color: aliceblue;
+    border-radius: 12px;
+    height: 55vh;
+    width: 80%;
+    margin: 35px;
+    box-shadow: 0px 4px 4px 3px rgba(161, 160, 160, 0.959);
+    margin-bottom: 5px;
+    overflow: auto;
+}
+
+.boxTitle{
+    margin: 10px;
+    padding: 7px;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+#bioTextBox{
+    width: 90%;
+    height: 120px;
+    margin-left: 17px;
+    text-align: left;
+    background-color: rgb(63, 13, 156);
+    border: 0;
+    color: white;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: medium;
+    align-self: center;
+}
+
+.profileWorks ul{
+    display: flex;
+    list-style: none;
+    padding-left: 26px;
+    margin: 0px;
+    flex-wrap: wrap;
+    height: 45vh;
+
+}
+
+.profileWorks li{
+    list-style: none;
+    margin: 0px;
+    margin-right: 25px;
+    margin-bottom: 15px;
+}
+
+.profileWorks img{
+    width: 120px;
+    height: 100px;
+    box-shadow: 0px -2px 3px 0px rgb(28 28 28 / 78%);
+}
+
+.profileWorks a{
+    text-decoration: none;
+ 	color: white;
+    display: block;
+    text-align: center;
+}
