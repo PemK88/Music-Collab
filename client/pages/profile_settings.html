@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Profile Settings</title>
+        <link rel="stylesheet" type="text/css" href="../css/profile_settings_style.css">
+    </head>
+    <body>
+        <div id="profileHeader">
+            <div id="profilePhotoContainer">
+                <img id="profilePhoto" src="../images/profileImages/profile_photo.jpeg">
+                <label id="changePhotoLabel" for="photo">Change Photo</label>
+                <input id="photo" type="file">
+            </div>
+            <h2 id="username">User101</h2>
+            <label class="headerSubLabel">Username</label>
+
+            <button class="btn" id="logoutBtn">Logout</button>
+        </div> 
+
+        <div id="profileInfo">
+            <div id="headerContainer">
+                <h1 class="pageTitle">Profile Settings</h1>
+                <a href="./internal_profile.html" id="backLink"> - Back to Profile</a>
+            </div>
+            
+            <div id="settingsContainer">
+                <h3 class="sectionTitle">Profile</h3>
+                <div class="row">
+                    <label class="settingLabel">Profile Name</label>
+                    <input type="text" class="settingInput" Value="BeatMaker" readonly>
+                </div>
+                <br>
+                <div class="row">
+                    <label class="settingLabel">Email</label>
+                    <input type="text" class="settingInput" Value="beat.maker@gmail.com" readonly>
+                </div>
+                <br>
+                <div class="row">
+                    <label class="settingLabel">Interests</label>
+                    <input type="text" class="settingInput" Value="Jazz Instumentals, Hiphop Beats" readonly>
+                </div>
+                <br>
+                <button class="btn subBtn" id="changeProfileInfoBtn">Save Changes</button>
+                <br>
+                <br>
+
+                <div id="passwordContainer">
+                    <h3 class="sectionTitle">Password</h3>
+                    <div class="row">
+                        <label class="settingLabel">Old Password</label>
+                        <input type="password" class="settingInput" value="">
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="settingLabel">New Password</label>
+                        <input type="password" class="settingInput" value="">
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="settingLabel">Confirm Password</label>
+                        <input type="password" class="settingInput" value="">
+                    </div>
+                    <br>
+                    <button class="btn subBtn" id="changePasswdBtn">Change Password</button>
+                    
+                </div>
+        </div>
+        </div>
+
+
+    </body>
+</html>
