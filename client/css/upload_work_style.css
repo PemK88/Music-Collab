@@ -9,33 +9,30 @@ body {
     display: flex;
 }
 
-#profileHeader {
+#uploadContainer {
     height: 100%;
-    width: 20vw;
-    background-color: rgba(0, 0, 0, 0.904);
+    width: 30vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 3px;
     overflow: hidden;
 }
-.headerSubLabel{
-    color: grey;
-}
 
-#profilePhotoContainer{
+
+#coverPhotoContainer{
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 230px;
+    margin-top: 60px;
 }
-#profilePhoto {
-    margin-top: 37px;
+
+#coverPhoto {
     width: 190px;
     height: 190px;
     border: 2px solid silver;
-    border-radius: 50%;
     z-index: 0;
 }
 
@@ -43,13 +40,11 @@ body {
     color: aliceblue;
     cursor: pointer;
     width: 190px;
-    height: 95px;
+    height: 40px;
     z-index: 400;
     background-color: #0000009e;
     text-align: center;
-    border-bottom-right-radius: 190px;
-    border-bottom-left-radius: 190px;
-    margin-top: -95px;
+    margin-top: -41px;
 }
 
 
@@ -57,32 +52,25 @@ body {
     display: none;
 }
 
-#username {
-    color: aliceblue;
-    padding: 5px;
-    top: 25px;
-    text-align: center;
-    margin-bottom: 0px;
-    padding-bottom: 0px;
+#audioFile {
+    display: none;
 }
 
-
-#profileInfo {
+#workDetails {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80vw;
+    width: 70vw;
 }
 
 #headerContainer{
     display: flex;
     width: 60vw;
-
 }
+
 #backLink{
     text-decoration: none;
     color: gray;
-    margin-left: auto;
     margin-top: 35px;
 }
 
@@ -90,12 +78,12 @@ body {
     margin: 21px 0px;
 }
 
-.settingLabel {
+.detailLabel {
     font-size: small;
     margin: 5px;
 }
 
-.settingInput {
+.detailInput {
     display: block;
     padding: 10px;
     border-radius: 10px;
@@ -106,13 +94,13 @@ body {
     margin-top: 5px;
 }
 
-.settingInput:focus {
+.detailInput:focus, #descriptionTextBox:focus {
     background-color: white;
     border-color: rgb(63, 13, 156);
     outline: none;
 }
 
-#settingsContainer {
+#detailsContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -126,18 +114,18 @@ body {
     width: 70%;
 }
 
-#passwordContainer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    border-top: 0.1px solid silver;
-}
 
 .sectionTitle{
     font-size: 16px;
     align-self: flex-start;
     margin-left: 10%;
+}
+
+#audioFileLabel {
+    border: 0.1px dashed silver;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
 }
 
 .btn {
@@ -152,15 +140,9 @@ body {
     box-sizing: border-box;
 }
 
-.subBtn {
-    align-self: flex-start;
-    margin-left: 15%;
-}
-
-
-#logoutBtn {
+#uploadBtn {
     font-size: 17px;
-    margin-top: auto;
+    margin-top: 120px;
 }
 
 form {
@@ -168,4 +150,22 @@ form {
     align-items: center;
     display: flex;
     flex-direction: column;
+    margin-top: 16px;
 }
+
+#descriptionTextBox{
+    display: block;
+    padding: 10px;
+    border-radius: 10px;
+    border: 0.1px solid silver;
+    background-color: rgb(235 235 235);
+    width: 90%;
+    font-size: medium;
+    margin-top: 5px;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    overflow: auto;
+    resize: none;
+    outline: none;
+    height: 120px;
+}
+

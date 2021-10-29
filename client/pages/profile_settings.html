@@ -10,7 +10,7 @@
             <div id="profilePhotoContainer">
                 <img id="profilePhoto" src="../images/profileImages/profile_photo.jpeg">
                 <label id="changePhotoLabel" for="photo">Change Photo</label>
-                <input id="photo" type="file">
+                <input id="photo" type="file" accept=".png, .jpg, .jpeg">
             </div>
             <h2 id="username">User101</h2>
             <label class="headerSubLabel">Username</label>
@@ -26,48 +26,50 @@
             
             <div id="settingsContainer">
                 <h3 class="sectionTitle">Profile</h3>
-                <div class="row">
-                    <label class="settingLabel">Profile Name</label>
-                    <input type="text" class="settingInput" Value="BeatMaker" readonly>
-                </div>
+                <form id="profileForm">
+                    <div class="row">
+                        <label class="settingLabel">Profile Name</label>
+                        <input id="profileName" type="text" class="settingInput" Value="BeatMaker" readonly>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="settingLabel">Email</label>
+                        <input id="email" type="text" class="settingInput" Value="beat.maker@gmail.com" readonly>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="settingLabel">Interests</label>
+                        <input id="interests" type="text" class="settingInput" Value="Jazz Instumentals, Hiphop Beats" readonly>
+                    </div>
+                </form>
                 <br>
-                <div class="row">
-                    <label class="settingLabel">Email</label>
-                    <input type="text" class="settingInput" Value="beat.maker@gmail.com" readonly>
-                </div>
-                <br>
-                <div class="row">
-                    <label class="settingLabel">Interests</label>
-                    <input type="text" class="settingInput" Value="Jazz Instumentals, Hiphop Beats" readonly>
-                </div>
-                <br>
-                <button class="btn subBtn" id="changeProfileInfoBtn">Save Changes</button>
+                <button type="submit" form="profileForm" class="btn subBtn" id="changeProfileInfoBtn">Save Changes</button>
                 <br>
                 <br>
 
                 <div id="passwordContainer">
-                    <h3 class="sectionTitle">Password</h3>
-                    <div class="row">
-                        <label class="settingLabel">Old Password</label>
-                        <input type="password" class="settingInput" value="">
-                    </div>
-                    <br>
-                    <div class="row">
-                        <label class="settingLabel">New Password</label>
-                        <input type="password" class="settingInput" value="">
-                    </div>
-                    <br>
-                    <div class="row">
-                        <label class="settingLabel">Confirm Password</label>
-                        <input type="password" class="settingInput" value="">
-                    </div>
-                    <br>
-                    <button class="btn subBtn" id="changePasswdBtn">Change Password</button>
                     
+                    <h3 class="sectionTitle">Password</h3>
+                    <form id="passwordForm">
+                        <div class="row">
+                            <label class="settingLabel">Old Password</label>
+                            <input id="oldPassword" type="password" class="settingInput" value="">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="settingLabel">New Password</label>
+                            <input id="newPassword" type="password" class="settingInput" value="">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="settingLabel">Confirm Password</label>
+                            <input id="confirmPassword" type="password" class="settingInput" value="">
+                        </div>
+                    </form>
+                    <br>
+                    <button type="submit" form="passwordForm" class="btn subBtn" id="changePasswdBtn">Change Password</button>
                 </div>
         </div>
         </div>
-
-
     </body>
 </html>
