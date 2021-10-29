@@ -1,0 +1,79 @@
+ <!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <title>Cover Page</title>
+        <link rel="stylesheet" type="text/css" href="../css/coverpage.css">
+        
+    </head>
+<body>
+
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="#">Explore</a>
+  <a href="#">Settings</a>
+  <a href="#">About us</a>
+  <a href="#">Contact</a>
+</div>
+<div id="main">
+  <button class="openbtn" onclick="openNav()">☰</button>
+</div>
+<div class="row tm-row">
+                <div class="col-12">
+                    <form method="GET" class="form-inline tm-mb-80 tm-search-form">                
+                        <input class="form-control tm-search-input" name="query" type="text" placeholder="Search..." aria-label="Search">
+                        <button class="tm-search-button" type="submit">
+                            <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
+                        </button>                                
+                    </form>
+                </div>                
+            </div>  
+  
+	<div class="feed">
+		<h2 class="feed_title">Cover Photo</h2>
+         
+                        <img src="../images/profileImages/album_cover.jpeg"><a href="url">The one</a>
+                        
+	</div>
+<div>
+<form action=''>  
+     Enter your comment and submit below  <br>  
+    <input style="height:200px;width:600px;font-size:14pt type="text" comment="comment">
+    <input type="submit" style="display:block;margin-left:71%;" value="Comment">  
+  </form>  
+</div>
+<div>
+<form action=''>  
+     Description  <br>  
+    <input style="height:200px;width:600px;font-size:14pt type="text">
+  </form>
+</div>  
+
+<br>
+</div>
+	<div class="buttons">
+	<button class="button" type="button">Privacy</button> 
+	<button class="button" type="button">Edit</button>
+	<button class="button" type="button">Delete</button> 
+	<button class="button" type="button">Song Timeline</button> 
+	</div>
+
+
+<script>
+document.getElementById('textboxid').style.height="200px";
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+   
+</body>
+</html> 
+
+</html>

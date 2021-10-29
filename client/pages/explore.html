@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <title>Explore</title>
+        <link rel="stylesheet" type="text/css" href="../css/homepage.css">
+        
+    </head>
+<body>
+
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="#">Explore</a>
+  <a href="#">Settings</a>
+  <a href="#">About us</a>
+  <a href="#">Contact</a>
+</div>
+<div id="main">
+  <button class="openbtn" onclick="openNav()">☰</button>
+</div>
+<div class="row tm-row">
+                <div class="col-12">
+                    <form method="GET" class="form-inline tm-mb-80 tm-search-form">                
+                        <input class="form-control tm-search-input" name="query" type="text" placeholder="Search..." aria-label="Search">
+                        <button class="tm-search-button" type="submit">
+                            <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
+                        </button>                                
+                    </form>
+                </div>                
+            </div>  
+  
+	<div class="feed">
+		<h2 class="feed_title">Trending</h2>
+                    <ul>
+                        <li><img src="../images/profileImages/album_cover.jpeg"><a href="url">The one</a></li>
+                        <li><img src="../images/profileImages/album_cover2.jpeg"><a href="url">Artist:DJ Khaled Song: The one</a></li>
+                        <li><img src="../images/profileImages/album_cover.jpeg"><a href="url">Artist:DJ Khaled Song: The one</a></li>
+                        <li><img src="../images/profileImages/album_cover2.jpeg"><a href="url">Artist:DJ Khaled Song: The one</a></li>
+                    </ul>
+	</div>
+	<div class="feed">
+		<h2 class="feed_title">Genre</h2>
+                    <ul>
+                        <li><img src="../images/profileImages/album_cover.jpeg"><a href="url">The one</a></li>
+                        <li><img src="../images/profileImages/album_cover2.jpeg"><a href="url">Artist:DJ Khaled Song: The one</a></li>
+                        <li><img src="../images/profileImages/album_cover2.jpeg"><a href="url">Artist:DJ Khaled Song: The one</a></li>                       
+                        <li><img src="../images/profileImages/album_cover.jpeg"><a href="url">Artist:DJ Khaled Song: The one</a></li>
+                        
+                    </ul>
+	</div>
+	<div class="feed">
+		<h2 class="feed_title">Newly Uploaded</h2>
+                    <ul>
+                        <li><img src="../images/profileImages/album_cover.jpeg"><a href="url">The one</a></li>
+                        <li><img src="../images/profileImages/album_cover2.jpeg"><a href="url">Artist:DJ Khaled Song: The one</a></li>
+                        <li><img src="../images/profileImages/album_cover.jpeg"><a href="url">Artist:DJ Khaled Song: The one</a></li>
+                        <li><img src="../images/profileImages/album_cover2.jpeg"><a href="url">Artist:DJ Khaled Song: The one</a></li>
+                    </ul>
+	</div>
+
+         <div class="pagination_section">
+        <a href="#"><< Previous</a>
+        <a href="#" title="Algorithm">1</a>
+        <a href="#" title="DataStructure">2</a>
+        <a href="#" title="Languages">3</a>
+        <a href="#" title="Interview" class="active">4</a>
+        <a href="#" title="practice">5</a>
+        <a href="#">Next >></a>
+    </div>
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+   
+</body>
+</html> 
+
+</html>
