@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>Admin View</title>
+ </head>
+ <body>
+ 	<h1>User Management</h1>
+
+ 	<form id='searchUser'>
+ 		<input id='userID' type="text" placeholder="User ID">
+ 		<input type="submit" value="Search">
+ 	</form>
+ 	<br>
+ 	<table id='userTable'>
+ 		<tbody>
+	 		<tr>
+                <th>
+                    Select
+                </th>
+	 			<th>
+	 				User ID
+	 			</th>
+	 			<th>
+	 				Name
+	 			</th>
+	 			<th>
+	 				Last Log In
+	 			</th>
+                <th>
+                    Edit
+                </th>
+                <th>
+                    View
+                </th>
+                <th>
+                    Delete
+                </th>
+	 		</tr>
+	 		<tr>
+                <td>
+                    <input type="checkbox" onclick="getRow(this)"/>
+                </td>
+	 			<td>
+	 				kimyu18
+	 			</td>
+	 			<td>
+	 				<strong>Yu Jin Kim</strong>
+	 			</td>
+	 			<td>
+                    <input type="date" value="2021-10-28">
+	 			</td>
+                <td>
+                    <button class='edit'>Edit</button>
+                </td>
+                <td>
+                    <button class='view'>View</button>
+                </td>
+                <td>
+                    <button class='delete'>Delete</button>
+                </td>
+	 		</tr>
+ 		</tbody>
+ 	</table>
+
+    <button class='selectedDelete'>Delete Selected</button>
+
+    <div class='popupAddUser' onclick="addUser()"> 
+        Add User
+        <span class="popupUser">
+            <form id='addUserForm'>
+                <input id='userID' type="text" placeholder="User ID">
+                <input id='password' type="text" placeholder="Password">
+                <input id='name' type="text" placeholder="Name">
+                <input type="submit" value="Add">
+            </form>
+        </span>
+    </div>
+ 	<script type="text/javascript" src="e2_library.js"></script>
+ </body>
+</html>
+

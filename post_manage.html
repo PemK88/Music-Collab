@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>Admin View</title>
+ </head>
+ <body>
+ 	<h1>Post Management</h1>
+
+ 	<form id='searchPost'>
+ 		<input id='keyword' type="text" placeholder="search">
+ 		<input type="submit" value="Search">
+ 	</form>
+ 	<br>
+ 	<table id='userTable'>
+ 		<tbody>
+	 		<tr>
+                <th>
+                    Select
+                </th>
+	 			<th>
+	 				Post ID
+	 			</th>
+	 			<th>
+	 				Name
+	 			</th>
+	 			<th>
+	 				Genre
+	 			</th>
+                <th>
+                    User Uploaded
+                </th>
+                <th>
+                    Date Posted
+                </th>
+                <th>
+                    Edit
+                </th>
+                <th>
+                    View
+                </th>
+                <th>
+                    Delete
+                </th>
+	 		</tr>
+	 		<tr>
+                <td>
+                    <input type="checkbox" onclick="getRow(this)"/>
+                </td>
+	 			<td>
+	 				1
+	 			</td>
+	 			<td>
+	 				<strong>Jingle Bell </strong>
+	 			</td>
+                <td>
+                    kimyu18
+	 			</td>
+                <td>
+                    Christmas Carol
+	 			</td>
+	 			<td>
+                    <input type="date" value="2021-10-28">
+	 			</td>
+                <td>
+                    <button class='edit'>Edit</button>
+                </td>
+                <td>
+                    <button class='view'>View</button>
+                </td>
+                <td>
+                    <button class='delete'>Delete</button>
+                </td>
+	 		</tr>
+ 		</tbody>
+ 	</table>
+
+    <button class='selectedDelete'>Delete Selected</button>
+
+ 	<script type="text/javascript" src="placeholder"></script>
+ </body>
+</html>
