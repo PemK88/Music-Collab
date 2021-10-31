@@ -1,0 +1,62 @@
+#profileHeader {
+    height: 100%;
+    width: 20vw;
+    background-color: rgba(0, 0, 0, 0.904);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+#profilePhoto {
+    position: relative;
+    top: 37px;
+    width: 190px;
+    height: 190px;
+    border: 2px solid silver;
+    border-radius: 50%;
+}
+
+
+#profileName {
+    color: aliceblue;
+    padding: 5px;
+    position: relative;
+    top: 25px;
+    text-align: center;
+}
+
+.profileStats ul li {
+    list-style: none;
+    font-weight: bold;
+    color: aliceblue;
+    text-align: center;
+    padding: 18px;
+    font-size: 18px;
+}
+
+.profileStats ul {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+}
+
+.profileStatsNum {
+    display: block;
+    color:#6012a5;
+    font-size: 150%;
+}
+
+
+#followBtn {
+    width: 100px;
+    font-size: 17px;
+}
+
+
+#reportBtn {
+    background-color: rgba(221, 3, 3, 0.863);
+    font-size: 17px;
+    margin-top: auto;
+}

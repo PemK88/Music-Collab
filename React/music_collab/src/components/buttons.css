@@ -1,0 +1,11 @@
+.btn {
+    color: aliceblue;
+    background-color: rgb(63, 13, 156);
+    border: 0.5px solid rgb(45, 0, 128);
+    border-radius: 5px;
+    width: fit-content;
+    font-size: 15px;
+    padding: 4px 12px;
+    font-weight: 400;
+    box-sizing: border-box;
+}
