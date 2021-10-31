@@ -4,25 +4,60 @@ import { Link } from 'react-router-dom';
 import "./styles.css";
 
 
-
-
 function ProfileContent (props) {
 
     const[editMode, setEditMode] = useState(false);
 
-    const generateWorks = () => {
-        return props.works.map((work, idx) => {
+    const generateWorks = (works) => {
+        if(!works) return;
+        return works.map((work, idx) => {
             return (
                 <li key={idx}>
                     <img src={work.imgSrc} alt='work cover'/>
                     <Link className="profileWorksLink" to={{
                         pathname:'/coverpage',
-                    }}>work.title</Link> 
+                        id: work.id
+                    }}>{work.title}</Link> 
                 </li>
             );   
         });
     
     };
+
+    const largeBox = () => { return (
+                                <div className="largeBox">
+                                <h3 className="boxTitle">Works</h3>
+                                <div className="profileWorks">
+                                        <ul>
+                                            {generateWorks(props.works)}
+                                        </ul>
+                                </div>
+                            </div>
+    );};
+
+    const middleBox = () => { return (
+                                <div className="smallBox" id="middleBox">
+                                    <h3 className="boxTitle">Works</h3>
+                                    <div className="profileWorks">
+                                        <ul className="smallWorksList">
+                                        {generateWorks(props.works)}
+                                        </ul>
+                                    </div>
+                                    <Link className="subBtn" to="/UploadWork"> Upload Work</Link>
+                                </div>
+                    );};
+
+    const lastBox = () => { return ( 
+                                <div className="smallBox">
+                                    <h3 className="boxTitle">Downloads</h3>
+                                    <div className="profileWorks">
+                                        <ul className="smallWorksList">
+                                            {console.log(props.downloadedWorks)}
+                                            {generateWorks(props.downloadedWorks)}
+                                        </ul>
+                                    </div>
+                                </div>
+    );};
 
     return (
         <div id="profileContent">
@@ -30,18 +65,16 @@ function ProfileContent (props) {
             <div className="smallBox">
                 <h3 className="boxTitle">Biography</h3>
                 <div id="bioContainer">
-                    <textarea id="bioTextBox" name="biography" defaultValue={props.bio} readOnly={editMode && !props.externalView}/>
+                    <textarea id="bioTextBox" name="biography" defaultValue={props.bio} readOnly={!editMode && props.externalView}/>
                 </div>
+                <button className="subBtn">Edit</button>
             </div>
 
-            <div className="largeBox">
-                <h3 className="boxTitle">Works</h3>
-                <div className="profileWorks">
-                        <ul>
-                            {generateWorks()}
-                        </ul>
-                </div>
-            </div>
+            {props.externalView && largeBox()}
+            {!props.externalView && middleBox()}
+            {!props.externalView && lastBox()}
+
+            
         </div>
     )
 
@@ -49,6 +82,7 @@ function ProfileContent (props) {
 
 ProfileContent.propTypes = {
     works: PropTypes.array,
+    downloadedWorks: PropTypes.array,
     externalView: PropTypes.bool,
     bio: PropTypes.string
 }

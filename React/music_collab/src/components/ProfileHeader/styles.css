@@ -60,3 +60,12 @@
     font-size: 17px;
     margin-top: auto;
 }
+
+#reportBtn:hover {
+    background-color: rgba(160, 4, 4, 0.863);
+}
+
+#logoutBtn {
+    font-size: 17px;
+    margin-top: auto;
+}

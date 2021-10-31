@@ -8,4 +8,26 @@
     padding: 4px 12px;
     font-weight: 400;
     box-sizing: border-box;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: rgb(50, 10, 126);
+}
+
+.subBtn {
+    color: aliceblue;
+    background-color: rgba(36, 3, 221, 0);
+    border: 0px;
+    border-radius: 5px;
+    width: 100px;
+    font-size: 15px;
+    align-self: flex-end;
+    margin: 5px;
+   
+}
+
+.subBtn:hover {
+    text-decoration-line: underline;
+    color: rgb(199, 204, 209);
 }

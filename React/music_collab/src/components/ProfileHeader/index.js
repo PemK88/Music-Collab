@@ -9,6 +9,10 @@ function ProfileHeader (props) {
         console.log('Are you sure you want to report this user?');
     };
 
+    const handleLogout = () => {
+        console.log('Direct to logout page');
+    };
+
     return(
         <div id="profileHeader">
             
@@ -22,7 +26,8 @@ function ProfileHeader (props) {
                     <li>Following<span className="profileStatsNum">{props.followingsNum}</span></li>
                 </ul>
             </div>
-            <button id="reportBtn" className="btn" onClick={handleReport()}>Report</button>
+            {props.externalView && <button id="reportBtn" className="btn" onClick={handleReport}>Report</button>}
+            {!props.externalView && <button id="logoutBtn" className="btn" onClick={handleLogout}>Logout</button>}
         </div>
     )
 }

@@ -3,33 +3,28 @@ import ProfileHeader from '../../components/ProfileHeader';
 import ProfileContent from '../../components/ProfileContent';
 import profile_photo from '../../data/profile/profile_photo.jpeg'
 import album_cover from '../../data/album_cover.jpeg';
+import album_cover2 from '../../data/album_cover2.jpeg';
 import "./styles.css";
+import PropTypes from 'prop-types';
 
-function Profile () {
-    
-    const [currentUser, setCurrentUser] = useState({
-        imgSrc: profile_photo,
-        profileName:'Beat Maker',
-        username: 'User101',
-        followersNum: 100,
-        followingsNum: 10,
-        bio: "you can always adjust your introductory paragraph later. Sometimes you just have to start writing. You can start at the beginning or dive right into the heart of your essay.",
-        works: [{
-            imgSrc: album_cover,
-            title: 'Pain',
-            artist: 'Beat Maker'}]
-    });
+function Profile (props) {
+
+    const [externalView, setExternalView] = useState(false);
 
 
     return (
        <div id="page"> 
-            <ProfileHeader imgSrc={currentUser.imgSrc} followersNum={currentUser.followersNum} followingsNum={currentUser.followingsNum} 
-                externalView={true} profileName={currentUser.profileName}/>
-            <ProfileContent works={currentUser.works} externalView={true} bio={currentUser.bio}/>
+            <ProfileHeader imgSrc={props.currentUser.imgSrc} followersNum={props.currentUser.followersNum} followingsNum={props.currentUser.followingsNum} 
+                externalView={externalView} profileName={props.currentUser.profileName}/>
+            <ProfileContent works={props.currentUser.works} downloadedWorks={props.currentUser.downloadedWorks} externalView={externalView} bio={props.currentUser.bio}/>
         </div>
 
-    )
+    );
     
 }
+
+Profile.propTypes = {
+    currentUser: PropTypes.object
+};
 
 export default Profile;
