@@ -6,6 +6,7 @@ import profile_photo from './data/profile/profile_photo.jpeg'
 import album_cover from './data/album_cover.jpeg';
 import album_cover2 from './data/album_cover2.jpeg';
 import ProfileSettings from './pages/ProfileSettings';
+import UploadWork from './pages/UploadWork';
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
           <Switch> 
             <Route exact path='/Profile' render={() => (<Profile currentUser={currentUser}/>)}/>
             <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
+            <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={currentUser}/>)}/>
           </Switch>
         </BrowserRouter>
       </div>
