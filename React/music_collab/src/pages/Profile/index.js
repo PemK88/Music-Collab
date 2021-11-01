@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import ProfileHeader from '../../components/ProfileHeader';
 import ProfileContent from '../../components/ProfileContent';
-import profile_photo from '../../data/profile/profile_photo.jpeg'
-import album_cover from '../../data/album_cover.jpeg';
-import album_cover2 from '../../data/album_cover2.jpeg';
 import "./styles.css";
 import PropTypes from 'prop-types';
 

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
-import "../buttons.css";
-
 
 function ProfileSettingsHeader (props) {
 
@@ -13,7 +11,7 @@ function ProfileSettingsHeader (props) {
     return (
             <div id="profileHeader">
                 <div id="profilePhotoContainer">
-                    <img id="profilePhoto" src={props.imgSrc}/>
+                    <img id="profilePhoto" src={props.imgSrc} alt={"User Profile"}/>
                     <label id="changePhotoLabel" htmlFor="photo">Change Photo</label>
                     <input id="photo" type="file" accept=".png, .jpg, .jpeg"/>
                 </div>

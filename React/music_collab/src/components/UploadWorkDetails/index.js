@@ -1,6 +1,5 @@
 import React from 'react';
 import "./styles.css";
-import "../buttons.css";
 
 function UploadWorkDetails () {
 
@@ -14,33 +13,33 @@ function UploadWorkDetails () {
             <div id="detailsContainer">
                 <form id="uploadForm">
                     <div className="row">
-                        <label className="detailLabel">Title</label>
-                        <input id="title" type="text" className="detailInput" defaultValue="" />
+                        <label className="inputLabel">Title</label>
+                        <input id="title" type="text" className="inputBox" defaultValue="" />
                     </div>
                     <br/>
                     <div className="row">
-                        <label className="detailLabel">Referenced Works</label>
-                        <input id="refWorks" type="text" className="detailInput" defaultValue="Dropdown menu" />
+                        <label className="inputLabel">Referenced Works</label>
+                        <input id="refWorks" type="text" className="inputBox" defaultValue="Dropdown menu" />
                     </div>
                     <br/>
                     <div className="row">
-                        <label className="detailLabel">Categories</label>
-                        <input id="categories" type="text" className="detailInput" defaultValue="Dropdown menu" />
+                        <label className="inputLabel">Categories</label>
+                        <input id="categories" type="text" className="inputBox" defaultValue="Dropdown menu" />
                     </div>
                     <br/>
                     <div className="row">
-                        <label className="detailLabel">Hashtags</label>
-                        <input id="hashtags" type="text" className="detailInput" placeholder="#" defaultValue=""/>
+                        <label className="inputLabel">Hashtags</label>
+                        <input id="hashtags" type="text" className="inputBox" placeholder="#" defaultValue=""/>
                     </div>
                     <br/>
                     <div className="row">
-                        <label className="detailLabel">Audio File</label>
-                        <label className="detailInput" id="audioFileLabel" htmlFor="audioFile">Click this area to select a file</label>
+                        <label className="inputLabel">Audio File</label>
+                        <label className="inputBox" id="audioFileLabel" htmlFor="audioFile">Click this area to select a file</label>
                         <input id="audioFile" type="file" accept=".mp3"/>
                     </div>
                     <br/>
                     <div className="row">
-                        <label className="detailLabel">Description</label>
+                        <label className="inputLabel">Description</label>
                         <textarea id="descriptionTextBox" name="description" defaultValue=""/>
                     </div>
                 </form>

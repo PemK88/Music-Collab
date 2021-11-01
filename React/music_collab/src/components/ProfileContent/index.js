@@ -43,7 +43,7 @@ function ProfileContent (props) {
                                         {generateWorks(props.works)}
                                         </ul>
                                     </div>
-                                    <Link className="subBtn" to="/UploadWork"> Upload Work</Link>
+                                    <Link className="boxBtn" to="/UploadWork"> Upload Work</Link>
                                 </div>
                     );};
 
@@ -52,7 +52,6 @@ function ProfileContent (props) {
                                     <h3 className="boxTitle">Downloads</h3>
                                     <div className="profileWorks">
                                         <ul className="smallWorksList">
-                                            {console.log(props.downloadedWorks)}
                                             {generateWorks(props.downloadedWorks)}
                                         </ul>
                                     </div>
@@ -67,7 +66,7 @@ function ProfileContent (props) {
                 <div id="bioContainer">
                     <textarea id="bioTextBox" name="biography" defaultValue={props.bio} readOnly={!editMode && props.externalView}/>
                 </div>
-                <button className="subBtn">Edit</button>
+                <button className="boxBtn">Edit</button>
             </div>
 
             {props.externalView && largeBox()}

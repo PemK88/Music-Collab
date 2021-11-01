@@ -5,31 +5,8 @@
     width: 80vw;
 }
 
-.smallBox{
-    background-color: rgb(63, 13, 156);
-    border: 0.5px solid rgb(45, 0, 128);
-    color: aliceblue;
-    border-radius: 12px;
-    height: 25%;
-    width: 80%;
-    margin: 35px;
-    box-shadow: 0px 4px 4px 3px rgba(161, 160, 160, 0.959);
-    margin-bottom: 5px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
 #middleBox{
     height: 30%;
-}
-
-
-.boxTitle{
-    margin: 10px;
-    padding: 7px;
-    font-weight: 800;
-    font-size: 20px;
 }
 
 #bioContainer{
@@ -54,76 +31,4 @@
     padding-right: 26px;
     resize: none;
     outline: none;
-}
-
-
-
-.largeBox{
-    background-color: rgb(63, 13, 156);
-    border: 0.5px solid rgb(45, 0, 128);
-    color: aliceblue;
-    border-radius: 12px;
-    height: 55%;
-    width: 80%;
-    margin: 35px;
-    box-shadow: 0px 4px 4px 3px rgba(161, 160, 160, 0.959);
-    margin-bottom: 5px;
-    overflow: hidden;
-
-}
-
-
-.profileWorks ul{
-    display: flex;
-    list-style: none;
-    margin-left: 26px;
-    margin-right: 26px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding: 0px;
-    flex-wrap: wrap;
-    height: 100%;
-    overflow: auto;
-
-}
-
-.profileWorks ul.smallWorksList {
-    display: flex;
-    list-style: none;
-    margin-left: 26px;
-    margin-right: 26px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding: 0px;
-    flex-wrap: nowrap;
-    height: 95%;
-    overflow: auto;
-}
-
-.profileWorks li{
-    list-style: none;
-    margin: 0px;
-    margin-right: 25px;
-    margin-bottom: 15px;
-}
-
-.profileWorks img{
-    width: 120px;
-    height: 100px;
-    box-shadow: 0px -2px 3px 0px rgb(28 28 28 / 78%);
-}
-
-.profileWorks {
-    height: 80%;
-}
-
-.smallBox.profileWorks {
-    height: 70%;
-}
-
-.profileWorksLink{
-    text-decoration: none;
- 	color: white;
-    display: block;
-    text-align: center;
 }

@@ -14,12 +14,13 @@ function App() {
     imgSrc: profile_photo,
     profileName:'Beat Maker',
     username: 'user',
-    passowrd: 'user',
-    email: 'beat.maker@gmail.com',
+    password: 'user',
+    email: 'user.user@gmail.com',
     interests: ['R&B','Pop'],
     followersNum: 100,
     followingsNum: 10,
     bio: "you can always adjust your introductory paragraph later. Sometimes you just have to start writing. You can start at the beginning or dive right into the heart of your essay.",
+    //The 2 arrays bellow will contain only ids and calls to the server will be made to get the other attributes
     works: [{
         id: 1,
         imgSrc: album_cover,

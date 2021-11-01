@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
-import "../buttons.css";
 
 function ProfileHeader (props) {
 
@@ -16,7 +15,7 @@ function ProfileHeader (props) {
     return(
         <div id="profileHeader">
             
-            <img id="profilePhoto" src={props.imgSrc}/>
+            <img id="profilePhoto" src={props.imgSrc} alt={"User Profile"}/>
             <h2 id="profileName">{props.profileName}</h2>
             <br/>
             {props.externalView && <button id="followBtn" className="btn">Follow</button>}

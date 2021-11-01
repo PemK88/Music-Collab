@@ -1,6 +1,5 @@
 import React from 'react';
 import "./styles.css";
-import "../buttons.css";
 import PropTypes from 'prop-types';
 import defaultCoverPhoto from '../../data/default_cover_photo.jpeg';
 
@@ -14,7 +13,7 @@ function UploadCoverPhoto(props) {
     return(
         <div id="uploadContainer">
             <div id="coverPhotoContainer">
-                <img id="coverPhoto" src={defaultCoverPhoto}/>
+                <img id="coverPhoto" src={defaultCoverPhoto} alt={"Cover"}/>
                 <label id="changeCoverPhotoLabel" htmlFor="photo">Select Cover Photo</label>
                 <input id="photo" type="file" accept=".png, .jpg, .jpeg"/>
             </div>

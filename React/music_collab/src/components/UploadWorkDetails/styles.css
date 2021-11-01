@@ -10,17 +10,6 @@
     width: 60vw;
 }
 
-#backLink{
-    text-decoration: none;
-    color: gray;
-    margin-top: 35px;
-}
-
-.pageTitle {
-    margin: 21px 0px;
-}
-
-
 #detailsContainer {
     display: flex;
     flex-direction: column;
@@ -29,34 +18,6 @@
     border-top: 0.1px solid silver;
     margin-top: 20px;
     
-}
-
-form {
-    width: 60vw;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    margin-top: 16px;
-}
-
-.row{
-    width: 70%;
-}
-
-.detailLabel {
-    font-size: small;
-    margin: 5px;
-}
-
-.detailInput {
-    display: block;
-    padding: 10px;
-    border-radius: 10px;
-    border: 0.1px solid silver;
-    background-color: rgb(235 235 235);
-    width: 90%;
-    font-size: medium;
-    margin-top: 5px;
 }
 
 #audioFileLabel {
@@ -79,7 +40,6 @@ form {
     display: none;
 }
 
-
 #descriptionTextBox{
     display: block;
     padding: 10px;
@@ -96,7 +56,7 @@ form {
     height: 120px;
 }
 
-.detailInput:focus, #descriptionTextBox:focus {
+#descriptionTextBox:focus {
     background-color: white;
     border-color: rgb(63, 13, 156);
     outline: none;
