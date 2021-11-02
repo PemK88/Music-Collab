@@ -1,10 +1,26 @@
-html,body{
+html,body {
   margin: 0px;
   height: 100%;
   font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
-.row{
+body {
+  background-color: black;
+}
+
+#profile-header {
+  height: 100%;
+  width: 20vw;
+  background-color: rgba(0, 0, 0, 0.904);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+
+.row {
   width: 70%;
 }
 
@@ -31,7 +47,7 @@ html,body{
   background-color: rgb(39, 8, 98);
 }
 
-.boxBtn {
+.box-btn {
   color: aliceblue;
   background-color: rgba(36, 3, 221, 0);
   border: 0px;
@@ -44,16 +60,17 @@ html,body{
  
 }
 
-#logoutBtn {
+#logout-btn {
   font-size: 17px;
   margin-top: auto;
 }
 
-.boxBtn:hover {
+.box-btn:hover {
   text-decoration-line: underline;
   color: rgb(199, 204, 209);
 }
-.sectionBtn {
+
+.section-btn {
   align-self: flex-start;
   margin-left: 15%;
 }
@@ -67,7 +84,7 @@ form {
 }
 
 
-.inputBox {
+.input-box {
   display: block;
   padding: 10px;
   border-radius: 10px;
@@ -78,35 +95,35 @@ form {
   margin-top: 5px;
 }
 
-.inputBox:focus {
+.input-box:focus {
   background-color: white;
   border-color: rgb(63, 13, 156);
   outline: none;
 }
 
-.inputLabel {
+.input-label {
   font-size: small;
   margin: 5px;
 }
 
-.pageTitle {
+.page-title {
   margin: 21px 0px;
 }
 
-#backLink{
+#back-link{
   text-decoration: none;
   color: gray;
   margin-top: 35px;
 }
 
-.boxTitle{
+.box-title{
   margin: 10px;
   padding: 7px;
   font-weight: 800;
   font-size: 20px;
 }
 
-.smallBox{
+.small-box{
   background-color: rgb(63, 13, 156);
   border: 0.5px solid rgb(45, 0, 128);
   color: aliceblue;
@@ -114,14 +131,14 @@ form {
   height: 25%;
   width: 80%;
   margin: 35px;
-  box-shadow: 0px 4px 4px 3px rgba(161, 160, 160, 0.959);
+  box-shadow: 0px 4px 4px 3px rgb(39 8 98);
   margin-bottom: 5px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.largeBox{
+.large-box{
   background-color: rgb(63, 13, 156);
   border: 0.5px solid rgb(45, 0, 128);
   color: aliceblue;
@@ -129,29 +146,27 @@ form {
   height: 55%;
   width: 80%;
   margin: 35px;
-  box-shadow: 0px 4px 4px 3px rgba(161, 160, 160, 0.959);
+  box-shadow: 0px 4px 4px 3px rgb(39 8 98);
   margin-bottom: 5px;
   overflow: hidden;
 
 }
 
-.sectionTitle{
+.section-title{
   font-size: 16px;
   align-self: flex-start;
   margin-left: 10%;
 }
 
-
-
-.profileWorks {
+.profile-works {
   height: 80%;
 }
 
-.smallBox.profileWorks {
+.small-box.profile-works {
   height: 70%;
 }
 
-.profileWorks ul{
+.profile-works ul{
   display: flex;
   list-style: none;
   margin-left: 26px;
@@ -165,7 +180,7 @@ form {
 
 }
 
-.profileWorks ul.smallWorksList {
+.profile-works ul.small-works-list {
   display: flex;
   list-style: none;
   margin-left: 26px;
@@ -178,30 +193,32 @@ form {
   overflow: auto;
 }
 
-.profileWorks li{
+.profile-works li{
   list-style: none;
   margin: 0px;
   margin-right: 25px;
   margin-bottom: 15px;
 }
 
-.profileWorks img{
+.profile-works img{
   width: 120px;
   height: 100px;
   box-shadow: 0px -2px 3px 0px rgb(28 28 28 / 78%);
 }
 
-.profileWorksLink{
+.profile-works-link{
   text-decoration: none;
  color: white;
   display: block;
   text-align: center;
 }
 
-#profileName {
+#profile-name {
   color: aliceblue;
   padding: 5px;
   position: relative;
   top: 25px;
   text-align: center;
+  margin-top: 0px;
+  font-size: 30px;
 }
