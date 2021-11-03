@@ -1,0 +1,15 @@
+.footer {
+    padding-top: 15px;
+    margin: auto;
+    width: 50%;
+}
+
+#left-button {
+    display: inline-block;
+}
+
+#right-button {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+}

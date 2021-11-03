@@ -1,0 +1,16 @@
+#userTable {
+    margin: auto;
+    padding-top: 15px;
+    width: 50%;
+    border: 5mm;
+    border-color: aliceblue;
+    overflow: scroll;
+}
+
+#inputText {
+    color: aliceblue;
+}
+
+#userTable button:hover {
+    color: white;
+}
