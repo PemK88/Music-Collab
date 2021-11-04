@@ -1,31 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
+import ProfileSideNav from '../ProfileSideNav';
 
 function ProfileSettingsHeader (props) {
 
-    const handleLogout = () => {
-        console.log('Direct to logout page');
-    };
 
     return (
-            <div id="profileHeader">
-                <div id="profilePhotoContainer">
-                    <img id="profilePhoto" src={props.imgSrc} alt={"User Profile"}/>
-                    <label id="changePhotoLabel" htmlFor="photo">Change Photo</label>
+            <div className="profile-header">
+                <div id="profile-photo-container">
+                    <img id="profile-photo" src={props.currentUser.imgSrc} alt={"User Profile"}/>
+                    <label id="change-photo-label" htmlFor="photo">Change Photo</label>
                     <input id="photo" type="file" accept=".png, .jpg, .jpeg"/>
                 </div>
-                <h2 id="username">{props.username}</h2>
-                <label className="headerSubLabel">Username</label>
-                <button id="logoutBtn" className="btn" onClick={handleLogout}>Logout</button>
+                <h2 id="username">{props.currentUser.username}</h2>
+                <label className="header-sub-label">Username</label>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <ProfileSideNav page={'settings'} currentUser={props.currentUser} externalView={false}/>
             </div> 
         );
 }
 
 
 ProfileSettingsHeader.propTypes = {
-    imgSrc: PropTypes.string,
-    username: PropTypes.string
+    currentUser: PropTypes.object
 };
 
 export default ProfileSettingsHeader;

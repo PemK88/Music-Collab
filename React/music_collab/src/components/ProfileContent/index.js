@@ -7,6 +7,7 @@ import "./styles.css";
 function ProfileContent (props) {
 
     const[editMode, setEditMode] = useState(false);
+    const[editBtnVal, setEditBtnVal] = useState('Edit');
 
     const generateWorks = (works) => {
         if(!works) return;
@@ -14,7 +15,7 @@ function ProfileContent (props) {
             return (
                 <li key={idx}>
                     <img src={work.imgSrc} alt='work cover'/>
-                    <Link className="profileWorksLink" to={{
+                    <Link className="profile-works-link" to={{
                         pathname:'/coverpage',
                         id: work.id
                     }}>{work.title}</Link> 
@@ -24,54 +25,85 @@ function ProfileContent (props) {
     
     };
 
-    const largeBox = () => { return (
-                                <div className="largeBox">
-                                <h3 className="boxTitle">Works</h3>
-                                <div className="profileWorks">
-                                        <ul>
-                                            {generateWorks(props.works)}
-                                        </ul>
-                                </div>
-                            </div>
-    );};
+    const generateInterests = (list) => {
+        if(!list) return;
 
-    const middleBox = () => { return (
-                                <div className="smallBox" id="middleBox">
-                                    <h3 className="boxTitle">Works</h3>
-                                    <div className="profileWorks">
-                                        <ul className="smallWorksList">
-                                        {generateWorks(props.works)}
+        return list.map((interest, idx) => {
+            return (
+                <li key={idx}>
+                    <p className="btn">{interest}</p>
+                </li>
+            );   
+        });
+    
+    };
+
+    const handleEdit = () => {
+        if(editMode === false) {
+            setEditMode(true);
+            setEditBtnVal('Save');
+        } else {
+            //onSave a post request will be made with the new bio
+            setEditMode(false);
+            setEditBtnVal('Edit');
+        }
+        
+    }
+
+
+    const worksBox = () => { return (
+                                <div className="large-dark-box">
+                                    <h3 className="box-title">Works</h3>
+                                    <div className="profile-works">
+                                        <ul className="small-works-list">
+                                        {generateWorks(props.currentUser.works)}
                                         </ul>
                                     </div>
-                                    <Link className="boxBtn" to="/UploadWork"> Upload Work</Link>
-                                </div>
-                    );};
-
-    const lastBox = () => { return ( 
-                                <div className="smallBox">
-                                    <h3 className="boxTitle">Downloads</h3>
-                                    <div className="profileWorks">
-                                        <ul className="smallWorksList">
-                                            {generateWorks(props.downloadedWorks)}
-                                        </ul>
-                                    </div>
                                 </div>
     );};
+
+    const bioBox = () => { return (
+                                <div className={props.externalView ? "tall-small-dark-box" : "small-dark-box"}>
+                                    <h3 className="box-title">Biography</h3>
+                                    <div id="bio-container">
+                                        <textarea className="bio-text-box" name="biography" defaultValue={props.currentUser.bio} readOnly={props.externalView || (!props.externalView && !editMode)}/>
+                                    </div>
+                                    {!props.externalView && <button className="box-btn" onClick={handleEdit}>{editBtnVal}</button>}
+                                </div>
+    );};
+
+    const interestsBox = () => { return (
+                                <div className="tall-small-dark-box">
+                                    <h3 className="box-title">Interests</h3>
+                                    <ul id="interests-list">
+                                        {generateInterests(props.currentUser.interests)}
+                                    </ul>
+                                    </div>
+    );};
+
+    const downloadsBox = () => { return ( 
+        <div className="small-dark-box height-25">
+            <h3 className="box-title">Downloads</h3>
+            <div className="profile-works">
+                <ul className="small-works-list">
+                    {generateWorks(props.currentUser.downloadedWorks)}
+                </ul>
+            </div>
+        </div>
+    );};
+
+
 
     return (
-        <div id="profileContent">
-
-            <div className="smallBox">
-                <h3 className="boxTitle">Biography</h3>
-                <div id="bioContainer">
-                    <textarea id="bioTextBox" name="biography" defaultValue={props.bio} readOnly={!editMode && props.externalView}/>
-                </div>
-                <button className="boxBtn">Edit</button>
-            </div>
-
-            {props.externalView && largeBox()}
-            {!props.externalView && middleBox()}
-            {!props.externalView && lastBox()}
+        <div id="profile-content">
+            {!props.externalView && bioBox()}
+            {props.externalView && 
+                (<div id="top-profile-content">
+                    {bioBox()}
+                    {interestsBox()}
+                </div>)}
+            {!props.externalView && downloadsBox()}      
+            {worksBox()}
 
             
         </div>
@@ -80,10 +112,8 @@ function ProfileContent (props) {
 }
 
 ProfileContent.propTypes = {
-    works: PropTypes.array,
-    downloadedWorks: PropTypes.array,
+    currentUser: PropTypes.object,
     externalView: PropTypes.bool,
-    bio: PropTypes.string
 }
 
 export default ProfileContent;

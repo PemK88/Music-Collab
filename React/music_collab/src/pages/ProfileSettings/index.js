@@ -9,8 +9,8 @@ import ProfileSettingsContent from '../../components/ProfileSettingsContent';
 function ProfileSettings (props) {
    
     return (
-        <div id="page"> 
-             <ProfileSettingsHeader imgSrc={props.currentUser.imgSrc} username={props.currentUser.username}/>
+        <div className="page"> 
+             <ProfileSettingsHeader currentUser={props.currentUser}/>
              <ProfileSettingsContent currentUser={props.currentUser}/>
         </div>
  

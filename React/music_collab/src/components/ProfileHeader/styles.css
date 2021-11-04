@@ -1,15 +1,4 @@
-#profileHeader {
-    height: 100%;
-    width: 20vw;
-    background-color: rgba(0, 0, 0, 0.904);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-#profilePhoto {
+#profile-photo {
     position: relative;
     top: 37px;
     width: 190px;
@@ -18,7 +7,7 @@
     border-radius: 50%;
 }
 
-.profileStats ul li {
+.profile-stats ul li {
     list-style: none;
     font-weight: bold;
     color: aliceblue;
@@ -27,30 +16,64 @@
     font-size: 18px;
 }
 
-.profileStats ul {
+.profile-stats ul {
     margin: 0px;
     padding: 0px;
     display: flex;
 }
 
-.profileStatsNum {
+.profile-stats-num {
     display: block;
     color:#6012a5;
     font-size: 150%;
 }
 
-#followBtn {
+#follow-btn {
     width: 100px;
     font-size: 17px;
 }
 
-#reportBtn {
+#unfollow-btn {
+    width: 100px;
+    font-size: 17px;
+    background-color: rgb(28 51 116);
+    border: 0.5px solid rgb(14 26 60);
+}
+
+#unfollow-btn:hover {
+    background-color: rgb(19 37 88);
+}
+
+
+#report-btn {
     background-color: rgba(221, 3, 3, 0.863);
+    border-color: rgba(160, 2, 2, 0.863);
     font-size: 17px;
     margin-top: auto;
 }
 
-#reportBtn:hover {
+#report-btn:hover {
     background-color: rgba(160, 4, 4, 0.863);
 }
 
+#hidden-container {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+#overflow-container {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: unset;
+}
+
+.no-overflow {
+    overflow: unset;
+}
