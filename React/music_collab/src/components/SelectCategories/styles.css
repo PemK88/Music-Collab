@@ -31,4 +31,5 @@
 
 .disable_ms {
     opacity: 1;
+    pointer-events: none;
 }

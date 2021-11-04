@@ -8,6 +8,7 @@ function ProfileContent (props) {
 
     const[editMode, setEditMode] = useState(false);
     const[editBtnVal, setEditBtnVal] = useState('Edit');
+    const[bio, setBio] = useState(props.currentUser.bio)
 
     const generateWorks = (works) => {
         if(!works) return;
@@ -47,7 +48,12 @@ function ProfileContent (props) {
             setEditMode(false);
             setEditBtnVal('Edit');
         }
-        
+    }
+
+    const handleCancel = () => {
+        setEditMode(false);
+        setEditBtnVal('Edit');
+        setBio(props.currentUser.bio);
     }
 
 
@@ -62,13 +68,19 @@ function ProfileContent (props) {
                                 </div>
     );};
 
+    const handleTextChange = (e) => {
+        setBio(e.target.value);
+    }
+
     const bioBox = () => { return (
                                 <div className={props.externalView ? "tall-small-dark-box" : "small-dark-box"}>
                                     <h3 className="box-title">Biography</h3>
                                     <div id="bio-container">
-                                        <textarea className="bio-text-box" name="biography" defaultValue={props.currentUser.bio} readOnly={props.externalView || (!props.externalView && !editMode)}/>
+                                        <textarea className="bio-text-box" name="biography" value={bio} onChange={handleTextChange}
+                                            readOnly={props.externalView || (!props.externalView && !editMode)}/>
                                     </div>
                                     {!props.externalView && <button className="box-btn" onClick={handleEdit}>{editBtnVal}</button>}
+                                    {!props.externalView &&  editMode && <button className="box-btn red-box-btn" onClick={handleCancel}>Cancel</button>}
                                 </div>
     );};
 

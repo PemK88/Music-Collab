@@ -18,7 +18,7 @@ function App() {
     profileName:'Beat Maker',
     username: 'user',
     password: 'user',
-    email: 'user.user@gmail.com',
+    email: 'user@user.com',
     interests: ['R&B','Pop'],
     followersNum: 4,
     followingsNum: 4,

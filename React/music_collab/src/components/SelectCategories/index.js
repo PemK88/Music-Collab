@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Multiselect from 'multiselect-react-dropdown';
 import './styles.css';
@@ -9,14 +9,15 @@ function SelectCategories(props) {
 
     return (
         <Multiselect isObject={false} options={options} selectedValues={props.selectedValues} disable={props.disabled} 
-            placeholder={props.selectedValues ? "" : 'Select'}/>
+            placeholder={props.selectedValues ? "" : 'Select'} onSelect={props.handleSelect} onRemove={props.handleSelect}/>
     );
 
 }
 
 SelectCategories.propTypes = {
     selectedOptions: PropTypes.array,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    handleSelect: PropTypes.func
 }
 
 export default SelectCategories;

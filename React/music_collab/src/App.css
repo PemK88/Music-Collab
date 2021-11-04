@@ -366,3 +366,26 @@ form {
 .popup-close-btn:hover {
   color: rgb(211, 211, 211); 
 }
+
+.disable {
+  opacity: 1;
+  pointer-events: none;
+}
+
+.settings-cancel-btn {
+  margin-top: 10px;
+  background-color: rgba(221, 3, 3, 0.863);
+  border-color: rgba(160, 2, 2, 0.863);
+}
+
+.settings-cancel-btn:hover {
+  background-color: rgba(160, 4, 4, 0.863);
+}
+
+.red-box-btn{
+  color: rgba(221, 3, 3, 0.863);
+}
+
+.red-box-btn:hover{
+  color: rgba(160, 2, 2, 0.863);
+}
