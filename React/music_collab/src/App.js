@@ -9,6 +9,7 @@ import album_cover2 from './data/album_cover2.jpeg';
 import ProfileSettings from './pages/ProfileSettings';
 import UploadWork from './pages/UploadWork';
 import Follows from './pages/Followers';
+import NavigationBar from './components/NavigationBar';
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
     //this should be home page
     <div>
         <BrowserRouter>
+         <NavigationBar/>
           <Switch> 
             <Route exact path='/Profile' render={() => (<Profile currentUser={currentUser}/>)}/>
             <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
