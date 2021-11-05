@@ -11,13 +11,13 @@ function UploadCoverPhoto(props) {
     }
 
     return(
-        <div id="uploadContainer">
-            <div id="coverPhotoContainer">
-                <img id="coverPhoto" src={defaultCoverPhoto} alt={"Cover"}/>
-                <label id="changeCoverPhotoLabel" htmlFor="photo">Select Cover Photo</label>
+        <div id="upload-container">
+            <div id="cover-photo-container">
+                <img id="cover-photo" src={defaultCoverPhoto} alt={"Cover"}/>
+                <label id="change-cover-photo-label" htmlFor="photo">Select Cover Photo</label>
                 <input id="photo" type="file" accept=".png, .jpg, .jpeg"/>
             </div>
-            <button type="submit" form="uploadForm" className="btn" id="uploadBtn" onChange={handleUpload}>Upload</button>
+            <button type="submit" form="upload-form" className="btn" id="upload-btn" onChange={handleUpload}>Upload</button>
         </div>
         
 

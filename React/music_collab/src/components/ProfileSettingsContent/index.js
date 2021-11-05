@@ -10,8 +10,7 @@ function ProfileSettingsContent (props) {
     const defaultProfileInputs = {
         profileName: props.currentUser.profileName,
         email: props.currentUser.email,
-        interests: props.currentUser.interests,
-        imgSrc: props.imgSrc
+        interests: props.currentUser.interests
     };
 
     const defaultPasswordInput = {
@@ -134,8 +133,7 @@ function ProfileSettingsContent (props) {
     
 
 ProfileSettingsContent.propTypes = {
-    currentUser: PropTypes.object,
-    imgSrc: PropTypes.string
-}
+    currentUser: PropTypes.object
+};
 
 export default ProfileSettingsContent;

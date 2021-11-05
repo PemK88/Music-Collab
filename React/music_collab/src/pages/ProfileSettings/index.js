@@ -8,17 +8,10 @@ import ProfileSettingsContent from '../../components/ProfileSettingsContent';
 
 function ProfileSettings (props) {
 
-    const [profileImageSrc, setprofileImageSrc] = useState(props.currentUser.imgSrc);
-   
-    const handleImgChange = (event) => {
-        const image = event.target.files[0]
-        setprofileImageSrc(URL.createObjectURL(image));
-    }
-
     return (
         <div className="page"> 
-             <ProfileSettingsHeader currentUser={props.currentUser} imgSrc={profileImageSrc} handleImgChange={handleImgChange}/>
-             <ProfileSettingsContent currentUser={props.currentUser} imgSrc={profileImageSrc}/>
+             <ProfileSettingsHeader currentUser={props.currentUser}/>
+             <ProfileSettingsContent currentUser={props.currentUser}/>
         </div>
  
      );

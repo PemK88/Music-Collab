@@ -4,17 +4,17 @@ import "./styles.css";
 function UploadWorkDetails () {
 
     return(
-        <div id="workDetails">
+        <div id="work-details">
 
-            <div id="headerContainer">
-                <h1 className="pageTitle">Work Details</h1>
+            <div id="header-container">
+                <h1 className="page-title">Work Details</h1>
             </div>
 
-            <div id="detailsContainer">
-                <form id="uploadForm">
+            <div id="details-container">
+                <form id="upload-form">
                     <div className="row">
-                        <label className="inputLabel">Title</label>
-                        <input id="title" type="text" className="inputBox" defaultValue="" />
+                        <label className="input-label">Title</label>
+                        <input id="title" type="text" className="input-box" defaultValue="" />
                     </div>
                     <br/>
                     <div className="row">

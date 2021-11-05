@@ -389,3 +389,9 @@ form {
 .red-box-btn:hover{
   color: rgba(160, 2, 2, 0.863);
 }
+
+.save-cancel-container {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+}
