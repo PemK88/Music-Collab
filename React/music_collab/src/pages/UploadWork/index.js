@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
 import UploadWorkDetails from '../../components/UploadWorkDetails';
-import UploadCoverPhoto from '../../components/UploadCoverPhoto';
+import ProfileHeader from '../../components/ProfileHeader';
 
 function UploadWork (props) {
 
     return (
-        <div id = "page">
-            <UploadWorkDetails/>
-            <UploadCoverPhoto currentUser={props.currentUser}/>
+        <div className="page">
+            <ProfileHeader externalView={false} currentUser={props.currentUser} page={'upload'}/>
+            <UploadWorkDetails currentUser={props.currentUser}/>
+            {/* <UploadCoverPhoto currentUser={props.currentUser}/> */}
         </div>
         
     );

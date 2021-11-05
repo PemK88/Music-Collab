@@ -1,0 +1,12 @@
+.add-ref-box .searchWrapper {
+    width: 100%;
+    overflow: auto;
+}
+
+.add-ref-box .optionListContainer {
+    width: 100%;
+}
+
+.add-ref-box .multiSelectContainer {
+    width: 35%;
+}

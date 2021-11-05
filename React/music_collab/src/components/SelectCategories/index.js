@@ -9,7 +9,7 @@ function SelectCategories(props) {
 
     return (
         <Multiselect isObject={false} options={options} selectedValues={props.selectedValues} disable={props.disabled} 
-            placeholder={props.selectedValues ? "" : 'Select'} onSelect={props.handleSelect} onRemove={props.handleSelect}/>
+            hidePlaceholder={true} onSelect={props.handleSelect} onRemove={props.handleSelect}/>
     );
 
 }

@@ -9,6 +9,7 @@ function ProfileSideNav (props) {
     const settingsClass = props.page === 'settings' ? "side-nav-link active-page": "side-nav-link";
     const followingsClass = props.page === 'followings' ? "side-nav-link active-page": "side-nav-link";
     const followersClass = props.page === 'followers' ? "side-nav-link active-page": "side-nav-link";
+    const uploadClass = props.page === 'upload' ? "side-nav-link active-page": "side-nav-link";
     
     return (
         <div id="side-nav">
@@ -27,7 +28,7 @@ function ProfileSideNav (props) {
                     externalView: props.externalView
                 }}} className={followingsClass}>Following: <span className="internal-profile-stats-num">{props.currentUser.followingsNum}</span></Link>
             <Link to="/Profile" className={profileClass}>Profile</Link>
-            {!props.externalView && <Link to="/UploadWork" className="side-nav-link">Upload Work</Link>}
+            {!props.externalView && <Link to="/UploadWork" className={uploadClass}>Upload Work</Link>}
             {!props.externalView && <Link to="/ProfileSettings" className={settingsClass}>Settings</Link>}   
         </div>
     );

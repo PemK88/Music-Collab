@@ -1,6 +1,6 @@
 #upload-container {
     height: 100%;
-    width: 30vw;
+    width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,7 +14,7 @@
     flex-direction: column;
     align-items: center;
     height: 230px;
-    margin-top: 60px;
+    margin-top: 125px;
 }
 
 #cover-photo {
@@ -22,13 +22,14 @@
     height: 190px;
     border: 2px solid silver;
     z-index: 0;
+    border-radius: 6px;
 }
 
 #change-cover-photo-label {
     color: aliceblue;
     cursor: pointer;
     width: 190px;
-    height: 40px;
+    height: 50px;
     z-index: 400;
     background-color: #0000009e;
     text-align: center;
@@ -41,5 +42,4 @@
 
 #upload-btn {
     font-size: 17px;
-    margin-top: 120px;
 }

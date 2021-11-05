@@ -112,7 +112,7 @@ form {
 
 .input-box:focus {
   background-color: white;
-  border-color: rgb(63, 13, 156);
+  border-color: #7713cf;
   outline: none;
 }
 
@@ -187,8 +187,8 @@ form {
   
 }
 
-.height-25 {
-  height: 25%;
+.height-30 {
+  height: 30%;
 }
 
 .large-dark-box{
@@ -394,4 +394,27 @@ form {
   display: flex;
   width: fit-content;
   align-items: center;
+}
+
+.description-text-box{
+  display: block;
+  padding: 10px;
+  border-radius: 10px;
+  border: 0.1px solid silver;
+  background-color: rgb(235 235 235);
+  width: 90%;
+  font-size: medium;
+  margin-top: 5px;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  overflow: auto;
+  resize: none;
+  outline: none;
+  height: 120px;
+  background-color: rgb(183 181 181);
+}
+
+.description-text-box:focus {
+  background-color: white;
+  border-color: #7713cf;
+  outline: none;
 }

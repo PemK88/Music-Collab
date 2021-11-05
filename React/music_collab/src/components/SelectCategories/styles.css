@@ -8,7 +8,7 @@
 
 .searchWrapper:focus-within {
     background-color: white;
-    border-color: rgb(63, 13, 156);
+    border-color: #7713cf;
   }
 
 .multiSelectContainer {

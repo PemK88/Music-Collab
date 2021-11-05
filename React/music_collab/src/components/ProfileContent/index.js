@@ -94,7 +94,7 @@ function ProfileContent (props) {
     );};
 
     const downloadsBox = () => { return ( 
-        <div className="small-dark-box height-25">
+        <div className="small-dark-box height-30">
             <h3 className="box-title">Downloads</h3>
             <div className="profile-works">
                 <ul className="small-works-list">

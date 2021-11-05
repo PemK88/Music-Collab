@@ -6,6 +6,7 @@ import profile_photo from './data/profile/profile_photo.jpeg'
 import profile_photo2 from './data/profile/profile_photo2.jpeg'
 import album_cover from './data/album_cover.jpeg';
 import album_cover2 from './data/album_cover2.jpeg';
+import album_cover3 from './data/album_cover3.jpeg';
 import ProfileSettings from './pages/ProfileSettings';
 import UploadWork from './pages/UploadWork';
 import Follows from './pages/Followers';
@@ -34,7 +35,12 @@ function App() {
         id: 8,
         imgSrc: album_cover2,
         title: 'Iconology',
-        artist: 'MissyE'}],
+        artist: 'MissyE'},
+        {
+          id: 3,
+          imgSrc: album_cover3,
+          title: 'Fine Line',
+          artist: 'Harry Styles'}],
     followers: [{
       id: 2,
       imgSrc: profile_photo2,
