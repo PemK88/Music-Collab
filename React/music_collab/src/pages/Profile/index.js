@@ -8,12 +8,18 @@ function Profile (props) {
 
     const [externalView, setExternalView] = useState(false);
 
+    //will check if the currentUserid provided through link matches the curentUser Id
+    //If it does not, a get request will be made to get the currentUser's information
+
+    const toggleView = () => {
+        setExternalView(!externalView);
+    };
+
 
     return (
-       <div id="page"> 
-            <ProfileHeader imgSrc={props.currentUser.imgSrc} followersNum={props.currentUser.followersNum} followingsNum={props.currentUser.followingsNum} 
-                externalView={externalView} profileName={props.currentUser.profileName}/>
-            <ProfileContent works={props.currentUser.works} downloadedWorks={props.currentUser.downloadedWorks} externalView={externalView} bio={props.currentUser.bio}/>
+       <div className="page"> 
+            <ProfileHeader externalView={externalView} currentUser={props.currentUser} page={'profile'} toggleView={toggleView}/>
+            <ProfileContent currentUser={props.currentUser} externalView={externalView}/>
         </div>
 
     );

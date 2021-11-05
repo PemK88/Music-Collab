@@ -1,23 +1,17 @@
 import React from 'react';
 import "./styles.css";
 import PropTypes from 'prop-types';
-import defaultCoverPhoto from '../../data/default_cover_photo.jpeg';
 
 function UploadCoverPhoto(props) {
 
-    const handleUpload = () => {
-        //A call will be made to the server to upload the work
-        console.log(props.currentUser.id);
-    }
-
     return(
-        <div id="uploadContainer">
-            <div id="coverPhotoContainer">
-                <img id="coverPhoto" src={defaultCoverPhoto} alt={"Cover"}/>
-                <label id="changeCoverPhotoLabel" htmlFor="photo">Select Cover Photo</label>
-                <input id="photo" type="file" accept=".png, .jpg, .jpeg"/>
+        <div id="upload-container">
+            <div id="cover-photo-container">
+                <img id="cover-photo" src={props.coverImageSrc} alt={"Cover"}/>
+                <label id="change-cover-photo-label" htmlFor="photo">Select Cover Photo</label>
+                <input name="coverImage" id="photo" type="file" accept=".png, .jpg, .jpeg" onChange={props.handleImgChange}/>
             </div>
-            <button type="submit" form="uploadForm" className="btn" id="uploadBtn" onChange={handleUpload}>Upload</button>
+            <button type="submit" form="upload-form" className="btn" id="upload-btn" onClick={props.handleUpload}>Upload</button>
         </div>
         
 
@@ -26,7 +20,9 @@ function UploadCoverPhoto(props) {
 }
 
 UploadCoverPhoto.propTypes = {
-    currentUser: PropTypes.object
+    coverImageSrc: PropTypes.string,
+    handleImgChange: PropTypes.func,
+    handleUpload: PropTypes.func
 }
 
 export default UploadCoverPhoto;

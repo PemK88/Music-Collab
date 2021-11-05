@@ -1,42 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
+import ProfileSideNav from '../ProfileSideNav';
+import ReportPopup from '../ReportPopup';
+
 
 function ProfileHeader (props) {
 
+    const [followBtnVal, setFollowBtnVal] = useState('+ Follow');
+    const [followBtnId, setFollowBtnId] = useState('follow-btn');
+    const [reportPopupTrigger, setReportPopupTrigger] = useState(false);
+
     const handleReport = () => {
-        console.log('Are you sure you want to report this user?');
+        setReportPopupTrigger(!reportPopupTrigger);
     };
 
-    const handleLogout = () => {
-        console.log('Direct to logout page');
+    const handleViewChange = () => {
+        props.toggleView();
+    };
+
+    const handleFollow = () => {
+        if(followBtnVal === '+ Follow') {
+            setFollowBtnVal('Unfollow');
+            setFollowBtnId('unfollow-btn');
+        } else {
+            setFollowBtnVal('+ Follow');
+            setFollowBtnId('follow-btn');
+
+        }
     };
 
     return(
-        <div id="profileHeader">
+        <div className="profile-header no-overflow">
+            <div id="hidden-container">
             
-            <img id="profilePhoto" src={props.imgSrc} alt={"User Profile"}/>
-            <h2 id="profileName">{props.profileName}</h2>
+            <img id="profile-photo" src={props.currentUser.imgSrc} alt={"User Profile"}/>
+            <h2 id="profile-name">{props.currentUser.profileName}</h2>
             <br/>
-            {props.externalView && <button id="followBtn" className="btn">Follow</button>}
-            <div className="profileStats">
-                <ul>
-                    <li>Followers<span className="profileStatsNum">{props.followersNum}</span></li>
-                    <li>Following<span className="profileStatsNum">{props.followingsNum}</span></li>
-                </ul>
+            {props.externalView && <button id={followBtnId} className="btn" onClick={handleFollow}>{followBtnVal}</button>}
+            <br/>
+            <br/>
+            <ProfileSideNav page={props.page} currentUser={props.currentUser} externalView={props.externalView}/>
+            <br/>
+
+            {props.page === 'profile' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>}
             </div>
-            {props.externalView && <button id="reportBtn" className="btn" onClick={handleReport}>Report</button>}
-            {!props.externalView && <button id="logoutBtn" className="btn" onClick={handleLogout}>Logout</button>}
+            <div id="overflow-container">
+                <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
+                {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
+            </div>
         </div>
+
     )
 }
 
 ProfileHeader.propTypes = {
-    imgSrc: PropTypes.string,
     externalView: PropTypes.bool,
-    followersNum: PropTypes.number,
-    followingsNum: PropTypes.number,
-    profileName: PropTypes.string
+    currentUser: PropTypes.object,
+    page: PropTypes.string,
+    toggleView: PropTypes.func
 };
 
 export default ProfileHeader;

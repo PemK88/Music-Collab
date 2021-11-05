@@ -1,31 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
+import ProfileSideNav from '../ProfileSideNav';
 
 function ProfileSettingsHeader (props) {
 
-    const handleLogout = () => {
-        console.log('Direct to logout page');
-    };
+    const [photoChanged, setPhotoChanged] = useState(false);
+    const [profileImageSrc, setProfileImageSrc] = useState(props.currentUser.imgSrc);
+   
+    const handleImgChange = (event) => {
+        const image = event.target.files[0];
+        if(image) {
+            setProfileImageSrc(URL.createObjectURL(image));
+            setPhotoChanged(true);
+        }
+    }
+
+    const handleSave = () => {
+        //a call will be made to send the new profile photo to the database
+        setPhotoChanged(false);
+    }
+
+    const handleCancel = () => {
+        setPhotoChanged(false);
+        setProfileImageSrc(props.currentUser.imgSrc);
+    }
 
     return (
-            <div id="profileHeader">
-                <div id="profilePhotoContainer">
-                    <img id="profilePhoto" src={props.imgSrc} alt={"User Profile"}/>
-                    <label id="changePhotoLabel" htmlFor="photo">Change Photo</label>
-                    <input id="photo" type="file" accept=".png, .jpg, .jpeg"/>
+            <div className="profile-header">
+                <div id="profile-photo-container">
+                    <img id="profile-photo" src={profileImageSrc} alt={"User Profile"}/>
+                    <label id="change-photo-label" htmlFor="photo">Change Photo</label>
+                    <input id="photo" type="file" accept=".png, .jpg, .jpeg" onChange={handleImgChange}/>
                 </div>
-                <h2 id="username">{props.username}</h2>
-                <label className="headerSubLabel">Username</label>
-                <button id="logoutBtn" className="btn" onClick={handleLogout}>Logout</button>
+                <div className="save-cancel-container" >
+                    {photoChanged && <button className="box-btn" onClick={handleSave}>Save</button>}
+                    {photoChanged && <button className="box-btn red-box-btn" onClick={handleCancel}>Cancel</button>}
+                </div>
+                <h2 id="username">{props.currentUser.username}</h2>
+                <label className="header-sub-label">Username</label>        
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <ProfileSideNav page={'settings'} currentUser={props.currentUser} externalView={false}/>
             </div> 
         );
 }
 
 
 ProfileSettingsHeader.propTypes = {
+    currentUser: PropTypes.object,
     imgSrc: PropTypes.string,
-    username: PropTypes.string
+    handleImgChange: PropTypes.func
 };
 
 export default ProfileSettingsHeader;
