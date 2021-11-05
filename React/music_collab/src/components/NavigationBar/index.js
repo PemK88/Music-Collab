@@ -19,23 +19,12 @@ function NavigationBar() {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/Homepage"
+                to="/Profile"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
               >
-                Home
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/Explore"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-                Explore
+                Profile
               </NavLink>
             </li>
             <li className="nav-item">
@@ -52,12 +41,23 @@ function NavigationBar() {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/Profile"
+                to="/"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
               >
-	      Profile
+                Explore
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+	      Home Page
               </NavLink>
             </li>
           </ul>
