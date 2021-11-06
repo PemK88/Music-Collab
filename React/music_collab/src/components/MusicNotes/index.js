@@ -25,7 +25,10 @@ function MusicNotes (props) {
                         </button>
                         <div className="vertical-purple-line"/>
                             <div className={"details-container" + (display[idx] ? "" : " no-display")}> 
-                                <h3>{ref.title + " by " + ref.artist}</h3>
+                                <h3>
+                                    <Link to='/coverpage' className="purple-link light-purple">{ref.title}</Link>
+                                    {" by " + ref.artist}
+                                </h3>
                                 <p>{ref.description}</p>
                             </div>
                         <div className={"tiny-circle" + (display[idx] ? "" : " no-display")}/>
