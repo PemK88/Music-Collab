@@ -68,7 +68,6 @@ function ExploreContent (props) {
             {!props.externalView}
             {props.externalView && 
                 (<div id="top-profile-content">
-                    {interestsBox()}
                 </div>)}
 
             {Genre()}
