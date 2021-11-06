@@ -28,6 +28,7 @@ body {
   display: flex;
   width: 100vw;
   height: 100vh;
+  color: white;
 }
 
 .btn {
@@ -125,7 +126,7 @@ form {
   margin: 21px 0px;
 }
 
-#back-link{
+.back-link{
   text-decoration: none;
   color: gray;
   margin-top: 35px;

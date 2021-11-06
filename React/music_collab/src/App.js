@@ -11,6 +11,7 @@ import ProfileSettings from './pages/ProfileSettings';
 import UploadWork from './pages/UploadWork';
 import Follows from './pages/Followers';
 import NavigationBar from './components/NavigationBar';
+import Features from './pages/Features';
 
 function App() {
 
@@ -62,6 +63,7 @@ function App() {
             <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={currentUser}/>)}/>
             <Route exact path='/Followers' render={() => (<Follows currentUser={currentUser}/>)}/>
             <Route exact path='/Followings' render={() => (<Follows currentUser={currentUser}/>)}/>
+            <Route exact path='/Features' render={() => (<Features/>)}/>
           </Switch>
         </BrowserRouter>
       </div>
