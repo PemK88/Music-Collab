@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./styles.css"; 
 
-function AdminNavigationBar() {
+function AdminNavigationBar(props) {
   const [click, setClick] = useState(false);
   const logOut = () => {
-    this.props.setAdmin(false)
+    props.setAdmin(false)
     setClick(!click)}
   const handleClick = () => setClick(!click);
   return (

@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./styles.css"; 
 
-function NavigationBar() {
+function NavigationBar(props) {
   const [click, setClick] = useState(false);
-
+  const logOut = () => {
+    props.setRegular(false)
+    setClick(!click)}
   const handleClick = () => setClick(!click);
   return (
     <>
@@ -57,7 +59,18 @@ function NavigationBar() {
                 className="nav-links"
                 onClick={handleClick}
               >
-	      Home Page
+	               Home Page
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/"
+                activeClassName="active"
+                className="nav-links"
+                onClick={logOut}
+              >
+	            Log Out
               </NavLink>
             </li>
           </ul>
