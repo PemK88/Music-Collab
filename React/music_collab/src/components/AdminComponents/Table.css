@@ -1,0 +1,133 @@
+.table {
+    margin: auto;
+    padding-top: 50px;
+    width: 90%;
+    overflow: scroll;
+    text-align: center;
+}
+
+.table td {
+    border-bottom: 1px solid aliceblue;
+}
+
+.table th {
+    border-bottom: 1px solid rgb(63, 13, 156);
+    background-color: rgb(63, 13, 156);
+    border-radius:6px;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    padding: 10px;
+}
+
+#inputText {
+    color: aliceblue;
+}
+
+button {
+  color: aliceblue;
+  background-color: rgb(63, 13, 156);
+  border: 0.5px solid rgb(45, 0, 128);
+  border-radius: 15px;
+  width: fit-content;
+  font-size: 15px;
+  padding: 4px 12px;
+  font-weight: 400;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.table-container {
+    background-color: #1c1c1e;
+     border: 0.5px solid #141414;
+     color: aliceblue;
+     border-radius: 12px;
+     height: 100%;
+     width: 100%;
+     margin: auto;
+     box-shadow: 0px 2px 4px 3px #141414;
+     margin-bottom: 5px;
+     overflow: hidden;
+   
+}
+
+.report-box {
+    background-color: #1c1c1e;
+     border: 0.5px solid #141414;
+     color: aliceblue;
+     border-radius: 12px;
+     height: 90%;
+     width: 98%;
+     margin: auto;
+     box-shadow: 0px 2px 4px 3px #141414;
+     margin-bottom: 5px;
+     overflow: hidden;
+     position: fixed;
+     margin-left: 10px;
+
+}
+
+.report-container {
+    background-color: #121213;
+     border: 0.5px solid #141414;
+     color: aliceblue;
+     border-radius: 12px;
+     height: 30%;
+     width: 90%;
+     margin: auto;
+     box-shadow: 0px 2px 4px 3px #141414;
+     margin-bottom: 5px;
+     overflow: hidden;
+   
+}
+
+.report-label {
+    font-weight: 800;
+    font-size: 16px;
+    color: aliceblue;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 12px;
+}
+
+.report-info {
+    font-weight: 800;
+    font-size: 16px;
+    color: aliceblue;
+    display: inline-block;
+}
+
+.report-small {
+    background-color: rgb(63, 13, 156);
+     border: 0.5px solid rgb(26, 7, 61);
+     color: aliceblue;
+     border-radius: 12px;
+     height: 55px;
+     width: 480px;
+     box-shadow: 0px 2px 4px 3px rgb(13, 3, 31);
+     display: inline-block;
+     text-align: center;
+     margin-top: 15px;
+     margin-left: 50px;
+   
+}
+
+.report-small-reported {
+    background-color: rgb(63, 13, 156);
+     border: 0.5px solid rgb(26, 7, 61);
+     color: aliceblue;
+     border-radius: 12px;
+     height: 55px;
+     width: 480px;
+     box-shadow: 0px 2px 4px 3px rgb(13, 3, 31);
+     display: inline-block;
+     text-align: center;
+     margin-top: 15px;
+     margin-left: 50px;
+     cursor: pointer;
+   
+}
+
+.report-reason {
+    margin-left: 50px;
+    margin-top: 15px;
+}
+

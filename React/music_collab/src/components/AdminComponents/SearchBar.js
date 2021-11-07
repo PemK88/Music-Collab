@@ -2,6 +2,10 @@ import React from 'react';
 import './SearchBar.css'
 
 class SearchBar extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
     state = {
         keyword: ""
     }
@@ -13,6 +17,8 @@ class SearchBar extends React.Component {
         this.setState({
             keyword: value
         })
+
+        this.props.parentCallBack(value)
     }
 
     render() {
@@ -20,11 +26,10 @@ class SearchBar extends React.Component {
             <div className='searchBar'>
                 <input type="text" 
                     name='keyword' 
-                    placeholder="Search Users" 
+                    placeholder="Search" 
                     value={ this.state.keyword }
                     onChange={ this.handleInputChange }
                 />
-                <button type="submit">Search</button>
             </div>
         )
     }
