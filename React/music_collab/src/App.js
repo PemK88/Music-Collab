@@ -31,8 +31,7 @@ function App() {
 
   const [userType, setUserType] = useState({
     isAdmin: false,
-    isRegular: false,
-    showLogIn: true
+    isRegular: false
   })
 
   function setIsAdmin(child) {
@@ -43,9 +42,6 @@ function App() {
     setUserType({ isRegular: child });
   }
 
-  function setShowLogIn(child) {
-    setUserType({ showLogIn: child });
-  }
 
   const [currentUser, setCurrentUser] = useState({
     id: 1,
@@ -137,10 +133,11 @@ function App() {
     //this should be home page
     <div>
         <BrowserRouter>
-          {userType.showLogIn && <LogInPage setAdmin={setIsAdmin} setRegular={setIsRegular} showLogIn={setShowLogIn} />}
-         {userType.isRegular && <NavigationBar/>}
-         {userType.isAdmin && <AdminNavigationBar/>}
+          {userType.isRegular && <NavigationBar setRegular={setIsRegular}/>}
+          {userType.isAdmin && <AdminNavigationBar setAdmin={setIsAdmin} />}
           <Switch> 
+            <Route exact path='/' render={() => (<LogInPage setAdmin={setIsAdmin} setRegular={setIsRegular} />)}/>
+
             <Route exact path='/Profile' render={() => (<Profile currentUser={currentUser}/>)}/>
             <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
             <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={currentUser}/>)}/>
