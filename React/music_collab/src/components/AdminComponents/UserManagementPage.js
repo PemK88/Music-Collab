@@ -1,5 +1,4 @@
 import React, {  useState  } from 'react'
-import NavigationBar from '../NavigationBar';
 import UserTable from './UserTable'
 import 'react-router-dom'
 

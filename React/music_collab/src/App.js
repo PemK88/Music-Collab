@@ -12,8 +12,40 @@ import UploadWork from './pages/UploadWork';
 import Follows from './pages/Followers';
 import NavigationBar from './components/NavigationBar';
 import Features from './pages/Features';
+import LogInPage from './pages/LoginBox/LogInPage';
+
+import ProfileView from './pages/Profile/ProfileView';
+import ProfileSettingsView from './pages/ProfileSettings/ProfileSettingsView';
+import FollowsView from './pages/Followers/FollowersView';
+import UserManagementPage from './components/AdminComponents/UserManagementPage';
+import PostManagementPage from './components/AdminComponents/PostManagementPage';
+import ReportManagementPage from './components/AdminComponents/ReportManagementPage';
+import ArchivedReportManagementPage from './components/AdminComponents/ArchivedReportManagementPage';
+import AdminNavigationBar from './components/AdminComponents/NavigationBar/AdminNavigationBar';
+import AdminProfile from './pages/Profile/AdminProfile';
+import AdminProfileSettings from './pages/ProfileSettings/AdminProfileSettings';
+import ReportView from './components/AdminComponents/ReportView';
+
 
 function App() {
+
+  const [userType, setUserType] = useState({
+    isAdmin: false,
+    isRegular: false,
+    showLogIn: true
+  })
+
+  function setIsAdmin(child) {
+    setUserType({ isAdmin: child });
+  }
+
+  function setIsRegular(child) {
+    setUserType({ isRegular: child });
+  }
+
+  function setShowLogIn(child) {
+    setUserType({ showLogIn: child });
+  }
 
   const [currentUser, setCurrentUser] = useState({
     id: 1,
@@ -50,13 +82,64 @@ function App() {
       id: 2,
       imgSrc: profile_photo2,
       profileName: 'Singer 101'}]
-});
+  });
+
+  const [userData, setUserData] = useState({
+    users: [
+    { username: 'abc123',  userType: 'regular', email: 'jdoe123@mail.com', password: '123', name: 'John Doe', lastLogIn: "2021-11-02 10:34:23" },
+    { username: 'hihii9 9', userType: 'regular', email: 'jsmith123@mail.com', password: '123', name: 'Jane Smith', lastLogIn: "2021-10-31 16:28:02" },
+    { username: 'kimyu18', userType: 'regular', email: 'kimyu18@mail.com', password: '123', name: 'Yu Jin Kim', lastLogIn: "2021-11-03 02:11:29" },
+    { username: 'admin', userType: 'admin', email: 'admin@mail.com', password: 'admin', name: 'Harry Potter', lastLogIn: "2021-11-03 02:11:29", activityLog: [] }
+    ]
+  })
+
+  const [postData, setPostData] = useState({
+    posts: [
+      { postID: 1,  name: 'Jingle Bell', genre: 'Christmas Carol', user: 'kimyu18', date: "2021-10-22 18:14:12" },
+      { postID: 2,  name: 'Jingle Bell Cover', genre: 'Christmas Carol', user: 'abc123', date: "2021-11-02 10:34:23" }
+    ]
+  })
+
+  const [reportData, setReportData] = useState({
+    reports: [
+      { reportID: 1,  reported: '1', type: 'post', user: 'kimyu18', date: "2021-10-22 18:14:12", reason: 'Plagiarism' },
+      { reportID: 2,  reported: 'abc123', type: 'user', user: 'kimyu18', date: "2021-10-22 18:14:12", reason: 'Spam and scams' },
+      { reportID: 3,  reported: 'abc123', type: 'user', user: 'user', date: "2021-10-22 18:14:12", reason: 'Spam and scams' }
+    ]
+  })
+
+  const [currentReport, setCurrentReport] = useState({ reportID: 3,  reported: 'abc123', type: 'user', user: 'user', date: "2021-10-22 18:14:12", reason: 'Spam and scams' })
+
+  const [archivedData, setArchivedData] = useState({
+    archivedReports: []
+  })
+
+  const [adminUser, setAdminUser] = useState({ username: 'admin', userType: 'admin', email: 'admin@mail.com', password: 'admin', profileName: 'The Admin', lastLogIn: "2021-11-03 02:11:29", 
+  activityLog: [" deleted user 'user123'", " deleted post 'Alphabet Song'"], imgSrc: profile_photo  })
+
+  function setUserChanged(child) {
+    setUserData({ users: child });
+  }
+
+  function setPostChanged(child) {
+    setPostData({ posts: child });
+  }
+
+  function setReportChanged(child) {
+    setReportData({ reports: child });
+  }
+
+  function setArchivedChanged(child) {
+    setArchivedData({ archivedReports: child });
+  }
 
   return (
     //this should be home page
     <div>
         <BrowserRouter>
-         <NavigationBar/>
+          {userType.showLogIn && <LogInPage setAdmin={setIsAdmin} setRegular={setIsRegular} showLogIn={setShowLogIn} />}
+         {userType.isRegular && <NavigationBar/>}
+         {userType.isAdmin && <AdminNavigationBar/>}
           <Switch> 
             <Route exact path='/Profile' render={() => (<Profile currentUser={currentUser}/>)}/>
             <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
@@ -64,6 +147,18 @@ function App() {
             <Route exact path='/Followers' render={() => (<Follows currentUser={currentUser}/>)}/>
             <Route exact path='/Followings' render={() => (<Follows currentUser={currentUser}/>)}/>
             <Route exact path='/Features' render={() => (<Features/>)}/>
+
+            <Route exact path='/ReportView' render={() => (<ReportView currentReport={currentReport}/>)}/>
+            <Route exact path="/UserManagement" component= {() => (<UserManagementPage currentUser={adminUser} users={userData.users} setUsers = {setUserChanged}/>)} />
+            <Route exact path="/PostManagement" component={() => (<PostManagementPage currentUser={adminUser} posts={postData.posts} setPosts = {setPostChanged}/>)} />
+            <Route exact path="/ReportManagement" component={() => (<ReportManagementPage currentUser={adminUser} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
+            <Route exact path="/ArchivedReportManagement" component={() => (<ArchivedReportManagementPage currentUser={adminUser} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
+            <Route exact path='/AdminProfile' render={() => (<AdminProfile currentUser={adminUser}/>)}/>
+            <Route exact path='/AdminProfileSettings' render={() => (<AdminProfileSettings currentUser={adminUser}/>)}/>
+            <Route exact path='/ProfileView' render={() => (<ProfileView currentUser={currentUser}/>)}/>
+            <Route exact path='/ProfileSettingsView' render={() => (<ProfileSettingsView currentUser={currentUser}/>)}/>
+            <Route exact path='/FollowersView' render={() => (<FollowsView currentUser={currentUser}/>)}/>
+            <Route exact path='/FollowingsView' render={() => (<FollowsView currentUser={currentUser}/>)}/>
           </Switch>
         </BrowserRouter>
       </div>

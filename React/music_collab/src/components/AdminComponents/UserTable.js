@@ -1,5 +1,5 @@
 import React from 'react';
-import './Table.css';
+import './styles.css';
 import UserFooter from './UserFooter';
 import SearchBar from './SearchBar';
 import {Link } from "react-router-dom";

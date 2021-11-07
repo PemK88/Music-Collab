@@ -1,6 +1,5 @@
 import React from 'react';
-import './Table.css';
-import './Footer.css';
+import './styles.css';
 import SearchBar from './SearchBar';
 
 class PostTable extends React.Component {

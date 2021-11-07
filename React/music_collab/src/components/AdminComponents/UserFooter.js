@@ -1,6 +1,6 @@
 import React from 'react';
 import AddAdminPopup from './AddAdminPopup';
-import './Footer.css';
+import './styles.css';
 
 class UserFooter extends React.Component {
     state = {

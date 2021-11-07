@@ -1,3 +1,100 @@
+.footer {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    margin: auto;
+    width: 50%;
+}
+
+#left-button {
+    display: inline-block;
+    position: relative;
+    right: 248px;
+}
+
+
+#right-button {
+    display: inline-block;
+    position: relative;
+    left: 780px;
+}
+
+#right-button-a {
+    display: inline-block;
+    position: relative;
+    left: 462px;
+}
+
+#right-button-b {
+    display: inline-block;
+    position: relative;
+    left: 458px;
+}
+
+#right-button-c {
+    display: inline-block;
+    position: relative;
+    left: 413px;
+}
+
+#right-button-d {
+    display: inline-block;
+    position: relative;
+    left: 418px;
+}
+#right-button-e {
+    display: inline-block;
+    position: relative;
+    left: 662px;
+}
+
+#popup-title {
+    position: relative;
+    left: 30px;
+}
+
+#addInput {
+    position: absolute;
+    left: 480px;
+    margin-top: 8px;
+}
+
+#adminForm {
+    position: relative;
+    right: 180px;
+}
+
+#btn-a {
+    margin-top: 20px;
+    display: inline-block;
+    position: relative;
+    left: 230px;
+}
+
+#btn-b {
+    display: inline-block;
+    position: relative;
+    left: 240px;
+}
+
+.searchBar button:hover {
+    color: white;
+}
+
+.searchBar input[type=text] {
+    float: center;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    width: 400px;
+}
+
+.searchBar {
+    margin: auto;
+    width: 40%;
+}
+
 .table {
     margin: auto;
     padding-top: 50px;
@@ -130,4 +227,3 @@ button {
     margin-left: 50px;
     margin-top: 15px;
 }
-

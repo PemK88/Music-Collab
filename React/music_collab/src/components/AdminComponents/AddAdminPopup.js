@@ -1,5 +1,5 @@
 import React from "react";
-import './Popup.css'
+import './styles.css'
  
 class AddAdminPopup extends React.Component {
     state = {

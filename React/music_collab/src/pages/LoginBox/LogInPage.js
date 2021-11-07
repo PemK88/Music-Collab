@@ -1,0 +1,89 @@
+import React from "react";
+import './styles.css';
+import {Link, Redirect} from "react-router-dom";
+
+class LogInPage extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state ={
+        username: "",
+        pw: "",
+        remember: false,
+        redirect: false,
+        adminUser: {username: "admin", pw: "admin"},
+        regularUser: {username: "user", pw: "user"}
+      }
+    }
+
+    handleInputChange = (event) => {
+        const target=event.target
+        const value=target.value
+        const stateName=target.name
+
+        this.setState({
+            [stateName]: value
+        })
+
+    }
+
+    shouldRedir(){
+        if(localStorage.getItem("isLoggedIn")){
+          this.setState({ redirect: true });
+        }
+    }
+
+    checkIdentity = (e) => {
+        e.preventDefault();
+
+        if (this.state.username == this.state.regularUser.username) {
+            if (this.state.pw == this.state.regularUser.pw) {
+                this.props.setRegular(true)
+            }
+            else {
+                return alert("Incorrect Password Try Again")
+            }
+        }
+        else if (this.state.username == this.state.adminUser.username) {
+            if (this.state.pw == this.state.adminUser.pw) {
+                this.props.setAdmin(true)
+            }
+            else {
+                return alert("Incorrect Password Try Again")
+            }
+        }
+        else {
+            return alert('This user does not exist.')
+        }
+    }
+
+    render(){
+        this.shouldRedir();
+        if (this.state.redirect) {
+            return <Redirect to='/LogInPage'/>;
+        }
+        else{
+            return (
+                <div>
+                    <h1>Log In to Your Music Collab Account</h1>
+                    <form className="login_form" onSubmit={this.checkIdentity}>
+                    <input className="inputForm" type="text"
+                    placeholder="Username" name="username" onChange={this.handleInputChange}/>
+                    <br />
+                    <input className="inputForm" type="password"
+                        placeholder="Password" name="pw" onChange={this.handleInputChange}/>
+                    <br />
+
+                    <button onClick={() => this.checkIdentity}> Sign in</button>
+                    <br />
+                    <div>
+                        <p>No account? <Link to="/SignUp" className="pwHelp">Sign up here</Link></p>
+                    </div>
+                    </form>
+                </div>
+            );
+        }
+    }
+}
+
+export default LogInPage;
