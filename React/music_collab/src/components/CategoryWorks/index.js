@@ -4,6 +4,8 @@ import "./styles.css";
 
 function CategoryWork (props) {
 
+    //a get request will be made to the server to get the categories
+    //OR they will be passsed as props
     const categories = ['R&B', 'Pop', 'Jazz', 'Hiphop', 'Instrumentals', 'Acapella'];
     const defaultClass = new Array(categories.length).fill("btn btn-margin");
 

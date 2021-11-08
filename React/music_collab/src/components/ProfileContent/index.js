@@ -44,7 +44,7 @@ function ProfileContent (props) {
             setEditMode(true);
             setEditBtnVal('Save');
         } else {
-            //onSave a post request will be made with the new bio
+            //on Save a post request will be made to the server with the new bio
             setEditMode(false);
             setEditBtnVal('Edit');
         }
@@ -55,7 +55,6 @@ function ProfileContent (props) {
         setEditBtnVal('Edit');
         setBio(props.currentUser.bio);
     }
-
 
     const worksBox = () => { return (
                                 <div className="large-dark-box">

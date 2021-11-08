@@ -1,3 +1,4 @@
+/*Put together by Bessey*/
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./styles.css"; 
@@ -29,7 +30,7 @@ function NavigationBar(props) {
                 Profile
               </NavLink>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <NavLink
                 exact
                 to="/ProfileSettings"
@@ -39,7 +40,7 @@ function NavigationBar(props) {
               >
                 Settings
               </NavLink>
-            </li>
+            </li> */}
             <li className="nav-item">
               <NavLink
                 exact

@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 
 function Features (props) {
 
+    //A get request will be made to the database to get all works that
+    //feature and are featured in the selected work
     const featuredIn = [
         {
             id: 8,

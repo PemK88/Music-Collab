@@ -7,7 +7,7 @@ import ProfileHeader from '../../components/ProfileHeader';
 function UploadWork (props) {
 
     return (
-        <div className="page">
+        <div className="page upload-work">
             <ProfileHeader externalView={false} currentUser={props.currentUser} page={'upload'}/>
             <UploadWorkDetails currentUser={props.currentUser}/>
             {/* <UploadCoverPhoto currentUser={props.currentUser}/> */}

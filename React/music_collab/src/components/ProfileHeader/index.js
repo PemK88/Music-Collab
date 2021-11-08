@@ -15,14 +15,17 @@ function ProfileHeader (props) {
         setReportPopupTrigger(!reportPopupTrigger);
     };
 
+    //This function is here temporarily to switch between external and profile view
     const handleViewChange = () => {
         props.toggleView();
     };
 
     const handleFollow = () => {
+        //a post request will be made to the server to update the current user's follow list
         if(followBtnVal === '+ Follow') {
             setFollowBtnVal('Unfollow');
             setFollowBtnId('unfollow-btn');
+        
         } else {
             setFollowBtnVal('+ Follow');
             setFollowBtnId('follow-btn');

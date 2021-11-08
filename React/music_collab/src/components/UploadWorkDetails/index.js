@@ -99,8 +99,8 @@ function UploadWorkDetails (props) {
     }
 
     const handleUpload = (event) => {
+        //a post request will be made with the upload form data, including the cover image
         event.preventDefault();
-        //a post request will be made with the form data
         setUploadFormInputs(defaultFormInputs);
         setSelectedRefWork([[]]);
         return alert("Your work was successfully uploaded");

@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom';
 
 
 function PersonalizedFeed (props) {
+ 
+   //A get request will be made to the server to get any notifications for the current user
+   //A get request will be made to the server to get works that may interest them
+   //A get request will be made to the server to get the works they liked
 
    const defaultNotifications = [
         {
@@ -81,6 +85,7 @@ function PersonalizedFeed (props) {
     const [notifications, setNotifications] = useState(defaultNotifications);
 
     const handleClear = (idx) => {
+        //a delete request will be made to the database to remove all notifications of the specified type
         let newNotifications = [...notifications];
         newNotifications[idx].notifications = [];
         setNotifications(newNotifications);

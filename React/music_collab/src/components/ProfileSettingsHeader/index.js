@@ -17,7 +17,7 @@ function ProfileSettingsHeader (props) {
     }
 
     const handleSave = () => {
-        //a call will be made to send the new profile photo to the database
+        //a post call will be made to send the new profile photo to the server
         setPhotoChanged(false);
     }
 

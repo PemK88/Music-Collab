@@ -9,6 +9,7 @@ function ReportPopup (props) {
     if(!props.trigger) return null;
 
     const handleSubmit = () => {
+        //on submit a post request will be made to the server with the report details
         setSubmitted(true);
     };
 
