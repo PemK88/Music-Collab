@@ -18,7 +18,7 @@ function MusicNotes (props) {
         return references.map((ref, idx) => {
             return (
                 <li key={idx}>
-                    <div className={"music-note" + ( (idx%2) == 0 ? "" : " margin-88")}>
+                    <div className={"music-note" + ( (ref.id%2) === 0 ? "" : " margin-88")}>
                         <img className="" src={ref.imgSrc} alt={"Cover"}/>
                         <button className="work-details-btn" onClick={event => {handleClick(idx, event)}}>
                             <span className="no-display">Feature Details</span>

@@ -91,15 +91,6 @@ body {
   margin-left: 15%;
 }
 
-
-form {
-  width: 60vw;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-}
-
-
 .input-box {
   display: block;
   padding: 10px;
@@ -421,4 +412,12 @@ form {
   background-color: white;
   border-color: #7713cf;
   outline: none;
+}
+
+
+form {
+  width: 60vw;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }

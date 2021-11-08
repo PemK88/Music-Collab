@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import ExploreView from '../../components/ExploreView';
 import PropTypes from 'prop-types';
 import "./styles.css";
-import CategoryWork from '../../components/CategoryWorks';
-import SelectReference from '../../components/SelectReference';
 import { Link } from 'react-router-dom';
 
 
@@ -12,7 +10,7 @@ function PersonalizedFeed (props) {
    const defaultNotifications = [
         {
             title: "Features",
-            color: "#cfaa41",
+            color: "#752d76",
             notifications: [
                 {
                     content: "Your work Pain is featured in Iconology!",
@@ -22,7 +20,7 @@ function PersonalizedFeed (props) {
         },
         {
             title: "Comments",
-            color: "#0096fb",
+            color: "#962fcb",
             notifications: [
                 {
                     content: "User102 commented on your Pain post",
@@ -48,7 +46,7 @@ function PersonalizedFeed (props) {
         },
         {
             title: "Likes",
-            color: "#c137a2",
+            color: "rgb(177 72 153)",
             notifications: [
                 {
                     content: "User983 liked your pain post",
@@ -62,7 +60,7 @@ function PersonalizedFeed (props) {
         },
         {
             title: "Followings",
-            color: "#1a9d1a",
+            color: "#854ab9",
             notifications: [
                 {
                     content: "User102 started following you",
@@ -133,8 +131,8 @@ function PersonalizedFeed (props) {
             </div>
             <br/>
             
-            <ExploreView works={props.works} title={"Works That May Interest You"}/>
-            <ExploreView works={props.works} title={"Liked Works"}/>
+            <ExploreView works={props.works.slice(3,6)} title={"Works That May Interest You"}/>
+            <ExploreView works={props.works.slice(1,2)} title={"Liked Works"}/>
         </div>
         
     );

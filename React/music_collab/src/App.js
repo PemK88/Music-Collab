@@ -7,6 +7,9 @@ import profile_photo2 from './data/profile/profile_photo2.jpeg'
 import album_cover from './data/album_cover.jpeg';
 import album_cover2 from './data/album_cover2.jpeg';
 import album_cover3 from './data/album_cover3.jpeg';
+import album_cover4 from './data/album_cover4.jpeg';
+import album_cover5 from './data/album_cover4.png';
+import album_cover6 from './data/album_cover5.jpeg';
 import music from './data/bensound-downtown.mp3';
 
 import ProfileSettings from './pages/ProfileSettings';
@@ -141,6 +144,24 @@ function App() {
           imgSrc: album_cover3,
           title: 'Fine Line',
           artist: 'Harry Styles'
+        },
+        {
+          id: 2,
+          imgSrc: album_cover4,
+          title: 'Lost In Japan (Remix)',
+          artist: 'Zedd'
+        },
+        {
+          id: 4,
+          imgSrc: album_cover5,
+          title: 'Unlocked (instrumentals)',
+          artist: 'Kenny Beats'
+        },
+        {
+          id: 5,
+          imgSrc: album_cover6,
+          title: 'My Universe',
+          artist: 'Bulletproof Boys'
         }];
 
   const [userData, setUserData] = useState({

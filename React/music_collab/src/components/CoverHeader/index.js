@@ -35,30 +35,7 @@ function CoverHeader (props) {
         return [playing, toggle];
     };
 
-    // const Player = ({ url }) => {
-    //     const [playing, toggle] = URL.createObjectURL(url));
-      
-    //     return (
-    //         <button button id="play-btn" className="btn" onClick={toggle}>{playing ? "Pause" : "Play"}</button>
-    //     );
-    // };
-
-    //const audio = new Audio(URL.createObjectURL(props.mp3file))
     const [play, setPlay] = useState(false);
-
-    // const handlePlay = () => {
-    //     if(play) {
-    //         setPlay(false);
-    //         audio.pause();
-    //     }
-    //     else {
-    //         setPlay(true);
-    //         audio.play();
-    //     }
-
-    // }
-
-
 
     const checkLiked = () => {
         const likedList = props.currentUser.likedWorks
@@ -90,7 +67,7 @@ function CoverHeader (props) {
 
         return list.map((interest, idx) => {
             return (
-                <li key={idx} id='descriptionTags'>
+                <li className="hashtag-cover-page" key={idx} id='descriptionTags'>
                     {'#'+ interest}
                 </li>
             );   
@@ -117,16 +94,24 @@ function CoverHeader (props) {
                 <img id="cover-photo" src={props.currentPost.imgSrc} alt={"Song Cover"}/>
                 <h3 id="profile-name">{props.currentPost.artist} - {props.currentPost.title}</h3>
                 <AudioPlayer
-                    src={props.currentPost.mp3file}
-                    onPlay={e => console.log("onPlay")}
-                    // other props here
+                    src={props.currentPost.audio}
                 />
                 <div id="coverButtons2">
                     <button id="like-btn" className="btn" onClick={likePost}>{isLiked ? 'Like':'Unlike'}</button>
                 </div>
+                <div id="description-box">
+                    <h3 className="box-title">Description</h3>
+                    <p id="description-text">{props.currentPost.description}</p>
+                    <ul id="interests-list" className="no-left-padding">
+                        {generateTags(props.currentPost.tags)}
+                    </ul>
+                    <ul id="interests-list1">
+                        {generateGenres(props.currentPost.categories)}
+                    </ul>
+            </div>
             <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
             <div id="coverButtons">
-                {props.externalView && <a href={props.currentPost.mp3file} id="download-btn" className="btn" download>Download</a>}
+                {props.externalView && <a href={props.currentPost.audio} id="download-btn" className="btn" download>Download</a>}
                 <Link to="Features" id="timeline-btn" className="btn">Features</Link>
                 {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
                 {!props.externalView && <Link to="/CoverPageSetting" id="edit-btn" className="btn">Edit</Link>}

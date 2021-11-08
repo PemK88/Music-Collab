@@ -10,27 +10,27 @@ function ExplorePage (props) {
     const categoryWorks = [
         {
             name:'R&B',
-            works: props.works
+            works: [props.works[1], props.works[2]] 
         },
         {
             name:'Pop',
-            works: props.works
+            works: [props.works[3], props.works[0], props.works[2], props.works[5]] 
         },
         {
             name:'Jazz',
-            works: props.works
+            works: []
         },
         {
             name:'Hiphop',
-            works: props.works
+            works: [props.works[1], props.works[2]] 
         },
         {
             name:'Instrumentals',
-            works: props.works
+            works: [props.works[4]] 
         },
         {
             name:'Acapella',
-            works: props.works
+            works: []
         }
     ];
 
@@ -54,6 +54,8 @@ function ExplorePage (props) {
         setSearchMode(true);
     }
 
+    let reverse_work = props.works;
+
 
     return (
         <div className="page explore-page">
@@ -71,8 +73,8 @@ function ExplorePage (props) {
             </div>   
             {!searchMode && 
             (   <div className="bottom-page">
-                    <ExploreView works={props.works} title={"Trending"}/>
-                    <ExploreView works={props.works} title={"Recently Uploaded"}/>
+                    <ExploreView works={reverse_work.reverse()} title={"Trending"}/>
+                    <ExploreView works={props.works.slice(2,4)} title={"Recently Uploaded"}/>
                     <CategoryWork handleClick={handleClick}/>
                     <ExploreView works={categoryWorks[categoryIdx].works} title={categoryWorks[categoryIdx].name}/>
                 </div>
