@@ -96,25 +96,29 @@ function CoverHeader (props) {
                 <AudioPlayer
                     src={props.currentPost.audio}
                 />
+
                 <div id="coverButtons2">
                     <button id="like-btn" className="btn" onClick={likePost}>{isLiked ? 'Like':'Unlike'}</button>
                 </div>
-                { /* <div id="description-box">
+                <div id="description-box">
                     <h3 className="box-title">Description</h3>
-                    <p id="description-text">{props.currentPost.description}</p>
-                    <ul id="interests-list" className="no-left-padding">
-                        {generateTags(props.currentPost.tags)}
-                    </ul>
-                    <ul id="interests-list1">
-                        {generateGenres(props.currentPost.categories)}
-                    </ul>
-                </div>*/}
+                    <div className="description-wrapper">
+                        <p id="description-text">{props.currentPost.description}</p>
+                        <ul className="interests-list no-left-padding">
+                            {generateTags(props.currentPost.tags)}
+                        </ul>
+                        <ul className="interests-list interests-list1">
+                            {generateGenres(props.currentPost.categories)}
+                        </ul>
+                    </div>
+                </div>
+
             <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
             <div id="coverButtons">
                 {props.externalView && <a href={props.currentPost.audio} id="download-btn" className="btn" download>Download</a>}
                 <Link to="Features" id="timeline-btn" className="btn">Features</Link>
                 {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
-                {!props.externalView && <Link to="/CoverPageSetting" id="edit-btn" className="btn">Edit</Link>}
+                {!props.externalView && <Link to="/CoverPageSettings" id="edit-btn" className="btn">Edit</Link>}
             </div>
             <br/>
             {props.page === 'cover' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>}

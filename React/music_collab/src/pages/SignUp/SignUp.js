@@ -59,12 +59,12 @@ function SignUp (props) {
     return (
         <div className="page">
             {renderRedirect()}
-        <div id="container">
+        <div id="signup-container">
             <div id="header-container">
                 <h2 className="page-title">Sign Up</h2>
             </div>
 
-            <div id="settings-container">
+            <div id="signup-details">
                 <h3 className="section-title"></h3>
                 <form id="signup-form">
                     <FormRow label={"Username"} type={"text"} value={signUpFormInputs.username} 

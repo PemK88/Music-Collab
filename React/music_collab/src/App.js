@@ -65,7 +65,7 @@ function App() {
     recievedLikes: [],
     categories: ['R&B', 'Pop'],
     tags: ['Hurting', 'Heal'],
-    references:[{workId: 2, description: 'Used melody line'}],
+    references:[{workId: 2, name: "Fine Line - Harry Styles", description: 'Used melody line'}],
     comments: [['Beat Maker', 'I am looking for a vocal for this song', 'user'], ['Jennifer Kim', 'This beat is great!', 'kimyu18'], ['The Best Vocalist', 'Can I collaborate with you?', 'hihii99']],
     public: true})
 

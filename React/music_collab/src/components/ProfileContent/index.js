@@ -87,7 +87,7 @@ function ProfileContent (props) {
     const interestsBox = () => { return (
                                 <div className="tall-small-dark-box">
                                     <h3 className="box-title">Interests</h3>
-                                    <ul id="interests-list">
+                                    <ul className="interests-list">
                                         {generateInterests(props.currentUser.interests)}
                                     </ul>
                                     </div>

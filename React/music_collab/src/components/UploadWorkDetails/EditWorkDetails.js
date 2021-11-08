@@ -9,6 +9,10 @@ import PropTypes from 'prop-types';
 
 function EditWorkDetails (props) {
 
+    const defaultSelectedReferences = props.currentPost.references.map(work => {
+        return {name: work.name, id: work.workId }
+    });
+    
     const defaultFormInputs = {
         title: props.currentPost.title,
         references: props.currentPost.references,
@@ -21,7 +25,7 @@ function EditWorkDetails (props) {
 
     const [uploadFormInputs, setUploadFormInputs] = useState(defaultFormInputs);
     const [audioLabel, setAudioLabel] = useState("Click this area to select a file");
-    const [selectedRefWork, setSelectedRefWork] = useState([[]]);
+    const [selectedRefWork, setSelectedRefWork] = useState([defaultSelectedReferences]);
 
     const downloads = props.currentUser.downloadedWorks.map(work => {
         return {name: work.title + " - " + work.artist, id: work.id }});
@@ -117,7 +121,7 @@ function EditWorkDetails (props) {
     }
 
     return(
-        <div id="upload-page"> 
+        <div id="edit-upload-page"> 
             <div id="work-details">
                 <div id="header-container">
                     <h2 className="page-title">Edit Post</h2>

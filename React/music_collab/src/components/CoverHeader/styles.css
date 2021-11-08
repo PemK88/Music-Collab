@@ -85,7 +85,7 @@
     width:fit-content;
 }
 
-#interests-list1 li p{
+/* #interests-list1 li p{
     margin: 0px 10px;
     font-size: 16px;
     cursor: default;
@@ -93,8 +93,8 @@
 }
 
 #interests-list1 li p:hover{
-    background-color: rgb(63, 13, 156);
-}
+    background-color: #6412ad;
+} */
 
 
 
@@ -108,13 +108,11 @@
 }
 
 .cover-no-overflow {
-    overflow: auto;
     width: 50%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: auto;
 }
 
 
@@ -176,4 +174,9 @@
 
 .no-left-padding {
     padding-left: 0px;
+}
+
+.description-wrapper {
+    height: 70%;
+    overflow: auto;
 }

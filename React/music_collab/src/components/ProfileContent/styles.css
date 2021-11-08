@@ -26,7 +26,7 @@
     align-items: flex-start;
 }
 
-#interests-list{
+.interests-list{
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -39,12 +39,14 @@
     width:fit-content;
 }
 
-#interests-list li p{
+.interests-list li p{
     margin: 0px 10px;
     font-size: 16px;
     cursor: default;
+    background-color: #6412ad;
+    border-color: #53138d;
 }
 
-#interests-list li p:hover{
-    background-color: rgb(63, 13, 156);
+.interests-list li p:hover{
+    background-color: #6412ad;
 }
