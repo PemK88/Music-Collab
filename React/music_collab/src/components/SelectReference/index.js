@@ -7,8 +7,8 @@ function SelectReference(props) {
 
     return (
         <Multiselect isObject={true} options={props.options} onSelect={props.handleSelect}
-            onRemove={props.handleSelect} selectionLimit={1} displayValue="name" hidePlaceholder={true}
-            selectedValues = {props.selectedOptions}/>
+            onRemove={props.handleSelect} selectionLimit={props.selectLimit} displayValue="name" hidePlaceholder={true}
+            selectedValues = {props.selectedOptions} placeholder={props.placeholder ? props.placeholder : "Select"}/>
     );
 
 }
@@ -16,7 +16,9 @@ function SelectReference(props) {
 SelectReference.propTypes = {
     options: PropTypes.array,
     handleSelect: PropTypes.func,
-    selectedOptions: PropTypes.array
+    selectedOptions: PropTypes.array,
+    selectLimit: PropTypes.number,
+    placeholder: PropTypes.string
 }
 
 export default SelectReference;

@@ -143,7 +143,7 @@ function UploadWorkDetails (props) {
                                 {uploadFormInputs.references.map((ref, idx) => {
                                     return (
                                         <div className="add-ref-box" key={idx}> 
-                                            <SelectReference options={downloads} selectedOptions={selectedRefWork[idx]}
+                                            <SelectReference options={downloads} selectedOptions={selectedRefWork[idx]} selectLimit={1}
                                                 handleSelect={selectedWork => handleRefSelect(idx, selectedWork.length ? selectedWork[0].id : "", selectedWork)}/>
                                             <textarea className="description-text-box ref-description" name="description" value={uploadFormInputs.references[idx].description}
                                                 onChange={event => handleDescriptionChange(idx, event)} placeholder={"How did you use this work?"}/>

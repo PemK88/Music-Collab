@@ -14,14 +14,14 @@
     margin-left: 0px;
 }
 
-.comment-box{
-    background-color: aliceblue;
-    border: 0.5px solid rgb(217, 223, 228);
-    color: #1c1c1e;
+.comment-box {
+    background-color: #323236;
+    border: 0.5px solid #383838;
+    color: #dddddd;
     border-radius: 12px;
     height: 80px;
     width: 90%;
-    box-shadow: 0px 2px 4px 3px rgb(217, 223, 228);
+    box-shadow: 0px 1px 4px 1px #383838;
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
@@ -31,13 +31,13 @@
 }
 
 .curr-comment-box {
-    background-color: rgb(170, 173, 175);
-    border: 0.5px solid rgb(175, 179, 182);
+    background-color: #504e4e;
+    border: 0.5px solid #504f4f;
     color: #1c1c1e;
     border-radius: 12px;
     height: 80px;
     width: 90%;
-    box-shadow: 0px 2px 4px 3px rgb(175, 179, 182);
+    box-shadow: 0px 1px 4px 1px #504f4f;
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
@@ -55,6 +55,8 @@
 
 .comment-content-container{
     margin-left: 30px;
+    display: flex;
+    flex-direction: column;
 }
 
 #comment-username-btn{
@@ -78,8 +80,10 @@
     margin-top: 20px;
     margin-left: 8px;
     padding-bottom: 50px;
-    
-
+    border-radius: 5px;
+    border: none;
+    background-color: #dbdbdb;
+    color: black;
 }
 
 #comment-content{
@@ -92,6 +96,8 @@
 #comment-submit-btn{
     margin-top: 12px;
     margin-left: 474px;
+    align-self: flex-end;
+    margin-right: 40px;
 }
 
 #comment-delete-btn {

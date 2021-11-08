@@ -15,11 +15,10 @@ function Explore (props) {
         setExternalView(!externalView);
     };
 
-
     return (
        <div className="page"> 
             <SearchBar currentUser={props.currentUser} externalView={externalView}/>
-            <ExploreContent currentUser={props.currentUser} externalView={externalView}/>
+            {/* <ExploreContent currentUser={props.currentUser} externalView={externalView}/> */}
         </div>
 
     );
