@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
-import UploadWorkDetails from '../../components/UploadWorkDetails';
-import ProfileHeader from '../../components/ProfileHeader';
+import EditWorkDetails from '../../components/UploadWorkDetails/EditWorkDetails';
 
 function CoverpageSettings (props) {
 
     return (
         <div className="page">
-            <UploadWorkDetails currentUser={props.currentUser}/>
-            {/* <UploadCoverPhoto currentUser={props.currentUser}/> */}
+            <EditWorkDetails currentUser={props.currentUser} currentPost={props.currentPost} setInfo={props.setInfo}/>
         </div>
         
     );
@@ -17,7 +15,9 @@ function CoverpageSettings (props) {
 }
 
 CoverpageSettings.propTypes = {
-    currentUser: PropTypes.object
+    currentUser: PropTypes.object,
+    currentPost: PropTypes.object,
+    setInfo: PropTypes.func
 };
 
 export default CoverpageSettings;

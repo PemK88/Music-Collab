@@ -16,8 +16,10 @@ import NavigationBar from './components/NavigationBar';
 import Features from './pages/Features';
 
 import LogInPage from './pages/LoginBox/LogInPage';
+import SignUp from './pages/SignUp/SignUp';
 
 import CoverPage from './pages/Coverpage/CoverPage';
+import CoverpageSettings from './pages/CoverpageSettings';
 
 import ProfileView from './pages/Profile/ProfileView';
 import ProfileSettingsView from './pages/ProfileSettings/ProfileSettingsView';
@@ -51,16 +53,24 @@ function App() {
     id: 1,
     imgSrc: album_cover,
     title: 'Pain',
-    mp3file: music,
+    audio: music,
     artist: 'Beat Maker',
     description: 'A song that I wrote while I was in pain.',
     recievedLikes: [],
-    tags: ['R&B', 'Pop'],
+    categories: ['R&B', 'Pop'],
+    tags: ['Slow', 'Beat', 'Sad'],
+    references:[{workId: 2, description: 'Used melody line'}],
     comments: [['Beat Maker', 'I am looking for a vocal for this song', 'user'], ['Jennifer Kim', 'This beat is great!', 'kimyu18'], ['The Best Vocalist', 'Can I collaborate with you?', 'hihii99']],
     public: true})
 
-    function setCurrWork(child) {
-      setCurrentUser({works: child})
+    function setUserInfo(child) {
+      const name = child[0]
+      setCurrentUser(inputs => ({...inputs, [name]: child[1]}))
+    }
+
+    function setPostInfo(child) {
+      const name = child[0]
+      setCurrentpost(inputs => ({...inputs, [name]: child[1]}))
     }
 
     function setPostComment(child) {
@@ -141,7 +151,7 @@ function App() {
   })
 
   const [adminUser, setAdminUser] = useState({ username: 'admin', userType: 'admin', email: 'admin@mail.com', password: 'admin', profileName: 'The Admin', lastLogIn: "2021-11-03 02:11:29", 
-  activityLog: [" deleted user 'user123'", " deleted post 'Alphabet Song'"] })
+  activityLog: [" deleted user 'user123'", " deleted post 'Alphabet Song'"], imgSrc: profile_photo })
 
   function setUserChanged(child) {
     setUserData({ users: child });
@@ -162,7 +172,8 @@ function App() {
   function setLog(child) {
     const logs = adminUser.activityLog
     logs.push(child)
-    setAdminUser({ activityLog: logs });
+    const name = 'activityLog'
+    setAdminUser(inputs => ({...inputs, [name]: logs}))
   }
 
   return (
@@ -173,8 +184,10 @@ function App() {
           {userType.isAdmin && <AdminNavigationBar setAdmin={setIsAdmin} />}
           <Switch> 
             <Route exact path='/' render={() => (<LogInPage setAdmin={setIsAdmin} setRegular={setIsRegular} />)}/>
+            <Route exact path='/SignUp' render={() => (<SignUp/>)}/>
 
-            <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setWork={setCurrWork}/>)}/>
+            <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
+            <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentPost={currentPost} currentUser={currentUser} setInfo={setPostInfo}/>)}/>
 
             <Route exact path='/Profile' render={() => (<Profile currentUser={currentUser}/>)}/>
             <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>

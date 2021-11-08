@@ -19,7 +19,7 @@ function CoverPage (props) {
 
     return (
        <div className="page"> 
-            <CoverHeader externalView={externalView} currentPost={props.currentPost} currentUser={props.currentUser} setWork={props.setWork} page={'cover'} toggleView={toggleView}/>
+            <CoverHeader externalView={externalView} currentPost={props.currentPost} currentUser={props.currentUser} setUserInfo={props.setUserInfo} page={'cover'} toggleView={toggleView}/>
             <CoverContent setComment={props.setComment} externalView={externalView} currentPost={props.currentPost} currentUser={props.currentUser}/>
         </div>
 
@@ -30,7 +30,8 @@ function CoverPage (props) {
 CoverPage.propTypes = {
     currentUser: PropTypes.object,
     currentPost: PropTypes.object,
-    setComment: PropTypes.func
+    setComment: PropTypes.func,
+    setUserInfo: PropTypes.func
 };
 
 export default CoverPage;

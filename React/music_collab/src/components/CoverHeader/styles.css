@@ -71,29 +71,39 @@
     margin-left: 10px;
 }
 
-#interests-list{
+#des-list{
     display: flex;
     flex-wrap: wrap;
     list-style: none;
-    padding-left: 25px;
+    padding-left: 10px;
     margin-top: 0px;
 }
 
-
-#interests-list li{
+#interests-list1 {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 10px;
+    margin-top: 0px;
+}
+#interests-list1 li{
     width:fit-content;
 }
 
-#interests-list li p{
+#interests-list1 li p{
     margin: 0px 10px;
     font-size: 16px;
     cursor: default;
 }
 
-#interests-list li p:hover{
+#interests-list1 li p:hover{
     background-color: rgb(63, 13, 156);
 }
 
+#descriptionTags {
+    margin-right: 6px;
+    color: beige;
+}
 
 #overflow-container {
     width: 100%;

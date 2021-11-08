@@ -71,6 +71,19 @@ function CoverHeader (props) {
 
         return list.map((interest, idx) => {
             return (
+                <li key={idx} id='descriptionTags'>
+                    {'#'+ interest}
+                </li>
+            );   
+        });
+    
+    };
+
+    const generateGenres = (list) => {
+        if(!list) return;
+
+        return list.map((interest, idx) => {
+            return (
                 <li key={idx}>
                     <p className="btn">{interest}</p>
                 </li>
@@ -85,14 +98,17 @@ function CoverHeader (props) {
                 <img id="cover-photo" src={props.currentPost.imgSrc} alt={"Song Cover"}/>
                 <h3 id="profile-name">{props.currentPost.artist} - {props.currentPost.title}</h3>
                 <div id="coverButtons2">
-                    {Player("C:\Users\tuu18\Documents\csc309\team63\React\music_collab\src\data\bensound-downtown.mp3")}
+                    {Player("./bensound-downtown.mp3")}
                     <button id="like-btn" className="btn" onClick={likePost}>{isLiked ? 'Like':'Unlike'}</button>
                 </div>
                 <div id="description-box">
                     <h3 className="box-title">Description</h3>
                     <p id="description-text">{props.currentPost.description}</p>
-                    <ul id="interests-list">
+                    <ul id="des-list">
                         {generateTags(props.currentPost.tags)}
+                    </ul>
+                    <ul id="interests-list1">
+                        {generateGenres(props.currentPost.categories)}
                     </ul>
             </div>
             <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
@@ -100,7 +116,7 @@ function CoverHeader (props) {
                 {props.externalView && <button id="download-btn" className="btn" onClick={handleReport}>Download</button>}
                 <button id="timeline-btn" className="btn">Time Line</button>
                 {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
-                {!props.externalView && <button id="edit-btn" className="btn">Edit</button>}
+                {!props.externalView && <Link to="/CoverPageSettings"><button id="edit-btn" className="btn">Edit</button></Link>}
             </div>
             <br/>
             {props.page === 'cover' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>}
