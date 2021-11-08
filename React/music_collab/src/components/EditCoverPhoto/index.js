@@ -12,7 +12,10 @@ function EditCoverPhoto(props) {
                 <label id="change-cover-photo-label" htmlFor="photo">Select Cover Photo</label>
                 <input name="coverImage" id="photo" type="file" accept=".png, .jpg, .jpeg" onChange={props.handleImgChange}/>
             </div>
-            <Link to="/CoverPage"><button className='btn' id='upload-btn' onClick={() => props.saveChanges()}> Save Changes</button></Link>
+            <div>
+                <Link to="/CoverPage"><button className='btn' id='edit-cancel-btn' > Cancel </button></Link>
+                <Link to="/CoverPage"><button className='btn' id='upload-btn' onClick={() => props.saveChanges()}> Save Changes</button></Link>
+            </div>    
         </div>
         
 
