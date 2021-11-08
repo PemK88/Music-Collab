@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import UploadCoverPhoto from '../UploadCoverPhoto';
+import EditCoverPhoto from '../EditCoverPhoto';
 import "./styles.css";
 import FormRow from '../FormRow';
 import SelectCategories from '../SelectCategories';
 import SelectReference from '../SelectReference';
 import PropTypes from 'prop-types';
-import defaultCoverPhoto from '../../data/default_cover_photo.jpeg';
-import {Link } from "react-router-dom";
+
 
 function EditWorkDetails (props) {
 
@@ -165,10 +164,9 @@ function EditWorkDetails (props) {
                                 })}
                         </div>
                     </form>
-                    <Link to="/CoverPage"><button className='btn' id='edit-submit' onClick={() => saveChanges()}> Save Changes</button></Link>
                 </div>
             </div>
-            <UploadCoverPhoto coverImageSrc={uploadFormInputs.coverImage} handleImgChange={handleInputChange} handleUpload={handleUpload}/>
+            <EditCoverPhoto coverImageSrc={uploadFormInputs.coverImage} handleImgChange={handleInputChange} handleUpload={handleUpload} saveChanges={saveChanges}/>
         </div>
     );
 
