@@ -20,7 +20,7 @@ function CoverContent (props) {
     }
 
     const removeComment = (comment) => {
-        const filteredList = props.currentPost.comments.filter((c) => { return c != comment })
+        const filteredList = props.currentPost.comments.filter((c) => { return c !== comment })
         props.setComment(filteredList)
     }
 
@@ -36,7 +36,7 @@ function CoverContent (props) {
         if(!list) return;
 
         return list.map((comment, idx) => {
-            if (comment[2] != props.currentUser.username) {
+            if (comment[2] !== props.currentUser.username) {
                 return (
                     <li key={idx} className='comment-box'>
                         <div className='comment-username-container'>

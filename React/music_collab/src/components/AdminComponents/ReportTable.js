@@ -4,10 +4,6 @@ import SearchBar from './SearchBar';
 import {Link } from "react-router-dom";
 
 class ReportTable extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     state = {
         selected: [],
         query: ""
@@ -36,7 +32,7 @@ class ReportTable extends React.Component {
     }
 
     archiveReport = (report) => {
-        const filteredReports = this.props.reports.filter((r) => { return r != report })
+        const filteredReports = this.props.reports.filter((r) => { return r !== report })
         const archivedList = this.props.archived
         archivedList.push(report)
 
@@ -46,7 +42,7 @@ class ReportTable extends React.Component {
     }
 
     removeReport = (report) => {
-        const filteredReports = this.props.reports.filter((r) => { return r != report })
+        const filteredReports = this.props.reports.filter((r) => { return r !== report })
         this.props.setReports(filteredReports)
         this.props.setLog("removed report ID: " + report.reportID)
     }
@@ -70,7 +66,7 @@ class ReportTable extends React.Component {
         const selected = this.state.selected
         let reportList = this.props.reports
         for (let report of selected ) {
-            let filteredList = reportList.filter((r) => { return r != report })
+            let filteredList = reportList.filter((r) => { return r !== report })
             reportList = filteredList
             this.props.setLog("removed report ID: " + report.reportID)
         }
@@ -86,7 +82,7 @@ class ReportTable extends React.Component {
         
         let reportList = this.props.reports
         for (let report of selected ) {
-            let filteredList = reportList.filter((r) => { return r != report })
+            let filteredList = reportList.filter((r) => { return r !== report })
             reportList = filteredList
             archivedList.push(report)
             this.props.setLog("archived report ID: " + report.reportID)
@@ -101,7 +97,7 @@ class ReportTable extends React.Component {
     }
 
     filterPosts = (reports, query) => {
-        if (query == "") {
+        if (query === "") {
             return this.tableData(this.props.reports)
         }
         const lowerQuery = query.toLowerCase()

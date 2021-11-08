@@ -32,7 +32,7 @@ class PostTable extends React.Component {
     }
 
     removePost = (post) => {
-        const filteredPosts = this.props.posts.filter((p) => { return p != post })
+        const filteredPosts = this.props.posts.filter((p) => { return p !== post })
         this.props.setPosts(filteredPosts)
         this.props.setLog("removed post '" + post.name + "'")
     }
@@ -56,7 +56,7 @@ class PostTable extends React.Component {
         const selected = this.state.selected
         let postList = this.props.posts
         for (let post of selected ) {
-            let filteredList = postList.filter((p) => { return p != post })
+            let filteredList = postList.filter((p) => { return p !== post })
             postList = filteredList
             this.props.setLog("removed post '" + post.name + "'")
         }
@@ -67,7 +67,7 @@ class PostTable extends React.Component {
     }
 
     filterPosts = (posts, query) => {
-        if (query == "") {
+        if (query === "") {
             return this.tableData(this.props.posts)
         }
         const lowerQuery = query.toLowerCase()

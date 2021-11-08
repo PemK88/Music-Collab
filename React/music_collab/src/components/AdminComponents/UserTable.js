@@ -39,7 +39,7 @@ class UserTable extends React.Component {
     }
 
     removeUser = (user) => {
-        const filteredUsers = this.props.users.filter((u) => { return u != user })
+        const filteredUsers = this.props.users.filter((u) => { return u !== user })
         this.props.setUsers(filteredUsers)
         this.props.setLog("deleted user '" + user.username + "'")
     }
@@ -63,7 +63,7 @@ class UserTable extends React.Component {
         const selected = this.state.selected
         let userList = this.props.users
         for (let user of selected ) {
-            let filteredList = userList.filter((u) => { return u != user })
+            let filteredList = userList.filter((u) => { return u !== user })
             userList = filteredList
             this.props.setLog("deleted user '" + user.username + "'")
         }
@@ -74,7 +74,7 @@ class UserTable extends React.Component {
     }
 
     filterUsers = (users, query) => {
-        if (query == "") {
+        if (query === "") {
             return this.tableData(this.props.users)
         }
 

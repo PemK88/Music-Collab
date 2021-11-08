@@ -4,11 +4,6 @@ import SearchBar from './SearchBar';
 import {Link } from "react-router-dom";
 
 class ArchivedReportTable extends React.Component {
-    constructor(props) {
-        super(props);
-    
-        console.log(this.props)
-    }
 
     state = {
         selected: [],
@@ -38,7 +33,7 @@ class ArchivedReportTable extends React.Component {
     }
 
     unarchiveReport = (report) => {
-        const filteredArchivedReports = this.props.archived.filter((r) => { return r != report })
+        const filteredArchivedReports = this.props.archived.filter((r) => { return r !== report })
         const reportList = this.props.reports
         reportList.push(report)
         this.props.setLog("unarchived report ID: " + report.reportID)
@@ -48,7 +43,7 @@ class ArchivedReportTable extends React.Component {
     }
 
     removeReport = (report) => {
-        const filteredReports = this.props.archived.filter((r) => { return r != report })
+        const filteredReports = this.props.archived.filter((r) => { return r !== report })
         this.props.setArchived(filteredReports)
         this.props.setLog("removed report ID: " + report.reportID)
     }
@@ -72,7 +67,7 @@ class ArchivedReportTable extends React.Component {
         const selected = this.state.selected
         let archivedReportList = this.props.archived
         for (let report of selected ) {
-            let filteredList = archivedReportList.filter((r) => { return r != report })
+            let filteredList = archivedReportList.filter((r) => { return r !== report })
             archivedReportList = filteredList
             this.props.setLog("removed report ID: " + report.reportID)
         }
@@ -88,7 +83,7 @@ class ArchivedReportTable extends React.Component {
         
         let archivedReportList = this.props.archived
         for (let report of selected ) {
-            let filteredList = archivedReportList.filter((r) => { return r != report })
+            let filteredList = archivedReportList.filter((r) => { return r !== report })
             archivedReportList = filteredList
             reportList.push(report)
             this.props.setLog("unarchived report ID: " + report.reportID)
@@ -103,7 +98,7 @@ class ArchivedReportTable extends React.Component {
     }
 
     filterPosts = (reports, query) => {
-        if (query == "") {
+        if (query === "") {
             return this.tableData(this.props.archived)
         }
         const lowerQuery = query.toLowerCase()

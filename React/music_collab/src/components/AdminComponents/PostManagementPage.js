@@ -1,4 +1,4 @@
-import React, {  useState  } from 'react'
+import React from 'react'
 import PostTable from './PostTable'
 import 'react-router-dom'
 

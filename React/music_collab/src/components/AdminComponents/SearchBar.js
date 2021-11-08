@@ -2,9 +2,6 @@ import React from 'react';
 import './styles.css';
 
 class SearchBar extends React.Component {
-    constructor(props) {
-        super(props)
-    }
 
     state = {
         keyword: ""

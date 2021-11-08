@@ -1,13 +1,10 @@
 import ArchivedReportTable from './ArchivedReportTable'
 import 'react-router-dom'
-import React, {  useState  } from 'react'
+import React from 'react'
 
 
 class ArchivedReportManagementPage extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
+  
   render() {
     return (
       <div className='management-container'>

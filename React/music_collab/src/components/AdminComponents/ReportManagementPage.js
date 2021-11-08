@@ -1,12 +1,10 @@
-import React, {  useState  } from 'react'
+import React from 'react'
 import ReportTable from './ReportTable'
 import 'react-router-dom'
 
 
 class ReportManagementPage extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+
 
   render() {
     return (

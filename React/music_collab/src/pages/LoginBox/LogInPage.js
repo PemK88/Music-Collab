@@ -41,8 +41,8 @@ class LogInPage extends React.Component {
     checkIdentity = (e) => {
         e.preventDefault();
 
-        if (this.state.username == this.state.regularUser.username) {
-            if (this.state.pw == this.state.regularUser.pw) {
+        if (this.state.username === this.state.regularUser.username) {
+            if (this.state.pw === this.state.regularUser.pw) {
                 this.props.setRegular(true)
                 this.setState({ redirectRegular: true })
 
@@ -51,8 +51,8 @@ class LogInPage extends React.Component {
                 return alert("Incorrect Password Try Again")
             }
         }
-        else if (this.state.username == this.state.adminUser.username) {
-            if (this.state.pw == this.state.adminUser.pw) {
+        else if (this.state.username === this.state.adminUser.username) {
+            if (this.state.pw === this.state.adminUser.pw) {
                 this.props.setAdmin(true)
                 this.setState({ redirectAdmin: true })
             }
