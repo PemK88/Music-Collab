@@ -32,6 +32,8 @@ import AdminNavigationBar from './components/AdminComponents/NavigationBar/Admin
 import AdminProfile from './pages/Profile/AdminProfile';
 import AdminProfileSettings from './pages/ProfileSettings/AdminProfileSettings';
 import ReportView from './components/AdminComponents/ReportView';
+import ExplorePage from './pages/ExplorePage/ExplorePage';
+import PersonalizedFeed from './pages/PersonalizedFeed';
 
 
 function App() {
@@ -120,6 +122,26 @@ function App() {
       profileName: 'Singer 101'}]
   });
 
+    const works = [
+        {
+          id: 1,
+          imgSrc: album_cover,
+          title: 'Pain',
+          artist: 'Beat Maker'
+        },
+        {
+          id: 8,
+          imgSrc: album_cover2,
+          title: 'Iconology',
+          artist: 'MissyE'
+        },
+        {
+          id: 3,
+          imgSrc: album_cover3,
+          title: 'Fine Line',
+          artist: 'Harry Styles'
+        }];
+
   const [userData, setUserData] = useState({
     users: [
     { username: 'abc123',  userType: 'regular', email: 'jdoe123@mail.com', password: '123', name: 'John Doe', lastLogIn: "2021-11-02 10:34:23" },
@@ -195,6 +217,9 @@ function App() {
             <Route exact path='/Followers' render={() => (<Follows currentUser={currentUser}/>)}/>
             <Route exact path='/Followings' render={() => (<Follows currentUser={currentUser}/>)}/>
             <Route exact path='/Features' render={() => (<Features/>)}/>
+            <Route exact path='/Explore' render={() => (<ExplorePage works={works}/>)}/>
+            <Route exact path='/Home' render={() => (<PersonalizedFeed works={works}/>)}/>
+
 
             <Route exact path='/ReportView' render={() => (<ReportView currentReport={currentReport}/>)}/>
             <Route exact path="/UserManagement" component= {() => (<UserManagementPage setAdmin={setIsAdmin} setLog={setLog} users={userData.users} setUsers = {setUserChanged}/>)} />
