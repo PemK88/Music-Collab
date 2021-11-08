@@ -99,7 +99,7 @@ function CoverHeader (props) {
                 <div id="coverButtons2">
                     <button id="like-btn" className="btn" onClick={likePost}>{isLiked ? 'Like':'Unlike'}</button>
                 </div>
-                <div id="description-box">
+                { /* <div id="description-box">
                     <h3 className="box-title">Description</h3>
                     <p id="description-text">{props.currentPost.description}</p>
                     <ul id="interests-list" className="no-left-padding">
@@ -108,7 +108,7 @@ function CoverHeader (props) {
                     <ul id="interests-list1">
                         {generateGenres(props.currentPost.categories)}
                     </ul>
-            </div>
+                </div>*/}
             <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
             <div id="coverButtons">
                 {props.externalView && <a href={props.currentPost.audio} id="download-btn" className="btn" download>Download</a>}

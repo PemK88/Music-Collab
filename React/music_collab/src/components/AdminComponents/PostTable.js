@@ -111,7 +111,7 @@ class PostTable extends React.Component {
                 </tbody>
                 </table>
                 <div className='footer'>
-                    <button id='right-button' type="deleteAll" onClick={ this.deleteSelected }>Delete All</button>
+                    <button id='right-button' type="deleteAll" onClick={ this.deleteSelected }>Delete Selected</button>
                 </div>
         </div>
       )

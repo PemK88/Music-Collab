@@ -2,49 +2,28 @@
     padding-top: 15px;
     padding-bottom: 10px;
     margin: auto;
-    width: 50%;
+    width: 90%;
+    display: flex;
 }
 
 #left-button {
     display: inline-block;
     position: relative;
-    right: 248px;
+    margin-left: 0;
 }
 
 
 #right-button {
     display: inline-block;
     position: relative;
-    left: 780px;
+    margin-left: auto;
 }
 
-#right-button-a {
-    display: inline-block;
-    position: relative;
-    left: 462px;
-}
 
 #right-button-b {
     display: inline-block;
     position: relative;
-    left: 458px;
-}
-
-#right-button-c {
-    display: inline-block;
-    position: relative;
-    left: 413px;
-}
-
-#right-button-d {
-    display: inline-block;
-    position: relative;
-    left: 418px;
-}
-#right-button-e {
-    display: inline-block;
-    position: relative;
-    left: 662px;
+    margin-left: 15px;
 }
 
 #popup-title {
@@ -227,3 +206,15 @@ button {
     margin-left: 50px;
     margin-top: 15px;
 }
+
+.management-container{
+    margin: auto;
+    font-weight: 800;
+    font-size: 20px;
+    color: aliceblue;
+    height: 90vh;
+    width: 90%;
+    padding: 10px;
+    overflow: hidden;
+
+  }

@@ -77,7 +77,7 @@ class AddAdminPopup extends React.Component {
                         <div className='Row'>
                             <label className='inputLabel'>Password</label>
                             <input id="addInput"
-                                type="text" 
+                                type="password" 
                                 name='password' 
                                 placeholder="password" 
                                 value={ this.state.password }

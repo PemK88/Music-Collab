@@ -17,7 +17,7 @@ class UserFooter extends React.Component {
         return(
             <div className='footer'>
                 <button id='left-button' type="createAdmin" onClick={ this.openPopup }>Create Admin</button>
-                <button id='right-button-e' type="deleteAll" onClick={ this.props.deleteSelected }>Delete Selected</button>
+                <button id='right-button' type="deleteAll" onClick={ this.props.deleteSelected }>Delete Selected</button>
                 {this.state.isOpen && <AddAdminPopup handleClose={ this.openPopup } parentCallBack={ this.props.parentCallBack }/>}
             </div>
         )

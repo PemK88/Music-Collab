@@ -114,7 +114,7 @@ function CoverContent (props) {
 
     return (
         <div id="profile-content">
-            {/* <div id="description-box">
+             <div id="description-box">
                     <h3 className="box-title">Description</h3>
                     <p id="description-text">{props.currentPost.description}</p>
                     <ul id="des-list">
@@ -123,7 +123,7 @@ function CoverContent (props) {
                     <ul id="interests-list1">
                         {generateGenres(props.currentPost.categories)}
                     </ul>
-                </div> */}
+                </div> 
             <div className="comment-container">
                 <h3 className="box-title">Comments</h3>
                     <div id="comments">

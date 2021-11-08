@@ -148,8 +148,8 @@ class ArchivedReportTable extends React.Component {
                 </table>
                 <div className='footer'>
                     <Link to="/ReportManagement"><button id='left-button' type="link" >Go To Reports</button></Link>
-                    <button id='right-button-b' type="deleteAll" onClick={ () => this.deleteSelected() }>Delete Selected</button>
-                    <button id='right-button-a' type="archiveAll" onClick={ () => this.unarchiveSelected() }>Unarchive Selected</button>
+                    <button id='right-button' type="deleteAll" onClick={ () => this.deleteSelected() }>Delete Selected</button>
+                    <button id='right-button-b' type="archiveAll" onClick={ () => this.unarchiveSelected() }>Unarchive Selected</button>
                 </div>
         </div>
       )

@@ -10,7 +10,7 @@ class ArchivedReportManagementPage extends React.Component {
 
   render() {
     return (
-      <div className='box-title'>
+      <div className='management-container'>
         <ArchivedReportTable setLog={this.props.setLog} reports={this.props.reports} archived={this.props.archived} setReports = {this.props.setReports} setArchived = {this.props.setArchived}/>
       </div>
     )

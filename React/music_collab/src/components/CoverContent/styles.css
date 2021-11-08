@@ -12,6 +12,7 @@
     flex-direction: column;
     overflow: hidden;
     margin-left: 0px;
+    margin-top: 10px;
 }
 
 #description-box {
@@ -44,6 +45,7 @@
     overflow-y: auto;
     margin-left: 0px;
     margin-bottom: 20px;
+    
 }
 
 .curr-comment-box {
