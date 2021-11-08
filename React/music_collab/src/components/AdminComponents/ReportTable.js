@@ -42,11 +42,13 @@ class ReportTable extends React.Component {
 
         this.props.setReports(filteredReports)
         this.props.setArchived(archivedList)
+        this.props.setLog("archived report ID: " + report.reportID)
     }
 
     removeReport = (report) => {
         const filteredReports = this.props.reports.filter((r) => { return r != report })
         this.props.setReports(filteredReports)
+        this.props.setLog("removed report ID: " + report.reportID)
     }
 
     handleChange = (report) => {
@@ -70,6 +72,7 @@ class ReportTable extends React.Component {
         for (let report of selected ) {
             let filteredList = reportList.filter((r) => { return r != report })
             reportList = filteredList
+            this.props.setLog("removed report ID: " + report.reportID)
         }
         this.setState({
             selected: []
@@ -86,6 +89,7 @@ class ReportTable extends React.Component {
             let filteredList = reportList.filter((r) => { return r != report })
             reportList = filteredList
             archivedList.push(report)
+            this.props.setLog("archived report ID: " + report.reportID)
         }
 
         this.setState({

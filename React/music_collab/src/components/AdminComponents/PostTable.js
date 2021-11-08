@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles.css';
 import SearchBar from './SearchBar';
+import {Link} from 'react-router-dom';
 
 class PostTable extends React.Component {
     state = {
@@ -33,6 +34,7 @@ class PostTable extends React.Component {
     removePost = (post) => {
         const filteredPosts = this.props.posts.filter((p) => { return p != post })
         this.props.setPosts(filteredPosts)
+        this.props.setLog("removed post '" + post.name + "'")
     }
 
     handleChange = (post) => {
@@ -56,6 +58,7 @@ class PostTable extends React.Component {
         for (let post of selected ) {
             let filteredList = postList.filter((p) => { return p != post })
             postList = filteredList
+            this.props.setLog("removed post '" + post.name + "'")
         }
         this.setState({
             selected: []
@@ -89,7 +92,7 @@ class PostTable extends React.Component {
                     <td id='inputText'>{post.user}</td>
                     <td id='inputText'>{post.date}</td>
                     <td><button type="edit">Edit</button></td>
-                    <td><button type="view">View</button></td>
+                    <td><Link to='/CoverPage'><button type="view">View</button></Link></td>
                     <td><button type="select" onClick={ () => this.removePost(post) }>Delete</button></td>
                 </tr>
             )

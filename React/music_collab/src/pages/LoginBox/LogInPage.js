@@ -67,23 +67,26 @@ class LogInPage extends React.Component {
 
     render(){
         return (
-            <div>
+            <div className='login-container'>
                 {this.renderRedirect()}
-                <h1>Log In to Your Music Collab Account</h1>
-                <form className="login_form" onSubmit={this.checkIdentity}>
-                <input className="inputForm" type="text"
-                placeholder="Username" name="username" onChange={this.handleInputChange}/>
-                <br />
-                <input className="inputForm" type="password"
-                    placeholder="Password" name="pw" onChange={this.handleInputChange}/>
-                <br />
+                <h2 className='logIn-greetings'>Welcome to Music Collab</h2>
+                <h3 className='logIn-greetings'>Log In to Continue</h3>
+                <div className='login-form-container'>
+                    <form className="login_form" onSubmit={this.checkIdentity}>
+                        <input className="inputForm" type="text"
+                        placeholder="Username" name="username" onChange={this.handleInputChange}/>
+                        <br />
+                        <input className="inputForm" type="password"
+                            placeholder="Password" name="pw" onChange={this.handleInputChange}/>
+                        <br />
 
-                <button onClick={() => this.checkIdentity}> Sign in</button>
-                <br />
-                <div>
-                    <p>No account? <Link to="/SignUp" className="pwHelp">Sign up here</Link></p>
+                        <button onClick={() => this.checkIdentity}> Sign in</button>
+                        <br />
+                        <div>
+                            <p>No account? <Link to="/SignUp">Sign up here</Link></p>
+                        </div>
+                    </form>
                 </div>
-                </form>
             </div>
         );
         

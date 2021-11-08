@@ -14,6 +14,7 @@ class UserTable extends React.Component {
         const userList = this.props.users 
         userList.push(childData)
         this.props.setUsers(userList)
+        this.props.setLog("added new admin '" + childData.username + "'")
     }
 
     queryCallBack = (childData) => {
@@ -40,6 +41,7 @@ class UserTable extends React.Component {
     removeUser = (user) => {
         const filteredUsers = this.props.users.filter((u) => { return u != user })
         this.props.setUsers(filteredUsers)
+        this.props.setLog("deleted user '" + user.username + "'")
     }
 
     handleChange = (user) => {
@@ -63,6 +65,7 @@ class UserTable extends React.Component {
         for (let user of selected ) {
             let filteredList = userList.filter((u) => { return u != user })
             userList = filteredList
+            this.props.setLog("deleted user '" + user.username + "'")
         }
         this.setState({
             selected: []

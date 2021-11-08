@@ -1,0 +1,128 @@
+#cover-photo {
+    position: relative;
+    top: 37px;
+    width: 250px;
+    height: 250px;
+    border: 2px solid silver;
+    border-radius: 5%;
+}
+
+.profile-stats ul li {
+    list-style: none;
+    font-weight: bold;
+    color: aliceblue;
+    text-align: center;
+    padding: 18px;
+    font-size: 18px;
+}
+
+.profile-stats ul {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+}
+
+.profile-stats-num {
+    display: block;
+    color:#6012a5;
+    font-size: 150%;
+}
+
+#report-btn {
+    background-color: rgba(221, 3, 3, 0.863);
+    border-color: rgba(160, 2, 2, 0.863);
+    font-size: 17px;
+}
+
+#report-btn:hover {
+    background-color: rgba(160, 4, 4, 0.863);
+}
+
+
+#description-box {
+    background-color: #1c1c1e;
+    border: 0.5px solid #141414;
+    color: aliceblue;
+    border-radius: 12px;
+    width: 80%;
+    height: 20%;
+    display: block;
+    position: relative;
+    box-shadow: 0px 2px 4px 3px #141414;
+    margin-top: 15px;
+    overflow: auto;
+}
+
+#edit-btn #download-btn {
+    display: inline-block;
+    position: relative;
+    font-size: 17px;
+}
+
+#timeline-btn{
+    margin-right: 50px;
+}
+
+#download-btn {
+    margin-right: 50px;
+}
+
+#description-text {
+    margin-left: 10px;
+}
+
+#interests-list{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 25px;
+    margin-top: 0px;
+}
+
+
+#interests-list li{
+    width:fit-content;
+}
+
+#interests-list li p{
+    margin: 0px 10px;
+    font-size: 16px;
+    cursor: default;
+}
+
+#interests-list li p:hover{
+    background-color: rgb(63, 13, 156);
+}
+
+
+#overflow-container {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: unset;
+}
+
+.cover-no-overflow {
+    overflow: auto;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}
+
+
+#coverButtons {
+    margin-top: 20px;
+}
+
+#coverButtons2 {
+    margin-top: 0px;
+}
+
+#like-btn{
+    margin-left: 10px;
+}

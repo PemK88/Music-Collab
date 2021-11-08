@@ -1,4 +1,26 @@
 body{
-background-color: black;
-color: white;
+    background-color: black;
+    color: white;
+}
+
+.login-container {
+    background-color: #1c1c1e;
+     border: 0.5px solid #141414;
+     color: aliceblue;
+     border-radius: 12px;
+     height: 50%;
+     width: 50%;
+     margin: auto;
+     box-shadow: 0px 2px 4px 3px #141414;
+     margin-bottom: 5px;
+     overflow: hidden;
+     margin-top: 10%;
+}
+
+.logIn-greetings {
+    text-align: center;
+}
+
+.login-form-container {
+    margin-right: 5000px;
 }

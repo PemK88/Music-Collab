@@ -8,7 +8,7 @@ class PostManagementPage extends React.Component {
   render() {
     return (
       <div className='box-title'>
-        <PostTable posts={this.props.posts} setPosts = {this.props.setPosts}/>
+        <PostTable setLog={this.props.setLog} posts={this.props.posts} setPosts = {this.props.setPosts}/>
       </div>
     )
   }

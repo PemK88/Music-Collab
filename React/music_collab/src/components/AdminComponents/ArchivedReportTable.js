@@ -41,6 +41,7 @@ class ArchivedReportTable extends React.Component {
         const filteredArchivedReports = this.props.archived.filter((r) => { return r != report })
         const reportList = this.props.reports
         reportList.push(report)
+        this.props.setLog("unarchived report ID: " + report.reportID)
 
         this.props.setReports(reportList)
         this.props.setArchived(filteredArchivedReports)
@@ -49,6 +50,7 @@ class ArchivedReportTable extends React.Component {
     removeReport = (report) => {
         const filteredReports = this.props.archived.filter((r) => { return r != report })
         this.props.setArchived(filteredReports)
+        this.props.setLog("removed report ID: " + report.reportID)
     }
 
     handleChange = (report) => {
@@ -72,6 +74,7 @@ class ArchivedReportTable extends React.Component {
         for (let report of selected ) {
             let filteredList = archivedReportList.filter((r) => { return r != report })
             archivedReportList = filteredList
+            this.props.setLog("removed report ID: " + report.reportID)
         }
         this.setState({
             selected: []
@@ -88,6 +91,7 @@ class ArchivedReportTable extends React.Component {
             let filteredList = archivedReportList.filter((r) => { return r != report })
             archivedReportList = filteredList
             reportList.push(report)
+            this.props.setLog("unarchived report ID: " + report.reportID)
         }
 
         this.setState({

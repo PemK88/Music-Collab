@@ -7,12 +7,17 @@ import profile_photo2 from './data/profile/profile_photo2.jpeg'
 import album_cover from './data/album_cover.jpeg';
 import album_cover2 from './data/album_cover2.jpeg';
 import album_cover3 from './data/album_cover3.jpeg';
+import music from './data/bensound-downtown.mp3';
+
 import ProfileSettings from './pages/ProfileSettings';
 import UploadWork from './pages/UploadWork';
 import Follows from './pages/Followers';
 import NavigationBar from './components/NavigationBar';
 import Features from './pages/Features';
+
 import LogInPage from './pages/LoginBox/LogInPage';
+
+import CoverPage from './pages/Coverpage/CoverPage';
 
 import ProfileView from './pages/Profile/ProfileView';
 import ProfileSettingsView from './pages/ProfileSettings/ProfileSettingsView';
@@ -42,6 +47,26 @@ function App() {
     setUserType({ isRegular: child });
   }
 
+  const [currentPost, setCurrentpost] = useState({
+    id: 1,
+    imgSrc: album_cover,
+    title: 'Pain',
+    mp3file: music,
+    artist: 'Beat Maker',
+    description: 'A song that I wrote while I was in pain.',
+    recievedLikes: [],
+    tags: ['R&B', 'Pop'],
+    comments: [['Beat Maker', 'I am looking for a vocal for this song', 'user'], ['Jennifer Kim', 'This beat is great!', 'kimyu18'], ['The Best Vocalist', 'Can I collaborate with you?', 'hihii99']],
+    public: true})
+
+    function setCurrWork(child) {
+      setCurrentUser({works: child})
+    }
+
+    function setPostComment(child) {
+      const name = 'comments'
+      setCurrentpost(inputs => ({...inputs, [name]: child}))
+    }
 
   const [currentUser, setCurrentUser] = useState({
     id: 1,
@@ -70,6 +95,11 @@ function App() {
           imgSrc: album_cover3,
           title: 'Fine Line',
           artist: 'Harry Styles'}],
+    likedWorks: [{
+              id: 3,
+              imgSrc: album_cover3,
+              title: 'Fine Line',
+              artist: 'Harry Styles'}],
     followers: [{
       id: 2,
       imgSrc: profile_photo2,
@@ -83,8 +113,8 @@ function App() {
   const [userData, setUserData] = useState({
     users: [
     { username: 'abc123',  userType: 'regular', email: 'jdoe123@mail.com', password: '123', name: 'John Doe', lastLogIn: "2021-11-02 10:34:23" },
-    { username: 'hihii9 9', userType: 'regular', email: 'jsmith123@mail.com', password: '123', name: 'Jane Smith', lastLogIn: "2021-10-31 16:28:02" },
-    { username: 'kimyu18', userType: 'regular', email: 'kimyu18@mail.com', password: '123', name: 'Yu Jin Kim', lastLogIn: "2021-11-03 02:11:29" },
+    { username: 'hihii99', userType: 'regular', email: 'jsmith123@mail.com', password: '123', name: 'The Best Vocalist', lastLogIn: "2021-10-31 16:28:02" },
+    { username: 'kimyu18', userType: 'regular', email: 'kimyu18@mail.com', password: '123', name: 'Jennifer Kim', lastLogIn: "2021-11-03 02:11:29" },
     { username: 'admin', userType: 'admin', email: 'admin@mail.com', password: 'admin', name: 'Harry Potter', lastLogIn: "2021-11-03 02:11:29", activityLog: [] }
     ]
   })
@@ -111,7 +141,7 @@ function App() {
   })
 
   const [adminUser, setAdminUser] = useState({ username: 'admin', userType: 'admin', email: 'admin@mail.com', password: 'admin', profileName: 'The Admin', lastLogIn: "2021-11-03 02:11:29", 
-  activityLog: [" deleted user 'user123'", " deleted post 'Alphabet Song'"], imgSrc: profile_photo  })
+  activityLog: [" deleted user 'user123'", " deleted post 'Alphabet Song'"] })
 
   function setUserChanged(child) {
     setUserData({ users: child });
@@ -129,6 +159,12 @@ function App() {
     setArchivedData({ archivedReports: child });
   }
 
+  function setLog(child) {
+    const logs = adminUser.activityLog
+    logs.push(child)
+    setAdminUser({ activityLog: logs });
+  }
+
   return (
     //this should be home page
     <div>
@@ -138,6 +174,8 @@ function App() {
           <Switch> 
             <Route exact path='/' render={() => (<LogInPage setAdmin={setIsAdmin} setRegular={setIsRegular} />)}/>
 
+            <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setWork={setCurrWork}/>)}/>
+
             <Route exact path='/Profile' render={() => (<Profile currentUser={currentUser}/>)}/>
             <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
             <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={currentUser}/>)}/>
@@ -146,10 +184,10 @@ function App() {
             <Route exact path='/Features' render={() => (<Features/>)}/>
 
             <Route exact path='/ReportView' render={() => (<ReportView currentReport={currentReport}/>)}/>
-            <Route exact path="/UserManagement" component= {() => (<UserManagementPage currentUser={adminUser} users={userData.users} setUsers = {setUserChanged}/>)} />
-            <Route exact path="/PostManagement" component={() => (<PostManagementPage currentUser={adminUser} posts={postData.posts} setPosts = {setPostChanged}/>)} />
-            <Route exact path="/ReportManagement" component={() => (<ReportManagementPage currentUser={adminUser} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
-            <Route exact path="/ArchivedReportManagement" component={() => (<ArchivedReportManagementPage currentUser={adminUser} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
+            <Route exact path="/UserManagement" component= {() => (<UserManagementPage setAdmin={setIsAdmin} setLog={setLog} users={userData.users} setUsers = {setUserChanged}/>)} />
+            <Route exact path="/PostManagement" component={() => (<PostManagementPage setLog={setLog} posts={postData.posts} setPosts = {setPostChanged}/>)} />
+            <Route exact path="/ReportManagement" component={() => (<ReportManagementPage setLog={setLog} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
+            <Route exact path="/ArchivedReportManagement" component={() => (<ArchivedReportManagementPage setLog={setLog} currentUser={adminUser} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
             <Route exact path='/AdminProfile' render={() => (<AdminProfile currentUser={adminUser}/>)}/>
             <Route exact path='/AdminProfileSettings' render={() => (<AdminProfileSettings currentUser={adminUser}/>)}/>
             <Route exact path='/ProfileView' render={() => (<ProfileView currentUser={currentUser}/>)}/>
