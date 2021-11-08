@@ -32,6 +32,7 @@ import AdminNavigationBar from './components/AdminComponents/NavigationBar/Admin
 import AdminProfile from './pages/Profile/AdminProfile';
 import AdminProfileSettings from './pages/ProfileSettings/AdminProfileSettings';
 import ReportView from './components/AdminComponents/ReportView';
+
 import ExplorePage from './pages/ExplorePage/ExplorePage';
 import PersonalizedFeed from './pages/PersonalizedFeed';
 
@@ -60,7 +61,7 @@ function App() {
     description: 'A song that I wrote while I was in pain.',
     recievedLikes: [],
     categories: ['R&B', 'Pop'],
-    tags: ['Slow', 'Beat', 'Sad'],
+    tags: ['Hurting', 'Heal'],
     references:[{workId: 2, description: 'Used melody line'}],
     comments: [['Beat Maker', 'I am looking for a vocal for this song', 'user'], ['Jennifer Kim', 'This beat is great!', 'kimyu18'], ['The Best Vocalist', 'Can I collaborate with you?', 'hihii99']],
     public: true})

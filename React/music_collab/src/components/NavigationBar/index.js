@@ -43,7 +43,7 @@ function NavigationBar(props) {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/"
+                to="/Explore"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
@@ -54,7 +54,7 @@ function NavigationBar(props) {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/"
+                to="/Home"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}

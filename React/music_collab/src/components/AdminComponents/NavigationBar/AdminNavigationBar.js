@@ -65,23 +65,12 @@ function AdminNavigationBar(props) {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/"
+                to="/Explore"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
               >
                 Explore
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-	            Home Page
               </NavLink>
             </li>
             <li className="nav-item">
