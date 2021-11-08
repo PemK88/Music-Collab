@@ -10,7 +10,6 @@ function UploadWork (props) {
         <div className="page upload-work">
             <ProfileHeader externalView={false} currentUser={props.currentUser} page={'upload'}/>
             <UploadWorkDetails currentUser={props.currentUser}/>
-            {/* <UploadCoverPhoto currentUser={props.currentUser}/> */}
         </div>
         
     );
