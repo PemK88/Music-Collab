@@ -114,13 +114,6 @@ function Features (props) {
             description:"I used some of the adlibs from this song",
             title: 'Lost In Japan (Remix)',
             artist: 'Zedd'
-        },
-        {
-            id: 4,
-            imgSrc: album_cover5,
-            description:"I used this as the base beat for my song",
-            title: 'Unlocked (instrumentals)',
-            artist: 'Kenny Beats'
         }
     ];
 
