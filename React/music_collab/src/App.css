@@ -27,7 +27,7 @@ body {
 .page {
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   color: white;
 }
 
@@ -129,6 +129,7 @@ body {
   font-weight: 800;
   font-size: 20px;
   color: aliceblue;
+  height: 90vh;
 }
 
 .small-box{
@@ -412,12 +413,4 @@ body {
   background-color: white;
   border-color: #7713cf;
   outline: none;
-}
-
-
-form {
-  width: 60vw;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
 }
