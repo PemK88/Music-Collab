@@ -21,7 +21,7 @@ function AdminProfileContent (props) {
 
 
     const activityLogBox = () => { return (
-                                <div className="large-dark-box">
+                                <div className="large-dark-box-activty">
                                     <h3 className="box-title">Activity Log</h3>
                                     <div>
                                         <ul>

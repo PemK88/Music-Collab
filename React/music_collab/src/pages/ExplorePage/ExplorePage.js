@@ -7,6 +7,10 @@ import SelectReference from '../../components/SelectReference';
 
 function ExplorePage (props) {
 
+    //a get request will be made to the server to retrieve trending and newly uploaded works
+    //this data will be stored in a state variable and passed to the corresponding
+    //ExploreView components below
+
     const categoryWorks = [
         {
             name:'R&B',
@@ -34,6 +38,9 @@ function ExplorePage (props) {
         }
     ];
 
+    let reverse_work = props.works;
+    
+    //a get request will be made to the server to get all work names and ids in the database
     const allWorks = props.works.map((work,idx) => {
         return {name: work.title + " - " + work.artist, id: work.id, idx: idx}});
 
@@ -43,19 +50,19 @@ function ExplorePage (props) {
     const [searchMode, setSearchMode] = useState(false);
 
     const handleClick = (idx) => {
+        //a get request will be made to the server to retrieve the works under the specified category
         setCategoryIdx(idx);
     }
 
     const handleSearch = () => {
+        //a get request will be made to the server to get the work details
+        //such as cover image title and artist for the selected ids
         const workIds = searchedWorks.map(work => work.id);
         const results = props.works.filter(work => workIds.includes(work.id));
         console.log(results)
         setDisplayedWorks(results);
         setSearchMode(true);
     }
-
-    let reverse_work = props.works;
-
 
     return (
         <div className="page explore-page">

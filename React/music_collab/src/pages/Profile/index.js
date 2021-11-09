@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 
 function Profile (props) {
 
+    //We will check if the currentUser Id provided through a link matches the curentUser Id
+    //If it does not, a get request will be made to get the user's information and external view will be set to true
+
     const [externalView, setExternalView] = useState(false);
 
-    //will check if the currentUserid provided through link matches the curentUser Id
-    //If it does not, a get request will be made to get the currentUser's information
-
+    
     const toggleView = () => {
         setExternalView(!externalView);
     };

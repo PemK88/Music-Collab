@@ -83,35 +83,7 @@ function CoverContent (props) {
             );  
         });
     };
-
-    const generateTags = (list) => {
-        if(!list) return;
-
-        return list.map((interest, idx) => {
-            return (
-                <li key={idx} className='hashtag-cover-page'>
-                    {'#'+ interest}
-                </li>
-            );   
-        });
     
-    };
-
-    const generateGenres = (list) => {
-        if(!list) return;
-
-        return list.map((interest, idx) => {
-            return (
-                <li key={idx}>
-                    <p className="btn">{interest}</p>
-                </li>
-            );   
-        });
-    
-    };
-
-
-
     return (
         <div id="profile-content">
             <div className="comment-container">

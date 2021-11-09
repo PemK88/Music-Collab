@@ -12,7 +12,7 @@ function ExploreView (props) {
                 <li key={idx}>
                     <img id="large-img" src={work.imgSrc} alt='work cover'/>
                     <Link className="profile-works-link" to={{
-                        pathname:'/coverpage',
+                        pathname:'/CoverPage',
                         id: work.id
                     }}>{work.title}</Link>
                     <p>#songs #singer</p>

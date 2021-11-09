@@ -1,3 +1,5 @@
+/*Put together by Bessey*/
+
 import React, { useState } from 'react';
 import ExploreContent from '../../components/ExploreContent';
 import "./styles.css";
@@ -15,10 +17,11 @@ function Explore (props) {
         setExternalView(!externalView);
     };
 
+
     return (
        <div className="page"> 
             <SearchBar currentUser={props.currentUser} externalView={externalView}/>
-            {/* <ExploreContent currentUser={props.currentUser} externalView={externalView}/> */}
+            <ExploreContent currentUser={props.currentUser} externalView={externalView}/>
         </div>
 
     );

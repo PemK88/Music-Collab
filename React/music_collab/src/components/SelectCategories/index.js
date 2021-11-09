@@ -5,6 +5,9 @@ import './styles.css';
 
 function SelectCategories(props) {
 
+    
+    //a get request will be made to the server to get the categories
+    //OR they will be passsed as props
     const options = ['R&B', 'Pop', 'Jazz', 'Hiphop', 'Instrumentals', 'Acapella'];
 
     return (

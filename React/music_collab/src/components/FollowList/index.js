@@ -6,6 +6,9 @@ import "./styles.css";
 
 function FollowList(props) {
 
+    //given a list of userIds from props, a get request will be made to the server
+    //to retrieve profilenames and images
+    
     const generateList = (list) => {
         if(!list) return;
 

@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import ProfileSettingsHeader from '../../components/ProfileSettingsHeader';
 import ProfileSettingsContent from '../../components/ProfileSettingsContent';
 
-
-
 function ProfileSettings (props) {
 
     return (
@@ -15,7 +13,6 @@ function ProfileSettings (props) {
         </div>
  
      );
-
 
 }
 

@@ -20,7 +20,7 @@ class PostTable extends React.Component {
             <tr>
                 <th id='inputText'> Select </th>
 	 			<th id='inputText'> Post ID </th>
-                <th id='inputText'> Name </th>
+                <th id='inputText'> Title </th>
 	 			<th id='inputText'> Genre </th>
 	 			<th id='inputText'> User </th>
                 <th id='inputText'> Date Posted </th>

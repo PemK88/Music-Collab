@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 
 function Features (props) {
 
+    //A get request will be made to the database to get all works that
+    //feature and are featured in the selected work
     const featuredIn = [
         {
             id: 8,
@@ -112,13 +114,6 @@ function Features (props) {
             description:"I used some of the adlibs from this song",
             title: 'Lost In Japan (Remix)',
             artist: 'Zedd'
-        },
-        {
-            id: 4,
-            imgSrc: album_cover5,
-            description:"I used this as the base beat for my song",
-            title: 'Unlocked (instrumentals)',
-            artist: 'Kenny Beats'
         }
     ];
 

@@ -36,9 +36,10 @@ function ProfileSettingsContent (props) {
     }
 
     const handleEdit = (event) => {
+        //on save changes a post request will be made to the server with the profile form inputs
         event.preventDefault();
         setEditProfile(!editProfile);
-        //on save changes a post request will be made to the database with the profile form inputs
+        
     };
 
     const handlePasswordInputChange = (event) => {
@@ -56,10 +57,10 @@ function ProfileSettingsContent (props) {
             } else if(passwordFormInputs.newPassword !== passwordFormInputs.confirmPassword) {
                 return alert("Passwords don't match!");
             } else {
-                //a post request will be made to the database with the passowrd form inputs
                 setPasswordFormInputs(defaultPasswordInput);
             }
         }
+        //a post request will be made to the server with the new password
         setChangePassword(!changePassword);
         
     };
