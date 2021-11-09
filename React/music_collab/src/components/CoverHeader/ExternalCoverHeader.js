@@ -14,16 +14,6 @@ function ExternalCoverHeader (props) {
     const [isLiked, setIsLiked] = useState(false);
 
 
-    // const checkLiked = () => {
-    //     const likedList = props.currentUser.likedWorks
-    //     for (let work of likedList) {
-    //         if (work.id === props.currentPost.id) {
-    //             setIsLiked({isLiked: true})
-    //         }
-    //     }
-    // }
-
-    const likePost = () => setIsLiked(!isLiked)
 
     const handleReport = () => {
         setReportPopupTrigger(!reportPopupTrigger);
@@ -33,6 +23,33 @@ function ExternalCoverHeader (props) {
         props.toggleView();
     };
 
+    const generateGenres = (list) => {
+        if(!list) return;
+
+        return list.map((interest, idx) => {
+            return (
+                <li key={idx}>
+                    <p className="btn">{interest}</p>
+                </li>
+            );   
+        });
+    
+    };
+
+    const generateTags = (list) => {
+        if(!list) return;
+
+        return list.map((interest, idx) => {
+            return (
+                <li className="hashtag-cover-page" key={idx} id='descriptionTags'>
+                    {'#'+ interest}
+                </li>
+            );   
+        });
+    
+    };
+
+
 
     return(
         <div className="cover-no-overflow">
@@ -41,8 +58,7 @@ function ExternalCoverHeader (props) {
                 <AudioPlayer
                     src={props.currentPost.audio}
                 />
-            
-                { /* <div id="description-box">
+                 <div id="description-box">
                     <h3 className="box-title">Description</h3>
                     <p id="description-text">{props.currentPost.description}</p>
                     <ul id="interests-list" className="no-left-padding">
@@ -51,7 +67,8 @@ function ExternalCoverHeader (props) {
                     <ul id="interests-list1">
                         {generateGenres(props.currentPost.categories)}
                     </ul>
-                </div>*/}
+                </div>
+
             <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
             <div id="coverButtons">
                 {props.externalView && <a href={props.currentPost.audio} id="download-btn" className="btn" download>Download</a>}

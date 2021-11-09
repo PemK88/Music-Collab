@@ -72,7 +72,7 @@ function ProfileContent (props) {
     }
 
     const bioBox = () => { return (
-                                <div className={props.externalView ? "tall-small-dark-box" : "small-dark-box"}>
+                                <div className={props.externalView ? "tall-small-dark-box" : "small-dark-box height-200"}>
                                     <h3 className="box-title">Biography</h3>
                                     <div id="bio-container">
                                         <textarea className="bio-text-box" name="biography" value={bio} onChange={handleTextChange}
@@ -97,7 +97,7 @@ function ProfileContent (props) {
     );};
 
     const downloadsBox = () => { return ( 
-        <div className="small-dark-box height-30">
+        <div className="small-dark-box height-300">
             <h3 className="box-title">Downloads</h3>
             <div className="profile-works">
                 <ul className="small-works-list">
