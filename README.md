@@ -32,7 +32,7 @@ You must enter the credentials below to view the administrator pages
 
 There is also a link to the signup page which allows you to create an account. However, the account credentials cannot be used to log in during this phase of the project.
 
-# User Profile
+# User
 
 ##  Home
 Upon logging in you will be directed to the home page. On this page, we have the notification wall, work recommendations and liked works.
@@ -64,7 +64,7 @@ In the Internal profile view, you can access the upload work page. Here you can 
 
 You can also access the profile settings page. Here you can edit your profile name, email, and interests but you cannot edit your username. You can change your profile photo as well as your password. Inputting an old password that is not "user" will bring up an error alert, as well as passwords that don't match.
 
-# Cover Page
+## Cover Page
 
 The cover page has both an internal and external view that can be toggled using the temporary button. In both views you can play the work, view its description and go to its feature history page.
 
@@ -72,15 +72,15 @@ In the external view, you can like or unlike the work, download it, report it, a
 
 In the internal view, any comments you leave are highlighted and you can delete them using the button located within the comment box (may need to scroll to see it depending on your screen size). Clicking the edit button allows you to edit the post's content. By cancelling or saving the changes, you will be directed back to the cover page.
 
-# Features
+## Features
 
 Using the feature button on a work's cover page, you can see all the works that it features (parent works) and works that it is featured in (children works). The works are displayed like music notes on a music sheet and you can scroll through each section. By clicking on a music note, a card pops up with the work's title and artist, as well as a description of how it was used. By clicking on the title, you will be directed to the work's cover page. Clicking on the title of the work in the "Feature History" title will take you back to its cover page.
 
-# Logout
+## Logout
 Clicking the logout button will direct you to the login page.
 
 
-# Admin Profile
+# Admin 
 User can navigate through pages using the navigation bar:
 
 - Profile
