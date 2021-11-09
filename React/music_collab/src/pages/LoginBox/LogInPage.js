@@ -34,7 +34,7 @@ class LogInPage extends React.Component {
           return <Redirect to='/AdminProfile' />
         }
         else if (this.state.redirectRegular) {
-            return <Redirect to='/Profile' />
+            return <Redirect to='/Home' />
         }
     }
 

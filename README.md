@@ -18,16 +18,18 @@ npm install
 npm start
 ```
 
-### Login
+##Login
 The first page you are directed to is the login page.
-You must the credentials below to view the user pages 
+You must enter the credentials below to view the user pages 
 * username: user
 * password: user
 
-You must the credentials below to view the administrator pages 
+You must enter the credentials below to view the administrator pages 
 * username: admin
 * password: admin
 
-**Do not load the page after login!** The admin and user navigations bars are different, and the correct bar is displayed based on the type of user determined, which done through logging in.
+**Do not load the page after login!** The admin and user navigations bars are different, and the correct bar is displayed based on the type of user, which is determined through logging in.
 
 There is also a link to the sign up page which allows you to create and account. However, the account credentials cannot be used to login during this phase of the project.
+
+## User Profile
