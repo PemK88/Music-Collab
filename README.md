@@ -32,7 +32,7 @@ You must enter the credentials below to view the administrator pages
 
 There is also a link to the signup page which allows you to create an account. However, the account credentials cannot be used to log in during this phase of the project.
 
-## User Profile
+# User
 
 ### Home
 Upon logging in you will be directed to the home page. On this page, we have the notification wall, work recommendations and liked works.
@@ -80,10 +80,11 @@ Using the feature button on a work's cover page, you can see all the works that 
 Clicking the logout button will direct you to the login page.
 
 
-## Admin Profile
+# Admin 
 User can navigate through pages using the navigation bar:
 
 - Profile
+
     When first logged in as admin, it directs to admin profile.
     The user will able to see the past activites they have performed, and any new activity(deleting, adding, archiving, unarchiving) will be recorded to this page. Through the settings on side, admin will be able to edit their information.
 
