@@ -32,22 +32,22 @@ You must enter the credentials below to view the administrator pages
 
 There is also a link to the signup page which allows you to create an account. However, the account credentials cannot be used to log in during this phase of the project.
 
-## User Profile
+# User Profile
 
-# Home
+##  Home
 Upon logging in you will be directed to the home page. On this page, we have the notification wall, work recommendations and liked works.
 
 Users can see works by other users who have featured their work, comments and likes made on their work posts, and new followings. Clicking on a notification will direct you to the page being referred to in the notification (for the following notifications this is the user’s profile page). This information can also be cleared using the clear button.
 
 Works that may interest you are random works generations determined by the categories listed as interests in your profile. Clicking on any work title will lead you to its cover page
 
-# Explore
+## Explore
 
 The explore page shows trending and recently uploaded works. You can also view works under a specific category by clicking on the category of interest.
 
 By clicking on the search box you can search and select multiple works. When you click the search button these works will be displayed and you can click on their title to go to their cover page
 
-# Profile
+## Profile
 
 **Internal View refers to what the current user sees**
 **External View refers to what other users see**
@@ -80,10 +80,11 @@ Using the feature button on a work's cover page, you can see all the works that 
 Clicking the logout button will direct you to the login page.
 
 
-## Admin Profile
+# Admin Profile
 User can navigate through pages using the navigation bar:
 
 - Profile
+
     When first logged in as admin, it directs to admin profile.
     The user will able to see the past activites they have performed, and any new activity(deleting, adding, archiving, unarchiving) will be recorded to this page. Through the settings on side, admin will be able to edit their information.
 
