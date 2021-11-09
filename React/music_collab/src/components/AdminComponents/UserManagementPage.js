@@ -5,6 +5,8 @@ import 'react-router-dom'
 
 class UserManagementPage extends React.Component {
   
+  //a get request will be made to the server to get the user details
+
   render() {
     return (
       <div className='management-container'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "./styles.css";
 import PropTypes from 'prop-types';
 import AdminProfileSettingsHeader from '../../components/ProfileSettingsHeader/AdminProfileSettingsHeader';

@@ -5,7 +5,8 @@ import 'react-router-dom'
 
 class ReportManagementPage extends React.Component {
 
-
+  //a get request will be made to the server to get the report details
+  
   render() {
     return (
       <div className='management-container'>

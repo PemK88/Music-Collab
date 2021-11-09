@@ -7,6 +7,10 @@ class LogInPage extends React.Component {
     constructor(props) {
       super(props);
 
+
+      //a get request will be made to the server to get the all the details and check if
+      // there exists a user with the log in info
+
       this.state ={
         username: "",
         pw: "",

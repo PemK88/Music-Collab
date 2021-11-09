@@ -5,6 +5,8 @@ import 'react-router-dom'
 
 class PostManagementPage extends React.Component {
 
+  //a get request will be made to the server to get the post details
+
   render() {
     return (
       <div className='management-container'>

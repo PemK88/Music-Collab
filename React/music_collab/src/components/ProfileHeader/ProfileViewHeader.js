@@ -15,10 +15,6 @@ function ProfileViewHeader (props) {
         setReportPopupTrigger(!reportPopupTrigger);
     };
 
-    const handleViewChange = () => {
-        props.toggleView();
-    };
-
     const handleFollow = () => {
         if(followBtnVal === '+ Follow') {
             setFollowBtnVal('Unfollow');

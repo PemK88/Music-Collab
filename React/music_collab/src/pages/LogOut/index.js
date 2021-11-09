@@ -1,3 +1,4 @@
+/*Put together by Bessey*/
 import React from 'react'
 
 import PageRedirect from '../../components/PageRedirect'

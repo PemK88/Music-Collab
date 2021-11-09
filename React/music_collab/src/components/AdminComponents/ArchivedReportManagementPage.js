@@ -4,7 +4,9 @@ import React from 'react'
 
 
 class ArchivedReportManagementPage extends React.Component {
-  
+
+  //a get request will be made to the server to get the report details
+
   render() {
     return (
       <div className='management-container'>

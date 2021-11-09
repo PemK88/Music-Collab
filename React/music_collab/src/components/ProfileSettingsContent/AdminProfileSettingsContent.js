@@ -28,11 +28,6 @@ function AdminProfileSettingsContent (props) {
         setProfileFormInputs(inputs => ({...inputs, [name]: value}))
     }
 
-    const handleInterestChange = (interestList) => {
-        const name = 'interests';
-        setProfileFormInputs(inputs => ({...inputs, [name]: interestList}))
-    }
-
     const handleEdit = (event) => {
         event.preventDefault();
         setEditProfile(!editProfile);

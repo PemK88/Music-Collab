@@ -1,4 +1,4 @@
-
+/*Put together by Bessey*/
 import React, { Component } from "react";
 import { NavLink, Redirect} from "react-router-dom";
 import './styles.css';

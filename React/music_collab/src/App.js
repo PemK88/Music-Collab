@@ -23,6 +23,7 @@ import SignUp from './pages/SignUp/SignUp';
 
 import CoverPage from './pages/Coverpage/CoverPage';
 import CoverpageSettings from './pages/CoverpageSettings';
+import ExternalCoverPage from './pages/Coverpage/ExternalCoverPage';
 
 import ProfileView from './pages/Profile/ProfileView';
 import ProfileSettingsView from './pages/ProfileSettings/ProfileSettingsView';
@@ -54,7 +55,7 @@ function App() {
   function setIsRegular(child) {
     setUserType({ isRegular: child });
   }
-
+  
   const [currentPost, setCurrentpost] = useState({
     id: 1,
     imgSrc: album_cover,
@@ -230,6 +231,7 @@ function App() {
             <Route exact path='/' render={() => (<LogInPage setAdmin={setIsAdmin} setRegular={setIsRegular} />)}/>
             <Route exact path='/SignUp' render={() => (<SignUp/>)}/>
 
+            <Route exact path='/ExternalCoverPage' render={() => (<ExternalCoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
             <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
             <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentPost={currentPost} currentUser={currentUser} setInfo={setPostInfo}/>)}/>
 

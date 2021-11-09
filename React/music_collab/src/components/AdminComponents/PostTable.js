@@ -92,7 +92,7 @@ class PostTable extends React.Component {
                     <td id='inputText'>{post.user}</td>
                     <td id='inputText'>{post.date}</td>
                     <td><Link to='/CoverPageSettings'><button type="edit">Edit</button></Link></td>
-                    <td><Link to='/CoverPage'><button type="view">View</button></Link></td>
+                    <td><Link to='/ExternalCoverPage'><button type="view">View</button></Link></td>
                     <td><button type="select" onClick={ () => this.removePost(post) }>Delete</button></td>
                 </tr>
             )

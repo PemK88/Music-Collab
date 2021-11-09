@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
-import ProfileSideNav from '../ProfileSideNav';
+
 
 function ProfileSettingsViewHeader (props) {
 
