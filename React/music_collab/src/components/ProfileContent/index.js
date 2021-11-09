@@ -78,8 +78,12 @@ function ProfileContent (props) {
                                         <textarea className="bio-text-box" name="biography" value={bio} onChange={handleTextChange}
                                             readOnly={props.externalView || (!props.externalView && !editMode)}/>
                                     </div>
-                                    {!props.externalView && <button className="box-btn" onClick={handleEdit}>{editBtnVal}</button>}
-                                    {!props.externalView &&  editMode && <button className="box-btn red-box-btn" onClick={handleCancel}>Cancel</button>}
+                                    {!props.externalView && 
+                                        (<div className="bio-btns">
+                                            <button className="box-btn margin-left" onClick={handleEdit}>{editBtnVal}</button>
+                                            {editMode && <button className="box-btn red-box-btn" onClick={handleCancel}>Cancel</button>}
+                                        </div>)
+                                    }
                                 </div>
     );};
 

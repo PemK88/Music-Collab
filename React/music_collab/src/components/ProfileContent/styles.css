@@ -63,3 +63,12 @@
     margin-bottom: 5px;
     overflow: auto;
 }
+
+.bio-btns {
+    display: flex;
+    align-items: center;
+}
+
+.margin-left {
+    margin-left: auto;
+}

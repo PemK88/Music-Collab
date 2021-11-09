@@ -48,10 +48,11 @@ function ProfileHeader (props) {
 
             {props.page === 'profile' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>}
             </div>
-            <div id="overflow-container">
-                <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
-                {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
-            </div>
+            {props.externalView && 
+                (<div id="overflow-container">
+                    <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
+                    <button id="report-btn" className="btn" onClick={handleReport}>Report</button>
+                </div>)}
         </div>
 
     )
