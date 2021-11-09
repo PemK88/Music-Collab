@@ -1,4 +1,5 @@
 /*Put together by Bessey*/
+/*We also made edits to the css file of this component*/
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./styles.css"; 

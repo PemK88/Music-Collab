@@ -74,7 +74,7 @@
 .nav-icon {
   display: none;
 }
-
+/*
 @media screen and (max-width: 960px) {
   .nav-menu {
     display: flex;
@@ -115,4 +115,4 @@
     cursor: pointer;
     color: #ffdd40;
   }
-}
+} */
