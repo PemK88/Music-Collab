@@ -29,6 +29,11 @@ function ExternalCoverHeader (props) {
         setReportPopupTrigger(!reportPopupTrigger);
     };
 
+    const handleViewChange = () => {
+        props.toggleView();
+    };
+
+
     return(
         <div className="cover-no-overflow">
                 <img id="cover-photo" src={props.currentPost.imgSrc} alt={"Song Cover"}/>
@@ -36,9 +41,7 @@ function ExternalCoverHeader (props) {
                 <AudioPlayer
                     src={props.currentPost.audio}
                 />
-                <div id="coverButtons2">
-                    <button id="like-btn" className="btn" onClick={likePost}>{isLiked ? 'Like':'Unlike'}</button>
-                </div>
+            
                 { /* <div id="description-box">
                     <h3 className="box-title">Description</h3>
                     <p id="description-text">{props.currentPost.description}</p>
@@ -54,8 +57,10 @@ function ExternalCoverHeader (props) {
                 {props.externalView && <a href={props.currentPost.audio} id="download-btn" className="btn" download>Download</a>}
                 <Link to="Features" id="timeline-btn" className="btn">Features</Link>
                 {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
+                {!props.externalView && <Link to="/CoverPageSetting" id="edit-btn" className="btn">Edit</Link>}
             </div>
             <br/>
+            {props.page === 'cover' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>}
         </div>
 
     )
