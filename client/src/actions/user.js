@@ -105,15 +105,12 @@ export const login = (loginComp, changeState) => {
 };
 
 // A function to send a GET request to logout the current user
-export const logout = (app) => {
+export const logout = (changeState) => {
     const url = `${API_HOST}/users/logout`;
 
     fetch(url)
         .then(res => {
-            app.setState({
-                currentUser: null,
-                message: { type: "", body: "" }
-            });
+            changeState({ username: null, isAdmin: null });
         })
         .catch(error => {
             console.log(error);
