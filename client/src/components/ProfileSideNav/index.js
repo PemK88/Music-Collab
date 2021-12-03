@@ -19,14 +19,14 @@ function ProfileSideNav (props) {
                     header: "Followers",
                     list: props.currentUser.followers,
                     externalView: props.externalView
-                }}} className={followersClass}>Followers: <span className="internal-profile-stats-num">{props.currentUser.followersNum}</span></Link>
+                }}} className={followersClass}>Followers: <span className="internal-profile-stats-num">{props.currentUser.followers.length}</span></Link>
             <Link to={{
                 pathname: "/Followings",
                 state: {
                     header: "Followings",
                     list: props.currentUser.followings,
                     externalView: props.externalView
-                }}} className={followingsClass}>Following: <span className="internal-profile-stats-num">{props.currentUser.followingsNum}</span></Link>
+                }}} className={followingsClass}>Following: <span className="internal-profile-stats-num">{props.currentUser.followings.length}</span></Link>
             <Link to="/Profile" className={profileClass}>Profile</Link>
             {!props.externalView && <Link to="/UploadWork" className={uploadClass}>Upload Work</Link>}
             {!props.externalView && <Link to="/ProfileSettings" className={settingsClass}>Settings</Link>}   

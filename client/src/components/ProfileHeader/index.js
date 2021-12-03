@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import "./styles.css";
 import ProfileSideNav from '../ProfileSideNav';
 import ReportPopup from '../ReportPopup';
+import defaultCoverPhoto from '../../data/default_cover_photo.jpeg';
 
 
 function ProfileHeader (props) {
@@ -37,7 +38,7 @@ function ProfileHeader (props) {
         <div className="profile-header no-overflow">
             <div id="hidden-container">
             
-            <img id="profile-photo" src={props.currentUser.imgSrc} alt={"User Profile"}/>
+            <img id="profile-photo" src={props.currentUser.profilePhotoUrl ? props.currentUser.profilePhotoUrl : defaultCoverPhoto} alt={"User Profile"}/>
             <h2 id="profile-name">{props.currentUser.profileName}</h2>
             <br/>
             {props.externalView && <button id={followBtnId} className="btn" onClick={handleFollow}>{followBtnVal}</button>}

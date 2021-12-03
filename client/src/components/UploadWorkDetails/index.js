@@ -6,6 +6,7 @@ import SelectCategories from '../SelectCategories';
 import SelectReference from '../SelectReference';
 import PropTypes from 'prop-types';
 import defaultCoverPhoto from '../../data/default_cover_photo.jpeg';
+import { addPost } from '../../actions/post';
 
 function UploadWorkDetails (props) {
 
@@ -16,9 +17,11 @@ function UploadWorkDetails (props) {
         hashtags:[],
         audio: "",
         description: "",
-        coverImage: defaultCoverPhoto
+        coverImage: defaultCoverPhoto,
+        userId: props.currentUser._id,
+        artist: props.currentUser.profileName
     };
-
+    
     const [uploadFormInputs, setUploadFormInputs] = useState(defaultFormInputs);
     const [audioLabel, setAudioLabel] = useState("Click this area to select a file");
     const [selectedRefWork, setSelectedRefWork] = useState([[]]);
@@ -98,9 +101,11 @@ function UploadWorkDetails (props) {
         setUploadFormInputs(inputs => ({...inputs, [name]: references}));
     }
 
-    const handleUpload = (event) => {
+    const handleUpload = async (event) => {
         //a post request will be made with the upload form data, including the cover image
         event.preventDefault();
+        console.log("about to upload")
+        await addPost(uploadFormInputs);
         setUploadFormInputs(defaultFormInputs);
         setSelectedRefWork([[]]);
         return alert("Your work was successfully uploaded");

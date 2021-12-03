@@ -45,7 +45,7 @@ export const addUser = (formComp) => {
         });
 };
 
-export const checkSession = (changeState) => {
+export const checkSession = (changeState, changeUser) => {
     const url = `${API_HOST}/users/check-session`;
 
     fetch(url)
@@ -59,7 +59,14 @@ export const checkSession = (changeState) => {
         if (json && json.username) {
             console.log('change')
             changeState({ username: json.username, isAdmin: json.isAdmin });
+            return json.username;
         }
+    })
+    .then(username => { 
+        if(username) {
+            getUserDetails(username, changeUser)
+        }
+
     })
     .catch(error => {
         console.log(error + '1');
@@ -113,3 +120,27 @@ export const logout = (app) => {
         });
 };
     
+export const getUserDetails = (username, changeState) => {
+
+    const url = `${API_HOST}/users/details/${username}`;
+
+    fetch(url)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                return res.json();
+            } else {
+                console.log("Could not get user");
+            }
+        })
+        .then(json => {
+            // the resolved promise with the JSON body
+            if(json && json._id) {
+                changeState({...json});
+            }
+            
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};

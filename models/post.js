@@ -37,11 +37,11 @@ const mongoose = require('mongoose')
 // })
 
 const Post = mongoose.model('Post', {
-	id: {
-		type: Number,
-		required: true,
-        unique: true
-	},
+	// id: {
+	// 	type: Number,
+	// 	required: true,
+    //     unique: true
+	// },
 
     coverPhotoUrl: {
         type: String,
@@ -61,7 +61,7 @@ const Post = mongoose.model('Post', {
 	},
 
     artist: {
-		type: String,
+		type: {'id': String, 'profileName': String},
 		required: true,
 		minlegth: 1,
 		trim: true
@@ -91,7 +91,7 @@ const Post = mongoose.model('Post', {
     },
 
     references: {
-        type: [String],
+        type: [Object],
         required: true,
         default: []
     },

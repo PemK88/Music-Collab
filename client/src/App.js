@@ -41,6 +41,7 @@ import ReportView from './components/AdminComponents/ReportView';
 
 import ExplorePage from './pages/ExplorePage/ExplorePage';
 import PersonalizedFeed from './pages/PersonalizedFeed';
+import { getUserDetails } from './actions/user';
 
 
 function App() {
@@ -233,10 +234,16 @@ function App() {
     setState(child)
   }
 
+  const [user, setUser] = useState();
+
+  const changeUser = (newUser) => {setUser(newUser)};
+
 
 
   useEffect(() => {
-      checkSession(changeState); // sees if a user is logged in
+
+      checkSession(changeState, changeUser); // sees if a user is logged in
+
   }, [])
 
   return (
@@ -261,7 +268,7 @@ function App() {
 
           <Route exact path='/Profile' render={() => (<Profile currentUser={currentUser}/>)}/>
           <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
-          <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={currentUser}/>)}/>
+          <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={user}/>)}/>
           <Route exact path='/Followers' render={() => (<Follows currentUser={currentUser}/>)}/>
           <Route exact path='/Followings' render={() => (<Follows currentUser={currentUser}/>)}/>
           <Route exact path='/Features' render={() => (<Features/>)}/>

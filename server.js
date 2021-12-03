@@ -28,7 +28,7 @@ const { mongoose } = require("./db/mongoose");
 // mongoose.set('useFindAndModify', false); // for some deprecation issues
 
 // import the mongoose models
-const { Student } = require("./models/post");
+const { Post } = require("./models/post");
 const { User } = require("./models/user");
 
 // to validate object IDs
@@ -152,6 +152,73 @@ app.get("/users/check-session", (req, res) => {
     }
 });
 
+// A route to get user info
+app.get("/users/details/:username", async (req, res) => {
+    
+    if(!req.params.username) {
+        res.status(401).send('Invalid username provided');
+        return;
+    }
+    
+    const username = req.params.username;
+
+	try {
+
+		const user = await User.findOne({username: username})
+		
+		if(!user) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+		res.send(user)
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+
+//Post Routes
+
+app.post('/posts', mongoChecker, async (req, res) => {
+    log(`Adding post`)
+
+    // Create a new student using the Student mongoose model
+    const post = new Post({
+        coverPhotoUrl: req.body.coverImage,
+        audioUrl: req.body.audio,
+        artist: {id: req.body.userId, profileName: req.body.artist},
+        description: req.body.description,
+        tags: req.body.hashtags,
+        categories: req.body.categories,
+        references: req.body.references,
+        title: req.body.title
+    })
+
+    console.log("this is post: " + post)
+
+
+    // Save student to the database
+    // async-await version:
+    try {
+        const result = await post.save() 
+        res.send(result)
+    } catch(error) {
+        log(error) // log server error to the console, not to the client.
+        if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+        }
+    }
+})
+
+
 /*********************************************************/
 
 /*** API Routes below ************************************/
@@ -179,8 +246,8 @@ app.get("/users/check-session", (req, res) => {
 //     }
 // })
 
-/** Student resource routes **/
-// a POST route to *create* a student
+/** User resource routes **/
+// a POST route to *create* a user
 app.post('/api/users', mongoChecker, async (req, res) => {
     log(`Adding user ${req.body.name}`)
 
