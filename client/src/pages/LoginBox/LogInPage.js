@@ -8,7 +8,7 @@ class LogInPage extends React.Component {
 
     state ={
         username: "",
-        pw: ""
+        password: ""
     }
 
 
@@ -71,7 +71,7 @@ class LogInPage extends React.Component {
                         placeholder="Username" name="username" onChange={this.handleInputChange}/>
                         <br />
                         <input className="inputForm" type="password"
-                            placeholder="Password" name="pw" onChange={this.handleInputChange}/>
+                            placeholder="Password" name="password" onChange={this.handleInputChange}/>
                         <br />
 
                         <button onClick={() => login(this.state, this.props.changeState)}> Sign in</button>

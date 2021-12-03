@@ -41,7 +41,7 @@ export const addUser = (formComp) => {
             }
         })
         .catch(error => {
-            console.log(error);
+            console.log(error + '1');
         });
 };
 
@@ -51,16 +51,18 @@ export const checkSession = (changeState) => {
     fetch(url)
     .then(res => {
         if (res.status === 200) {
+            console.log('200')
             return res.json();
         }
     })
     .then(json => {
         if (json && json.username) {
+            console.log('change')
             changeState({ username: json.username, isAdmin: json.isAdmin });
         }
     })
     .catch(error => {
-        console.log(error);
+        console.log(error + '1');
     });
 }
 
@@ -69,7 +71,7 @@ export const login = (loginComp, changeState) => {
     // Create our request constructor with all the parameters we need
     const request = new Request(`${API_HOST}/users/login`, {
         method: "post",
-        body: JSON.stringify(loginComp.state),
+        body: JSON.stringify(loginComp),
         headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json"
@@ -80,11 +82,13 @@ export const login = (loginComp, changeState) => {
     fetch(request)
         .then(res => {
             if (res.status === 200) {
+                console.log('200')
                 return res.json();
             }
         })
         .then(json => {
             if (json.username !== undefined) {
+                console.log('change')
                 changeState({ username: json.username, isAdmin: json.isAdmin });
             }
         })
