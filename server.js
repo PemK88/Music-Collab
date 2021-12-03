@@ -114,7 +114,9 @@ app.post("/users/login", (req, res) => {
             // Add the user's id to the session.
             // We can check later if this exists to ensure we are logged in.
             req.session.user = user._id;
-            req.session.username = user.username; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
+            req.session.username = user.username;
+            req.session.isAdmin = user.isAdmin;
+             // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
             res.send({ username: user.username,  isAdmin: user.isAdmin});
         })
         .catch(error => {
@@ -144,7 +146,7 @@ app.get("/users/check-session", (req, res) => {
     }
 
     if (req.session.user) {
-        res.send({ username: user.username,  isAdmin: user.isAdmin});
+        res.send({ username: req.session.username,  isAdmin: req.session.isAdmin});
     } else {
         res.status(401).send();
     }
@@ -245,7 +247,7 @@ app.get("*", (req, res) => {
 
 /*************************************************/
 // Express server listening...
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     log(`Listening on port ${port}...`);
 });
