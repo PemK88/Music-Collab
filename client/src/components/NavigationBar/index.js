@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./styles.css"; 
+import { logout } from "../../actions/user";
 
 function NavigationBar(props) {
   const [click, setClick] = useState(false);
   const logOut = () => {
-    props.setRegular(false)
-    setClick(!click)}
+    setClick(!click)
+    logout(props.changeState)
+  }
   const handleClick = () => setClick(!click);
   return (
     <>

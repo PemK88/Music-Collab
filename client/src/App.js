@@ -243,8 +243,8 @@ function App() {
     //this should be home page
     <div>
       <BrowserRouter>
-        {state.username && !state.isAdmin && <NavigationBar setRegular={setIsRegular}/>}
-        {state.username && state.isAdmin && <AdminNavigationBar setAdmin={setIsAdmin} />}
+        {state.username && !state.isAdmin && <NavigationBar changeState={changeState}/>}
+        {state.username && state.isAdmin && <AdminNavigationBar changeState={changeState} />}
         <Switch> 
           <Route exact path='/SignUp' render={() => (<SignUp/>)}/>
 
