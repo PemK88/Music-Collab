@@ -274,7 +274,7 @@ function App() {
           <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentPost={currentPost} currentUser={currentUser} setInfo={setPostInfo}/>)}/>
 
           <Route exact path='/Profile' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
-          <Route path='/Profile/username' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
+          <Route path='/Profile/:rofileName' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
           <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
           <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={user}/>)}/>
           <Route exact path='/Followers' render={() => (<Follows currentUser={user}/>)}/>

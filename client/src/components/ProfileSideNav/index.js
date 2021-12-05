@@ -30,7 +30,7 @@ function ProfileSideNav (props) {
                     externalView: props.externalView ?  props.externalView : false
                 }}} className={followingsClass}>Following: <span className="internal-profile-stats-num">{props.currentUser.followings.length}</span></Link>
             <Link to={{
-                pathname: (props.loggedUser && (props.loggedUser._id === props.currentUser._id ))? "/Profile" : `/Profile/${props.currentUser.username}`,
+                pathname: (props.loggedUser && (props.loggedUser._id === props.currentUser._id ))? "/Profile" : `/Profile/${props.currentUser.profileName}`,
                 state: {
                     userId: props.currentUser._id
                 }}}

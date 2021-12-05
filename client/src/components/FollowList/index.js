@@ -30,7 +30,7 @@ function FollowList(props) {
             return (
                 <li key={idx}>
                     <Link className="follow-list-link" to={{
-                        pathname:`/Profile/${user.username}`,
+                        pathname:`/Profile/${user.profileName}`,
                         state: {
                             userId: user._id
                         }
@@ -38,7 +38,7 @@ function FollowList(props) {
                         <img className="small-profile-picture"src={user.imgSrc} alt='Small Profile'/>
                     </Link> 
                     <Link className="follow-list-link" to={{
-                        pathname:`/Profile/${user.username}`,
+                        pathname:`/Profile/${user.profileName}`,
                         state: {
                             userId: user._id
                         }
