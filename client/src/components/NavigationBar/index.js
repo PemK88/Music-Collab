@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./styles.css"; 
 import { logout } from "../../actions/user";
+import PropTypes from 'prop-types';
 
 function NavigationBar(props) {
   const [click, setClick] = useState(false);
@@ -25,7 +26,11 @@ function NavigationBar(props) {
             <li className="nav-item">
               <NavLink
                 exact
-                to="/Profile"
+                to={{
+                  pathname: "/Profile",
+                  state: {
+                      userId: props.currentUser ? props.currentUser._id : ""
+                  }}}
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
@@ -86,5 +91,9 @@ function NavigationBar(props) {
     </>
   );
 }
+
+NavigationBar.propTypes = {
+  currentUser: PropTypes.object
+};
 
 export default NavigationBar;

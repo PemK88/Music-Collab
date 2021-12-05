@@ -64,15 +64,19 @@ const UserSchema = new mongoose.Schema({
         type: String,
 		required: false
     },
-
-    interests: {
+	biography: {
+        type: String,
+		required: false,
+		default: ''
+    },
+	interests: {
         type: [String],
 		required: false
     },
 
-    uploadedWorks: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-        required: false
+    interests: {
+        type: [String],
+		required: false
     },
 
     downloadedWorks: {

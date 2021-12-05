@@ -41,7 +41,7 @@ import ReportView from './components/AdminComponents/ReportView';
 
 import ExplorePage from './pages/ExplorePage/ExplorePage';
 import PersonalizedFeed from './pages/PersonalizedFeed';
-import { getUserDetails } from './actions/user';
+import { getUserByID } from './actions/user';
 
 
 function App() {
@@ -239,6 +239,11 @@ function App() {
   const changeUser = (newUser) => {setUser(newUser)};
 
 
+  const updateUser = () => {
+
+    getUserByID(user._id, changeUser) 
+
+  }
 
   useEffect(() => {
 
@@ -246,11 +251,13 @@ function App() {
 
   }, [])
 
+
+
   return (
     //this should be home page
     <div>
       <BrowserRouter>
-      {state.username && !state.isAdmin && <NavigationBar changeState={changeState}/>}
+      {state.username && !state.isAdmin && <NavigationBar changeState={changeState} currentUser={user}/>}
         {state.username && state.isAdmin && <AdminNavigationBar changeState={changeState} />}
         <Switch> 
           <Route exact path='/SignUp' render={() => (<SignUp/>)}/>
@@ -266,11 +273,12 @@ function App() {
           <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentPost={currentPost} currentUser={currentUser} setInfo={setPostInfo}/>)}/>
 
-          <Route exact path='/Profile' render={() => (<Profile currentUser={currentUser}/>)}/>
+          <Route exact path='/Profile' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
+          <Route path='/Profile/username' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
           <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
           <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={user}/>)}/>
-          <Route exact path='/Followers' render={() => (<Follows currentUser={currentUser}/>)}/>
-          <Route exact path='/Followings' render={() => (<Follows currentUser={currentUser}/>)}/>
+          <Route exact path='/Followers' render={() => (<Follows currentUser={user}/>)}/>
+          <Route exact path='/Followings' render={() => (<Follows currentUser={user}/>)}/>
           <Route exact path='/Features' render={() => (<Features/>)}/>
           <Route exact path='/Explore' render={() => (<ExplorePage works={works}/>)}/>
           <Route exact path='/Home' render={() => (<PersonalizedFeed works={works}/>)}/>

@@ -4,7 +4,7 @@ const API_HOST = ENV.api_host
 
 
 // A function to send a POST request with a new user
-export const addPost = (workForm) => {
+export const addPost = async (workForm) => {
     // the URL for the request
     const url = `${API_HOST}/posts`;
     console.log("in add post")
@@ -30,6 +30,7 @@ export const addPost = (workForm) => {
             if (res.status === 200) {
                 // If student was added successfully, tell the user.
                 console.log("Post was successfully added")
+                return 1;
             } else {
                 // If server couldn't add the student, tell the user.
                 // Here we are adding a generic message, but you could be more specific in your app.
@@ -39,4 +40,82 @@ export const addPost = (workForm) => {
         .catch(error => {
             console.log("post error: " + error);
         });
+        return 0;
+};
+
+
+export const getUsersPosts = async (userID,setState) => {
+
+    const url = `${API_HOST}/posts/usersPosts/${userID}`;
+
+    try {
+        const res =  await fetch(url);
+
+        if (res.status !== 200) {
+            console.log("Could not get user's posts");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            console.log("got user's posts");
+            console.log("this is result " + result)
+            // the resolved promise with the JSON body
+            if(json) {
+                setState([...json]);
+            }
+            
+        })
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
+};
+
+
+export const getPostsWithIds = async (idsList, setState) => {
+
+    const url = `${API_HOST}/posts/getWorksByIds`;
+
+    const  list = {
+        ids: idsList
+    }
+
+    const request = new Request(url, {
+        method: "post",
+        body: JSON.stringify(list),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    try {
+        const res =  await fetch(request);
+
+        if (res.status !== 200) {
+            console.log("Could not get works");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            console.log("got works");
+            console.log("this is result " + result)
+            // the resolved promise with the JSON body
+            if(json) {
+                setState([...json]);
+            }
+            
+        })
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
 };

@@ -36,6 +36,11 @@ const mongoose = require('mongoose')
 // 	}
 // })
 
+const artistSchema = new mongoose.Schema({
+    id: String,
+    profileName: String
+}, { _id : false });
+
 const Post = mongoose.model('Post', {
 	// id: {
 	// 	type: Number,
@@ -61,9 +66,8 @@ const Post = mongoose.model('Post', {
 	},
 
     artist: {
-		type: {'id': String, 'profileName': String},
+		type: artistSchema,
 		required: true,
-		minlegth: 1,
 		trim: true
 	},
 

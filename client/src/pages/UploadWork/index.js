@@ -8,7 +8,7 @@ function UploadWork (props) {
 
     return (
         <div className="page upload-work">
-            <ProfileHeader externalView={false} currentUser={props.currentUser} page={'upload'}/>
+            <ProfileHeader externalView={false} currentUser={props.currentUser} page={'upload'} loggedUser={props.currentUser}/>
             <UploadWorkDetails currentUser={props.currentUser}/>
         </div>
         

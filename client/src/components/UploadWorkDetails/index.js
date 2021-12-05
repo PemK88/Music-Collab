@@ -21,7 +21,7 @@ function UploadWorkDetails (props) {
         userId: props.currentUser._id,
         artist: props.currentUser.profileName
     };
-    
+
     const [uploadFormInputs, setUploadFormInputs] = useState(defaultFormInputs);
     const [audioLabel, setAudioLabel] = useState("Click this area to select a file");
     const [selectedRefWork, setSelectedRefWork] = useState([[]]);
@@ -101,14 +101,23 @@ function UploadWorkDetails (props) {
         setUploadFormInputs(inputs => ({...inputs, [name]: references}));
     }
 
-    const handleUpload = async (event) => {
+    const handleUpload = (event) => {
         //a post request will be made with the upload form data, including the cover image
         event.preventDefault();
         console.log("about to upload")
-        await addPost(uploadFormInputs);
+        const result = addPost(uploadFormInputs)
+
+        console.log("this is result" + result)
+            // the resolved promise with the JSON body
+        if(result){
+            alert("Your work was successfully uploaded");
+        }else{
+            alert("Your work was not uploaded. Try again");
+        }
+        
         setUploadFormInputs(defaultFormInputs);
         setSelectedRefWork([[]]);
-        return alert("Your work was successfully uploaded");
+        setAudioLabel("Click this area to select a file");
     }
 
 

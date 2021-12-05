@@ -141,3 +141,109 @@ export const getUserDetails = (username, changeState) => {
             console.log(error);
         });
 };
+
+   
+export const getUserByID = (userId, changeState) => {
+
+    const url = `${API_HOST}/users/${userId}`;
+
+    fetch(url)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                return res.json();
+            } else {
+                console.log("Could not get user");
+            }
+        })
+        .then(json => {
+            // the resolved promise with the JSON body
+            if(json && json._id) {
+                changeState({...json});
+            }
+            
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const updateUserBioByID = (userId, biography) => {
+
+    const url = `${API_HOST}/users/bio`;
+
+    const body = {
+        userId: userId,
+        biography: biography
+    }
+
+    const request = new Request(url, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("updated bio")
+                return;
+            } else {
+                console.log("Could not update bio");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+
+
+export const getUsersWithIds = async (idsList, setState) => {
+
+    const url = `${API_HOST}/users/getUsersByIds`;
+
+    const  list = {
+        ids: idsList
+    }
+
+    const request = new Request(url, {
+        method: "post",
+        body: JSON.stringify(list),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    try {
+        const res =  await fetch(request);
+
+        if (res.status !== 200) {
+            console.log("Could not get users");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            console.log("got users");
+            console.log("this is result " + result)
+            // the resolved promise with the JSON body
+            if(json) {
+                setState([...json]);
+            }
+            
+        })
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
+};

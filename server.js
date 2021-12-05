@@ -183,9 +183,147 @@ app.get("/users/details/:username", async (req, res) => {
 });
 
 
+// A route to get user info
+app.get("/users/:id", async (req, res) => {
+    
+    if(!req.params.id) {
+        res.status(401).send('Invalid id provided');
+        return;
+    }
+    
+    const id = req.params.id;
+
+	try {
+
+		const user = await User.findOne({_id: id})
+		
+		if(!user) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+		res.send(user)
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+
+app.patch("/users/bio", async (req, res) => {
+
+    const id = req.body.userId;
+    const bio = req.body.biography;
+
+	try {
+
+        		
+		const result = await User.findOneAndUpdate({_id: id} , {$set: {"biography" : bio }}, {new: true, useFindAndModify: false})
+
+
+		if(!result) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        
+
+		res.send(result)
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+app.post('/users/getUsersByIds', async (req, res) => {
+	// Add code here
+
+    const ids = req.body.ids;
+
+	try {
+		
+        const results = await User.find({
+            '_id': {$in : ids}
+        });
+
+        results ? res.send(results) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+
+
+
+/// Route for getting works for 1 user
+app.get('/posts/usersPosts/:userId', async (req, res) => {
+	// Add code here
+
+	const userId = req.params.userId
+
+	try {
+		const post = await Post.find({"artist.id": userId})
+		post ? res.send(post) : res.status(404).send('Resource not found')
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+
+
+//Posts routes
+
+app.post('/posts/getWorksByIds', async (req, res) => {
+	// Add code here
+
+    const ids = req.body.ids;
+
+	try {
+		
+        const results = await Post.find({
+            '_id': {$in : ids}
+        });
+
+        results ? res.send(results) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+
+
+
 //Post Routes
 
-app.post('/posts', mongoChecker, async (req, res) => {
+app.post('/posts', async (req, res) => {
     log(`Adding post`)
 
     // Create a new student using the Student mongoose model
@@ -210,11 +348,7 @@ app.post('/posts', mongoChecker, async (req, res) => {
         res.send(result)
     } catch(error) {
         log(error) // log server error to the console, not to the client.
-        if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
-            res.status(500).send('Internal server error')
-        } else {
-            res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
-        }
+        res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
     }
 })
 
