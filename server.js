@@ -267,7 +267,68 @@ app.post('/users/getUsersByIds', async (req, res) => {
 
 })
 
+//add a user to another users followings list 
+app.post('/users/addFollowing/:userId/:addedUserId', async (req, res) => {
+	// Add code here
 
+
+    const userId = req.params.userId;
+    const addedUserId = req.params.addedUserId;
+
+
+	try {
+		
+        const results = await User.findOneAndUpdate({_id: userId}, {$addToSet: {followings: addedUserId} }, {new: true, useFindAndModify: false})
+        console.log(results)
+        if(!results) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        const results2 = await User.findOneAndUpdate({_id: addedUserId}, {$addToSet: {followers: userId} }, {new: true, useFindAndModify: false})
+        console.log(results2)
+        results2 ? res.send(results2) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+app.delete('/users/removeFollowing/:userId/:addedUserId', async (req, res) => {
+	// Add code here
+
+    const userId = req.params.userId;
+    const addedUserId = req.params.addedUserId;
+
+	try {
+		
+        const results = await User.findOneAndUpdate({_id: userId}, {$pull: {followings: addedUserId} }, {new: true, useFindAndModify: false})
+
+        if(!results) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        const results2 = await User.findOneAndUpdate({_id: addedUserId}, {$pull: {followers: userId} }, {new: true, useFindAndModify: false})
+
+        results2 ? res.send(results2) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
 
 
 /// Route for getting works for 1 user

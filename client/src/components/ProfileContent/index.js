@@ -11,10 +11,10 @@ function ProfileContent (props) {
 
     const[editMode, setEditMode] = useState(false);
     const[editBtnVal, setEditBtnVal] = useState('Edit');
-    const[bio, setBio] = useState(props.user.biography)
+    const[bio, setBio] = useState()
     const[profileWorks, setProfileWorks] = useState([]);
     const[downloadedWorks, setDownloadedWorksState] = useState([]);
-    const[interests, setInterests] = useState(props.user.interests)
+    const[interests, setInterests] = useState()
 
     const setProfileWorksState = (works) => {
         setProfileWorks(works)

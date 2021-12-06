@@ -29,7 +29,8 @@ function NavigationBar(props) {
                 to={{
                   pathname: "/Profile",
                   state: {
-                      userId: props.currentUser ? props.currentUser._id : ""
+                      userId: props.currentUser ? props.currentUser._id : "",
+                      passedUser: ""
                   }}}
                 activeClassName="active"
                 className="nav-links"

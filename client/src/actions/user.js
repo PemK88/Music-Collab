@@ -247,3 +247,64 @@ export const getUsersWithIds = async (idsList, setState) => {
     };
     
 };
+
+
+
+export const addFollowing = (userId, addedUserId) => {
+
+    const url = `${API_HOST}/users/addFollowing/${userId}/${addedUserId}`;
+
+    const request = new Request(url, {
+        method: "POST",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("added following")
+                return;
+            } else {
+                console.log("Could not add following");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+
+export const removeFollowing = (userId, addedUserId) => {
+
+    const url = `${API_HOST}/users/removeFollowing/${userId}/${addedUserId}`;
+
+    const request = new Request(url, {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("removed following")
+                return;
+            } else {
+                console.log("Could not remove following");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+

@@ -13,17 +13,19 @@ function Profile (props) {
 
     const [externalView, setExternalView] = useState(false);
     const location = useLocation();
-    const {userId} = location.state;
-    const [user, setUser] = useState(props.currentUser);
+    const {userId, passedUser} = location.state;
+    const [user, setUser] = useState();
+
+    const getUser = () => {
+        console.log("in async")
+
+        getUserByID(userId, setUser);
+
+    }
 
     useEffect(() => {
 
-        const getUser = () =>{
-            console.log("in async")
-    
-            getUserByID(userId, setUser);
-    
-        }
+        
         console.log("in profile page")
         console.log("this is userID " + userId)
         console.log("this is current User ID " + props.currentUser)
@@ -32,14 +34,21 @@ function Profile (props) {
         if(props.currentUser && userId) {
             console.log("in here")
             if(props.currentUser._id !== userId) {
+                if(passedUser) {
+                    userId === passedUser._id ? setUser(passedUser) : getUser()
+                }
+                else {
+                    getUser()
+                }
                 setExternalView(true);
-                debugger;
-                getUser()
             }
-            
+            else {
+                setUser(props.currentUser)
+                setExternalView(false);
+            }
         }
   
-    }, [userId])
+    }, [userId, props.currentUser])
 
     const toggleView = () => {
         setExternalView(!externalView);
@@ -50,8 +59,8 @@ function Profile (props) {
 
     return (
        <div className="page"> 
-           {props.currentUser && <ProfileHeader externalView={externalView} currentUser={user} page={'profile'} toggleView={toggleView} loggedUser={props.currentUser}/>}
-           {props.currentUser && <ProfileContent user={user} externalView={externalView} updateUser={props.updateUser}/>}
+           {user && <ProfileHeader externalView={externalView} currentUser={user} page={'profile'} toggleView={toggleView} loggedUser={props.currentUser} updateUser={props.updateUser} updateOtherUser={getUser}/>}
+           {user && <ProfileContent user={user} externalView={externalView} updateUser={props.updateUser}/>}
         </div>
 
     );

@@ -9,36 +9,26 @@ import { getUserByID } from '../../actions/user';
 
 function Follows (props) {
     const location = useLocation();
-    const {header, list, user, externalView} = location.state;
-    // const [user, setUser] = useState(props.currentUser);
-    // const [externalView, setExternalView] = useState(false);
+    const {header, user, externalView} = location.state;
+    const [otherUser, setUser] = useState(user);
 
-    // const getUser = async () =>{
-    //     console.log("in async")
 
-    //     await getUserByID(userId, setUser);
+    const updateOtherUser = () => {
+        getUserByID(otherUser._id, setUser);
+    }
 
-    // }
-
-    // if(props.currentUser && userId) {
-    //     console.log("in here")
-    //     if(props.currentUser._id !== userId) {
-    //         setExternalView(true);
-    //         debugger;
-    //         getUser()
-    //     }
-        
-    // }
     return (
         <div className="page">
-            <ProfileHeader externalView={externalView} currentUser={user} page={header === 'Followings'? 'followings':'followers'} loggedUser={props.currentUser}/>
-            <FollowList header={header} list={list} user={user} />
+            <ProfileHeader externalView={externalView} currentUser={otherUser} page={header === 'Followings'? 'followings':'followers'} loggedUser={props.currentUser}
+                updateUser={props.updateUser} updateOtherUser={updateOtherUser}/>
+            <FollowList header={header} list={otherUser ? (header === 'Followings'? otherUser.followings : otherUser.followers) : []} user={user} />
         </div>
     );
 }
 
 Follows.propType = {
-    currentUser: PropTypes.object
+    currentUser: PropTypes.object,
+    updateUser: PropTypes.func
 };
 
 export default Follows;
