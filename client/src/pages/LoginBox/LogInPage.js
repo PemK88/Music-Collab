@@ -74,7 +74,10 @@ class LogInPage extends React.Component {
                             placeholder="Password" name="password" onChange={this.handleInputChange}/>
                         <br />
 
-                        <button onClick={() => login(this.state, this.props.changeState)}> Sign in</button>
+                        <button onClick={(e) => {
+                            e.preventDefault();
+                            login(this.state, this.props.changeState);
+                        }}> Sign in</button>
                         <br />
                         <div>
                             <p>No account? <Link to="/SignUp">Sign up here</Link></p>
