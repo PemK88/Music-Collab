@@ -58,7 +58,7 @@ export const checkSession = (changeState, changeUser) => {
     .then(json => {
         if (json && json.username) {
             console.log('change')
-            changeState({ username: json.username, isAdmin: json.isAdmin });
+            changeState({ username: json.username, isAdmin: json.isAdmin, user: json.user });
             return json.username;
         }
     })
@@ -80,7 +80,7 @@ export const login = (loginComp, changeState) => {
         method: "post",
         body: JSON.stringify(loginComp),
         headers: {
-            Accept: "application/json, text/plain, */*",
+            Accept: "application/json, text/plain, /",
             "Content-Type": "application/json"
         }
     });
@@ -96,7 +96,7 @@ export const login = (loginComp, changeState) => {
         .then(json => {
             if (json.username !== undefined) {
                 console.log('change')
-                changeState({ username: json.username, isAdmin: json.isAdmin });
+                changeState({ username: json.username, isAdmin: json.isAdmin, user: json.user });
             }
         })
         .catch(error => {

@@ -227,7 +227,8 @@ function App() {
 
   const [state, setState] = useState({
     username: null,
-    isAdmin: null
+    isAdmin: null,
+    user: null
   })
 
   function changeState(child) {
@@ -236,7 +237,9 @@ function App() {
 
   const [user, setUser] = useState();
 
-  const changeUser = (newUser) => {setUser(newUser)};
+  const changeUser = (newUser) => {
+    setUser(newUser)
+  };
 
 
   const updateUser = () => {
@@ -247,9 +250,15 @@ function App() {
 
   useEffect(() => {
 
-      checkSession(changeState, changeUser); // sees if a user is logged in
+      checkSession(changeState); // sees if a user is logged in
 
   }, [])
+
+  useEffect(() => {
+
+    setUser(state.user); // sees if a user is logged in
+
+  }, [state.user])
 
 
 
@@ -275,7 +284,7 @@ function App() {
 
           <Route exact path='/Profile' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
           <Route path='/Profile/:profileName' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
-          <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
+          <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={user}/>)}/>
           <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={user}/>)}/>
           <Route exact path='/Followers' render={() => (<Follows currentUser={user} updateUser={updateUser}/>)}/>
           <Route exact path='/Followings' render={() => (<Follows currentUser={user} updateUser={updateUser}/>)}/>

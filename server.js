@@ -102,6 +102,7 @@ app.use(
 );
 
 // A route to login and create a session
+// A route to login and create a session
 app.post("/users/login", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -116,8 +117,9 @@ app.post("/users/login", (req, res) => {
             req.session.user = user._id;
             req.session.username = user.username;
             req.session.isAdmin = user.isAdmin;
+            req.session.object = user
              // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-            res.send({ username: user.username,  isAdmin: user.isAdmin});
+            res.send({ username: user.username,  isAdmin: user.isAdmin, user: user });
         })
         .catch(error => {
             res.status(400).send()
@@ -146,7 +148,7 @@ app.get("/users/check-session", (req, res) => {
     }
 
     if (req.session.user) {
-        res.send({ username: req.session.username,  isAdmin: req.session.isAdmin});
+        res.send({ username: req.session.username,  isAdmin: req.session.isAdmin, user: req.session.object});
     } else {
         res.status(401).send();
     }
@@ -161,15 +163,20 @@ app.get("/users/details/:username", async (req, res) => {
     }
     
     const username = req.params.username;
+    console.log("this is username: " + username)
 
 	try {
 
 		const user = await User.findOne({username: username})
+
+        console.log("this is user details: " + user)
 		
 		if(!user) {
 			res.status(404).send('Resource not found')
 			return;
 		}
+
+        
 
 		res.send(user)
 
