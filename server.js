@@ -575,6 +575,7 @@ app.use(express.static(path.join(__dirname, "/client/build")));
 
 // All routes other than above will go to index.html
 app.get("*", (req, res) => {
+    log("about to get index.html")
     // check for page routes that we expect in the frontend to provide correct status code.
     const goodPageRoutes = ["/", "/LogIn", "/SignUp"];
     if (!goodPageRoutes.includes(req.url)) {
