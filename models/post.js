@@ -48,13 +48,13 @@ const Post = mongoose.model('Post', {
     //     unique: true
 	// },
 
-    coverPhotoUrl: {
-        type: String,
+    coverPhoto: {
+        type: Object,
 		required: false
     },
 
-    audioUrl: {
-        type: String,
+    audio: {
+        type: Object,
 		required: true
     },
 

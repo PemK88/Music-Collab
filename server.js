@@ -21,7 +21,8 @@ const app = express();
 
 // enable CORS if in development, for React local development server to connect to the web server.
 const cors = require('cors')
-if (env !== 'production') { app.use(cors()) }
+//if (env !== 'production') { app.use(cors()) }
+app.use(cors())
 
 // mongoose and mongo connection
 const { mongoose } = require("./db/mongoose");
@@ -34,15 +35,39 @@ const { User } = require("./models/user");
 // to validate object IDs
 const { ObjectID } = require("mongodb");
 
+// multipart middleware: allows you to access uploaded file from req.file
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
+
+// cloudinary: configure using credentials found on your Cloudinary Dashboard
+// sign up for a free account here: https://cloudinary.com/users/register/free
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'drb9bln9e',
+    api_key: '613421648522464',
+    api_secret: 'u2mxWbV7NoXdDAo9pzfMh1lodw8'
+});
+
 // body-parser: middleware for parsing parts of the request into a usable object (onto req.body)
 const bodyParser = require('body-parser') 
-app.use(bodyParser.json()) // parsing JSON body
-app.use(bodyParser.urlencoded({ extended: true })); // parsing URL-encoded form data (from form POST requests)
+app.use(bodyParser.json({
+    limit: '50mb'
+  }));
+  
+  app.use(bodyParser.urlencoded({
+    limit: '50mb',
+    parameterLimit: 100000,
+    extended: true 
+  }));
+  
+// app.use(bodyParser.json()) // parsing JSON body
+// app.use(bodyParser.urlencoded({ extended: true })); // parsing URL-encoded form data (from form POST requests)
 
 
 // express-session for managing user sessions
 const session = require("express-session");
-const MongoStore = require('connect-mongo') // to store session information on the database in production
+const MongoStore = require('connect-mongo'); // to store session information on the database in production
+//const { construct } = require('core-js/library/fn/reflect');
 
 
 function isMongoError(error) { // checks for first error returned by promise rejection if Mongo database suddently disconnects
@@ -387,17 +412,27 @@ app.post('/posts/getWorksByIds', async (req, res) => {
 })
 
 
-
-
-//Post Routes
-
-app.post('/posts', async (req, res) => {
+app.post('/posts', multipartMiddleware, async (req, res) => {
     log(`Adding post`)
+    try {
+        console.log(`This is body ${req.body}`)
+    }
+    catch(error) {
+        log("error happened here 2")
+    }
 
+    try {
+        console.log(req.files)
+    }
+    catch(error) {
+        log("error happened here 3")
+    }
+    
+ 
     // Create a new student using the Student mongoose model
     const post = new Post({
-        coverPhotoUrl: req.body.coverImage,
-        audioUrl: req.body.audio,
+        coverPhoto: {},
+        audio: {},
         artist: {id: req.body.userId, profileName: req.body.artist},
         description: req.body.description,
         tags: req.body.hashtags,
@@ -406,15 +441,52 @@ app.post('/posts', async (req, res) => {
         title: req.body.title
     })
 
-    console.log("this is post: " + post)
-
-
-    // Save student to the database
-    // async-await version:
     try {
+        console.log("hi");
+
+        await cloudinary.uploader.upload(
+            req.files.originalImage.path, // req.files contains uploaded files
+            function (err, result) {
+                console.log(err)
+                // Create a new image using the Image mongoose model
+                const img = {
+                    imageId: result.public_id, // image id on cloudinary server
+                    imageUrl: result.url, // image url on cloudinary server
+                    createdOn: new Date(),
+                };
+
+                post.coverPhoto = img
+            });
+
+        console.log("uploaded image")
+
+        await cloudinary.v2.uploader.upload(
+            req.files.originalAudio.path, 
+            {
+                resource_type: "video",
+            },
+            function (err, result) {
+
+                console.log(err)
+
+                // Create a new image using the Image mongoose model
+                const audio = {
+                    audioId: result.public_id, // image id on cloudinary server
+                    audioUrl: result.url, // image url on cloudinary server
+                    createdOn: new Date(),
+                };
+
+                post.coverPhoto = audio;
+            });
+
+        console.log("uploaded audio")
+
+
         const result = await post.save() 
-        res.send(result)
+        result ? res.send(result) :  res.status(400).send('Failed to add work')
+
     } catch(error) {
+        log("error happened here 1")
         log(error) // log server error to the console, not to the client.
         res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
     }

@@ -15,10 +15,9 @@ export const addPost = async (workForm) => {
     // Create our request constructor with all the parameters we need
     const request = new Request(url, {
         method: "post",
-        body: JSON.stringify(post),
+        body: post,
         headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json"
+            Accept: "application/json, text/plain, */*"
         }
     });
 
