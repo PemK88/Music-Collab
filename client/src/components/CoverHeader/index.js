@@ -86,8 +86,8 @@ function CoverHeader (props) {
                 {props.externalView && <a href={props.currentPost.audio} id="download-btn" className="btn" download>Download</a>}
                 <Link to="Features" id="timeline-btn" className="btn">Features</Link>
                 {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
-                {!props.externalView && <Link to="/CoverPageSettings" id="edit-btn" className="btn">Edit</Link>}
-            </div>
+                {!props.externalView && <Link to={{pathname: "/CoverPageSettings", state : {postId: "61afc4d158f7ebcce10ebfcb"}}} id="edit-btn" className="btn">Edit</Link>}
+            </div> 
             <br/>
             {props.page === 'cover' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>}
         </div>

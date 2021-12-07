@@ -84,7 +84,7 @@ function ExplorePage (props) {
 
 
     const allWorks = works.map((work) => {
-        return {name: work.title + " - " + work.artist.profileName, id: work._id }});
+        return {name: work.title + " by " + work.artist.profileName, id: work._id }});
 
 
     useEffect(() => {

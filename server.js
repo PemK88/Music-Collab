@@ -372,17 +372,6 @@ app.patch("/users/updateCoverPhoto", multipartMiddleware, async (req, res) => {
 
 	try {
 
-        if(imageId) {
-            await cloudinary.v2.uploader.destroy(
-                imageId, // req.files contains uploaded files
-                function (err, result) {
-                    if(err) {
-                        console.log(err)
-                        return res.status(400).send(err)
-                    }
-                });
-        }
-
         await cloudinary.v2.uploader.upload(
             req.files.image.path, // req.files contains uploaded files
             function async (err, result) {
@@ -401,12 +390,25 @@ app.patch("/users/updateCoverPhoto", multipartMiddleware, async (req, res) => {
                     .then( result2 => {
                         if(!result2) {
                             res.status(404).send('Resource not found')
-                            return;
+                        }
+                        else {
+                            res.send(result2)
                         }
         
-                        res.send(result2)
+                        
                     })
             });
+
+        if(imageId) {
+            await cloudinary.v2.uploader.destroy(
+                imageId, // req.files contains uploaded files
+                function (err, result) {
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+                });
+    }
 
 
 	} catch(error) {
@@ -693,6 +695,158 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
         res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
     }
 })
+
+
+
+app.patch('/posts/updatePost', multipartMiddleware, async (req, res) => {
+    log(`Updating post`)
+
+    const id = req.body.postId;
+    const imageId = req.body.imageId;
+    const audioId = req.body.audioId;
+ 
+    // Create a new student using the Student mongoose model
+    let post = {
+        description: req.body.description,
+        tags: JSON.parse(req.body.hashtags),
+        categories: req.body.categories,
+        references: JSON.parse(req.body.references),
+        title: req.body.title
+    }
+
+    try {
+
+        if(req.files && req.files.originalImage) {
+
+            await cloudinary.v2.uploader.upload(
+                req.files.originalImage.path, // req.files contains uploaded files
+                function (err, result) {
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+                    // Create a new image using the Image mongoose model
+                    const img = {
+                        imageId: result.public_id, // image id on cloudinary server
+                        imageUrl: result.url, // image url on cloudinary server
+                        createdOn: new Date(),
+                    };
+
+                    post.coverPhoto = img
+                });
+
+                console.log("uploaded image")
+        }
+        
+        if(req.files && req.files.originalAudio) {
+        
+            await cloudinary.v2.uploader.upload(
+                req.files.originalAudio.path, 
+                {
+                    resource_type: "video",
+                },
+                function (err, result) {
+
+                    
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+
+                    // Create a new image using the Image mongoose model
+                    const audio = {
+                        audioId: result.public_id, // image id on cloudinary server
+                        audioUrl: result.url, // image url on cloudinary server
+                        createdOn: new Date(),
+                    };
+
+                    post.audio = audio;
+                });
+
+            console.log("uploaded audio")
+        }
+
+        Post.findOneAndUpdate({_id: id} , {$set: post}, {new: true, useFindAndModify: false})
+                    .then( result2 => {
+                        if(!result2) {
+                            res.status(404).send('Resource not found')
+                        }
+                        else {
+                            res.send(result2)
+                        }
+                        
+                    })
+        if(req.files && req.files.originalImage) {
+            await cloudinary.v2.uploader.destroy(
+                imageId, // req.files contains uploaded files
+                function (err, result) {
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+                });
+        }
+        if(req.files && req.files.originalAudio) {
+
+            await cloudinary.v2.uploader.destroy(
+                audioId, // req.files contains uploaded files
+                function (err, result) {
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+                });
+        }
+
+    } catch(error) {
+        log(error) // log server error to the console, not to the client.
+        res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+    }
+})
+
+
+app.get("/api/posts/:id", async (req, res) => {
+    
+    const id = req.params.id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const post = await Post.findById(id)
+		if (!post) {
+			post.status(404).send('Resource not found')  // could not find this student
+		} else {
+			/// sometimes we might wrap returned object in another object:
+			//res.send({student})   
+			res.send({  
+                id: post._id,
+                coverPhoto: post.coverPhoto,
+                audio: post.audio,
+                title: post.title,
+                artist: post.artist,
+                description: post.description,
+                likesCount: post.likesCount,
+                recievedLikes: post.recievedLikes,
+                categories: post.categories,            
+                tags: post.tags,
+                references: post.references,
+                comments: post.comments,
+                dateCreated: post.dateUploaded
+            });
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send('Internal Server Error')  // server error
+	}
+	
+});
 
 
 /*********************************************************/

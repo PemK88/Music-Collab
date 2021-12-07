@@ -47,6 +47,50 @@ export const addPost = async (workForm) => {
         return 0;
 };
 
+export const updatePost = async (workForm) => {
+    // the URL for the request
+    const url = `${API_HOST}/posts/updatePost`;
+    console.log("in add post")
+
+    // The data we are going to send in our request
+    const post = workForm;
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "PATCH",
+        body: post,
+        headers: {
+            Accept: "application/json, text/plain, */*"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(function (res) {
+            // Handle response we get from the API.
+            // Usually check the error codes to see what happened.
+            if (res.status === 200) {
+                // If student was added successfully, tell the user.
+                alert("Your work was successfully uploaded");
+                console.log("Post was successfully added")
+                
+            } else {
+                // If server couldn't add the student, tell the user.
+                // Here we are adding a generic message, but you could be more specific in your app.
+                alert("Your work was not uploaded. Try again");
+                console.log("failed to add post")
+                
+            }
+        })
+        .catch(error => {
+            console.log("post error: " + error);
+            alert("Your work was not uploaded. Try again");
+            
+        });
+        return 0;
+};
+
+
 
 export const getUsersPosts = async (userID,setState) => {
 
@@ -192,4 +236,48 @@ export const getAllPosts = async (setState) => {
         console.log(error);
     };
     
+};
+
+export const getPost = (id, setPost) => {
+
+    const url = `${API_HOST}/api/posts/${id}`;
+
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "get",
+        headers: {
+            Accept: "application/json, text/plain, /",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                console.log('200')
+                return res.json();
+            }
+        })
+        .then(json => {
+            setPost({
+                id: json.id,
+                coverPhoto: json.coverPhoto,
+                audio: json.audio,
+                title: json.title,
+                artist: json.artist,
+                description: json.description,
+                recievedLikes: json.recievedLikes,
+                likesCount: json.likesCount,
+                categories: json.categories,            
+                tags: json.tags,
+                references: json.references,
+                comments: json.comments,
+                dateCreated: json.dateCreated
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
 };

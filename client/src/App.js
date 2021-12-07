@@ -280,7 +280,7 @@ function App() {
 
           <Route exact path='/ExternalCoverPage' render={() => (<ExternalCoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
-          <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentPost={currentPost} currentUser={currentUser} setInfo={setPostInfo}/>)}/>
+          <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentUser={state}/>)}/>
 
           <Route exact path='/Profile' render={() => (<Profile currentUser={state}/>)}/>
           <Route path='/Profile/:profileName' render={() => (<Profile currentUser={state}/>)}/>

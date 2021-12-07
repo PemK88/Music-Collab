@@ -13,7 +13,7 @@ function UploadWorkDetails (props) {
 
     const defaultFormInputs = {
         title: "",
-        references: [{id: null, description: ""}],
+        references: [{id: null, description: "", name: null}],
         categories: [],
         hashtags:[],
         audio: "",
@@ -32,14 +32,14 @@ function UploadWorkDetails (props) {
 
 
 
-    useEffect( ()=> {
+    useEffect(() => {
 
         getPostsWithIds(props.currentUser.downloadedWorks, setDownloadedWorks);
 
     }, [props.currentUser])
 
     const downloads = downloadedWorks.map(work => {
-        return {name: work.title + " - " + work.artist.profileName, id: work._id }});
+        return {name: work.title + " by " + work.artist.profileName, id: work._id }});
 
     const handleInputChange = (event) => {
         const name = event.target.name;
@@ -110,9 +110,10 @@ function UploadWorkDetails (props) {
         }
     }
 
-    const handleRefSelect = (idx, workId, selectedWork) => {
+    const handleRefSelect = (idx, workId, workName, selectedWork) => {
         let references = [...uploadFormInputs.references];
         references[idx].id = workId;
+        references[idx].name = workName;
         const name = 'references';
         setUploadFormInputs(inputs => ({...inputs, [name]: references}));
         let works = [...selectedRefWork];
@@ -213,7 +214,7 @@ function UploadWorkDetails (props) {
                                     return (
                                         <div className="add-ref-box" key={idx}> 
                                             <SelectReference options={downloads} selectedOptions={[]} selectLimit={1}
-                                                handleSelect={selectedWork => handleRefSelect(idx, selectedWork.length ? selectedWork[0].id : "", selectedWork)}/>
+                                                handleSelect={selectedWork => handleRefSelect(idx, selectedWork.length ? selectedWork[0].id : "", selectedWork.length ? selectedWork[0].name : "", selectedWork)}/>
                                             <textarea className="description-text-box ref-description" name="description" value={uploadFormInputs.references[idx].description}
                                                 onChange={event => handleDescriptionChange(idx, event)} placeholder={"How did you use this work?"}/>
                                             {uploadFormInputs.references.length > 1 && <button className="remove-ref-btn red-box-btn"
