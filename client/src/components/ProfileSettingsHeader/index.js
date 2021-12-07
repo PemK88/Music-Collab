@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
 import ProfileSideNav from '../ProfileSideNav';
@@ -12,6 +12,17 @@ function ProfileSettingsHeader (props) {
     const [savedProfileImageSrc, setSavedProfileImageSrc] = useState(props.currentUser.profilePhoto ? props.currentUser.profilePhoto.imageUrl : defaultProfilePhoto);
     const [profileImageSrc, setProfileImageSrc] = useState(props.currentUser.profilePhoto ? props.currentUser.profilePhoto.imageUrl : defaultProfilePhoto);
     const [imageFile, setImageFile] = useState();
+    const [followersNum, setFollowersNum] = useState()
+    const [followingsNum, setFollowingsNum] = useState()
+
+
+    useEffect(() =>
+    {
+        if(props.currentUser) {
+            setFollowersNum(props.currentUser.followers.length)
+            setFollowingsNum(props.currentUser.followings.length)
+        }
+    }, [props.currentUser])
    
     const handleImgChange = (event) => {
         const image = event.target.files[0];
@@ -59,7 +70,7 @@ function ProfileSettingsHeader (props) {
                 <br/>
                 <br/>
                 <br/>
-                <ProfileSideNav page={'settings'} currentUser={props.currentUser} externalView={false}/>
+                <ProfileSideNav page={'settings'} currentUser={props.currentUser} externalView={false} followersNum={followersNum} followingsNum={followingsNum}/>
             </div> 
         );
 }

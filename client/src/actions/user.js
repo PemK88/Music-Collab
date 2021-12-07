@@ -196,6 +196,35 @@ export const updateUserBioByID = (userId, biography) => {
         });
 };
 
+export const updateUserProfileById = (data) => {
+
+    const url = `${API_HOST}/users/updateProfile`;
+
+    const request = new Request(url, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("updated user")
+                return;
+            } else {
+                console.log("Could not update user");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
 
 export const updateUserPhotoByID = (form) => {
 
@@ -219,7 +248,7 @@ export const updateUserPhotoByID = (form) => {
                 console.log("updated photo")
                 return;
             } else {
-                console.log("Could not photo");
+                console.log("Could update not photo");
             }
         })
         .catch(error => {

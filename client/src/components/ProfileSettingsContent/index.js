@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import "./styles.css";
 import SelectCategories from '../SelectCategories';
 import FormRow from '../FormRow';
+import { updateUserProfileById } from '../../actions/user';
 
 
 function ProfileSettingsContent (props) {
@@ -38,6 +39,18 @@ function ProfileSettingsContent (props) {
     const handleEdit = (event) => {
         //on save changes a post request will be made to the server with the profile form inputs
         event.preventDefault();
+        if(editProfile) {
+            if(!profileFormInputs.profileName || !profileFormInputs.email) {
+                setEditProfile(!editProfile);
+                alert("Invalid Inputs");
+                return;
+            }
+            else {
+                const id = {"id": props.currentUser._id};
+                updateUserProfileById({...id, ...profileFormInputs});
+            }
+        }
+        
         setEditProfile(!editProfile);
         
     };

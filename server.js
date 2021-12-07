@@ -273,6 +273,36 @@ app.patch("/users/bio", async (req, res) => {
 	
 });
 
+app.patch("/users/updateProfile", async (req, res) => {
+
+    const id = req.body.id;
+    const profileName = req.body.profileName;
+    const email = req.body.email;
+    const interests = req.body.interests;
+
+	try {
+
+        		
+		const result = await User.findOneAndUpdate({_id: id} , {$set: {"profileName" : profileName, "email": email, "interests": interests }}, {new: true, useFindAndModify: false})
+
+
+		if(!result) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        
+
+		res.send(result)
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
 app.patch("/users/updateCoverPhoto", multipartMiddleware, async (req, res) => {
 
     const id = req.body.userId;
