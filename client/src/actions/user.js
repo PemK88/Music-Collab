@@ -197,6 +197,38 @@ export const updateUserBioByID = (userId, biography) => {
 };
 
 
+export const updateUserPhotoByID = (form) => {
+
+    const url = `${API_HOST}/users/updateCoverPhoto`;
+
+    const formData = form;
+
+    const request = new Request(url, {
+        method: "PATCH",
+        body: formData,
+        headers: {
+            Accept: "application/json, text/plain, */*"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("updated photo")
+                return;
+            } else {
+                console.log("Could not photo");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+
+
 
 export const getUsersWithIds = async (idsList, setState) => {
 

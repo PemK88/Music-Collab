@@ -267,7 +267,62 @@ app.patch("/users/bio", async (req, res) => {
 
 	} catch(error) {
 		log(error) // log server error to the console, not to the client.
-		
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+app.patch("/users/updateCoverPhoto", multipartMiddleware, async (req, res) => {
+
+    const id = req.body.userId;
+    const imageId = req.body.imageId;
+
+    if(!id) {
+        return res.status(400).send("Invald IDs")
+    }
+
+	try {
+
+        if(imageId) {
+            await cloudinary.v2.uploader.destroy(
+                imageId, // req.files contains uploaded files
+                function (err, result) {
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+                });
+        }
+
+        await cloudinary.v2.uploader.upload(
+            req.files.image.path, // req.files contains uploaded files
+            function async (err, result) {
+                if(err) {
+                    console.log(err)
+                    return res.status(400).send(err)
+                }
+                // Create a new image using the Image mongoose model
+                const img = {
+                    imageId: result.public_id, // image id on cloudinary server
+                    imageUrl: result.url, // image url on cloudinary server
+                    createdOn: new Date(),
+                };
+
+                User.findOneAndUpdate({_id: id} , {$set: {"profilePhoto" : img }}, {new: true, useFindAndModify: false})
+                    .then( result2 => {
+                        if(!result2) {
+                            res.status(404).send('Resource not found')
+                            return;
+                        }
+        
+                        res.send(result2)
+                    })
+            });
+
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
         res.status(500).send(error) // 400 for bad request gets sent to client.
         return;
 	}
@@ -427,7 +482,6 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
     })
 
     try {
-        console.log("hi");
 
         await cloudinary.v2.uploader.upload(
             req.files.originalImage.path, // req.files contains uploaded files
