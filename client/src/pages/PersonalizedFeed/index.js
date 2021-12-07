@@ -136,9 +136,7 @@ function PersonalizedFeed (props) {
             </div>
             <br/>
             
-            <ExploreView works={props.works.slice(3,6)} title={"Works That May Interest You"}/>
-            <ExploreView works={props.works.slice(1,2)} title={"Liked Works"}/>
-        </div>
+            </div>
         
     );
 }

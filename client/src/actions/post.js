@@ -123,3 +123,73 @@ export const getPostsWithIds = async (idsList, setState) => {
     };
     
 };
+
+
+export const getExplorePosts = async (type, setState) => {
+    let url;
+    if(type === 'trending') {
+        url = `${API_HOST}/posts/trendingWorks`;
+    }
+    else if(type === 'recent'){
+        url = `${API_HOST}/posts/recentWorks`
+    }
+    else {
+        return;
+    }
+
+    try {
+        const res =  await fetch(url);
+
+        if (res.status !== 200) {
+            console.log("Could not get works");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            console.log("got works");
+            // the resolved promise with the JSON body
+            if(json) {
+                setState([...json]);
+            }
+            
+        })
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
+};
+
+
+export const getAllPosts = async (setState) => {
+
+    const url = `${API_HOST}/posts/allWorks`;
+
+    try {
+        const res =  await fetch(url);
+
+        if (res.status !== 200) {
+            console.log("Could not get works");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            console.log("got all works");
+            // the resolved promise with the JSON body
+            if(json) {
+                setState([...json]);
+            }
+            
+        })
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
+};

@@ -1,4 +1,5 @@
 /* User mongoose model */
+const { Int32 } = require('mongodb/lib/bson');
 const mongoose = require('mongoose')
 
 // const ReferencePost = mongoose.model('ReferencePost', {
@@ -104,7 +105,18 @@ const Post = mongoose.model('Post', {
         type: [String],
         required: true,
         default: []
+    },
+    likesCount: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    dateCreated: {
+        type: Date,
+        required: true,
+        default: Date.now
     }
+
 
 })
 

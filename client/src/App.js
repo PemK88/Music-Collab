@@ -39,7 +39,7 @@ import AdminProfile from './pages/Profile/AdminProfile';
 import AdminProfileSettings from './pages/ProfileSettings/AdminProfileSettings';
 import ReportView from './components/AdminComponents/ReportView';
 
-import ExplorePage from './pages/ExplorePage/ExplorePage';
+import ExplorePage from './pages/Explore';
 import PersonalizedFeed from './pages/PersonalizedFeed';
 import { getUserByID } from './actions/user';
 
@@ -289,7 +289,7 @@ function App() {
           <Route exact path='/Followers' render={() => (<Follows currentUser={state}/>)}/>
           <Route exact path='/Followings' render={() => (<Follows currentUser={state}/>)}/>
           <Route exact path='/Features' render={() => (<Features/>)}/>
-          <Route exact path='/Explore' render={() => (<ExplorePage works={works}/>)}/>
+          <Route exact path='/Explore' render={() => (<ExplorePage currentUser={state}/>)}/>
           <Route exact path='/Home' render={() => (<PersonalizedFeed works={works}/>)}/>
 
 

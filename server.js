@@ -244,6 +244,37 @@ app.get("/users/:id", async (req, res) => {
 	
 });
 
+app.post("/users/checkPassword", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    // log(email, password);
+    // Use the static method on the User model to find a user
+    // by their username and password
+    User.findByUsernamePassword(username, password)
+        .then(user => {
+            // Add the user's id to the session.
+            // We can check later if this exists to ensure we are logged in.
+            if(user){
+                res.send({result: "valid"});
+            }
+            else{
+                
+            }
+        })
+        .catch(error => {
+            if(error){
+                console.log(error);
+                res.status(400).send(err);
+            }
+            else {
+                res.send({result: "invalid"});
+            }
+            
+            
+        });
+});
+
 
 app.patch("/users/bio", async (req, res) => {
 
@@ -262,6 +293,33 @@ app.patch("/users/bio", async (req, res) => {
 		}
 
         
+
+		res.send(result)
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+
+app.patch("/users/updatePassword", async (req, res) => {
+
+    const id = req.body.id;
+    const password = req.body.password;
+
+	try {
+
+        		
+		const result = await User.findOneAndUpdate({_id: id} , {$set: {"password" : password }}, {new: true, useFindAndModify: false})
+
+
+		if(!result) {
+			res.status(404).send('Resource not found')
+			return;
+		}
 
 		res.send(result)
 
@@ -484,6 +542,75 @@ app.post('/posts/getWorksByIds', async (req, res) => {
 
         results ? res.send(results) : res.status(404).send('Resource not found')
 
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+app.get('/posts/allWorks', async (req, res) => {
+	// Add code here
+
+	try {
+		const result = await Post.find()
+        res.send(result)
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+
+app.get('/posts/recentWorks', async (req, res) => {
+	// Add code here
+
+	try {
+		await Post.find({}).sort({dateCreated: 'desc'}).exec((err, docs) => { 
+            if(err){
+                console.log(err)
+                res.status(404).send('Resource not found')
+                return;
+            }
+
+            log("ordered by trending works")
+            res.send(docs)
+
+        });
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+app.get('/posts/trendingWorks', async (req, res) => {
+	// Add code here
+
+	try {
+		await Post.find({}).sort({likesCount: 'desc'}).exec((err, docs) => { 
+            if(err){
+                console.log(err)
+                res.status(404).send('Resource not found')
+                return;
+            }
+
+            log("ordered by recent works")
+            res.send(docs)
+
+        });
 	} catch(error) {
 		log(error) // log server error to the console, not to the client.
 		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.

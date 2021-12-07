@@ -24,7 +24,7 @@ function CategoryWork (props) {
             <div className="category-btns">
                 {categories.map((cat, id) => {
                     return (
-                        <button key={id} className={categoriesClass[id]} onClick={() => {handleClick(id)}}>
+                        <button key={id} className={categoriesClass[id]} onClick={() => {handleClick(categories[id])}}>
                             {cat}
                         </button>
                     );

@@ -98,6 +98,8 @@ export const login = (loginComp, changeState) => {
         });
 };
 
+
+
 // A function to send a GET request to logout the current user
 export const logout = (changeState) => {
     const url = `${API_HOST}/users/logout`;
@@ -303,6 +305,51 @@ export const getUsersWithIds = async (idsList, setState) => {
     
 };
 
+
+export const checkPassword = async (username, password, passwordValidation) => {
+
+    const url = `${API_HOST}/users/checkPassword`;
+
+    const  data = {
+        usernam: username,
+        password: password
+    }
+
+    const request = new Request(url, {
+        method: "post",
+        body: JSON.stringify(data),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    try {
+        const res =  await fetch(request);
+
+        if (res.status !== 200) {
+            console.log("Could not check password");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            if(json) {
+                passwordValidation(json.result === "valid" ? 1 : 0)
+            }
+            else{
+                passwordValidation("")
+            }
+            
+        })
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
+};
 
 
 export const addFollowing = (userId, addedUserId) => {

@@ -4,6 +4,7 @@ import "./styles.css";
 import SelectCategories from '../SelectCategories';
 import FormRow from '../FormRow';
 import { updateUserProfileById } from '../../actions/user';
+import { checkPassword } from '../../actions/user';
 
 
 function ProfileSettingsContent (props) {
@@ -61,20 +62,43 @@ function ProfileSettingsContent (props) {
         setPasswordFormInputs(inputs => ({...inputs, [name]: value}))
     }
 
+    const passwordValidation = (validity) => {
+        if(validity === 1){
+            if(passwordFormInputs.newPassword === "" || passwordFormInputs.confirmPassword === ""){
+                return alert("You must fill all fields")
+            }
+            if(passwordFormInputs.newPassword !== passwordFormInputs.confirmPassword) {
+                return alert("Passwords don't match!");
+            } else {
+                //call to server
+                setPasswordFormInputs(defaultPasswordInput);
+                setChangePassword(!changePassword);
+                return;
+            }
+        }
+        else if(validity === 0){
+            return alert("Wrong password!");
+        }
+        else {
+            return alert("Could not verify password"); 
+        }
+    }
+    
+
 
     const handlePasswordChange = (event) => {
         event.preventDefault();
         if(changePassword) {
-            if(passwordFormInputs.oldPassword !== props.currentUser.password) {
-                return alert("Wrong password!");
-            } else if(passwordFormInputs.newPassword !== passwordFormInputs.confirmPassword) {
-                return alert("Passwords don't match!");
-            } else {
-                setPasswordFormInputs(defaultPasswordInput);
+            if(passwordFormInputs.oldPassword === ""){
+                return alert("You must fill all fields")
             }
+            checkPassword(props.currentUser.username, passwordFormInputs.oldPassword, passwordValidation)
+        }
+        else {
+            setChangePassword(!changePassword);
         }
         //a post request will be made to the server with the new password
-        setChangePassword(!changePassword);
+        
         
     };
 

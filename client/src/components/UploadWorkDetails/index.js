@@ -145,7 +145,7 @@ function UploadWorkDetails (props) {
         for ( var key in uploadFormInputs ) {
             if(key !== "coverImage"  && key !== "audio") {
                 if(key === "references") {
-                    let value = (uploadFormInputs[key][0].id === null) ? [] : JSON.stringify(uploadFormInputs[key])
+                    let value = (uploadFormInputs[key][0].id === null) ? JSON.stringify([]) : JSON.stringify(uploadFormInputs[key])
                     formData.append(key, value);
                 }
                 else if(key === "hashtags"){
