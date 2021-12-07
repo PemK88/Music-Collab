@@ -13,40 +13,71 @@ function Profile (props) {
 
     const [externalView, setExternalView] = useState(false);
     const location = useLocation();
-    const {userId, passedUser} = location.state;
+    const {userId} = location.state;
     const [user, setUser] = useState();
+    const [loggedUser, setLoggedUser] = useState();
 
-    const getUser = () => {
-        console.log("in async")
+    const updateUser = (id, setState) => {
 
-        getUserByID(userId, setUser);
+        getUserByID(id, setState) 
 
     }
 
+    const updateLoggedUser = () => {
+
+        updateUser(props.currentUser.id, setLoggedUser)
+
+    }
+    const updateWithUserId = () => {
+
+        updateUser(userId, setUser)
+
+    }
+    const updateWithCurrentId = () => {
+
+        updateUser(props.currentUser.id, setUser)
+
+    }
+
+
     useEffect(() => {
 
-        
-        console.log("in profile page")
-        console.log("this is userID " + userId)
-        console.log("this is current User ID " + props.currentUser)
+            if(userId){
+                console.log("this is userID")
+                updateWithUserId();
+            }
+            else if(props.currentUser && props.currentUser.id){
+                updateWithCurrentId();
+            }
 
+            if(props.currentUser && userId && props.currentUser.id) {
+                if(props.currentUser.id !== userId) {
+                    setExternalView(true)
+                }
+                else{
+                    setExternalView(false)
+                }
+            }
+            if(props.currentUser && props.currentUser.id) {
+                updateLoggedUser(); 
+            }
     
-        if(props.currentUser && userId) {
-            console.log("in here")
-            if(props.currentUser._id !== userId) {
-                if(passedUser) {
-                    userId === passedUser._id ? setUser(passedUser) : getUser()
-                }
-                else {
-                    getUser()
-                }
-                setExternalView(true);
-            }
-            else {
-                setUser(props.currentUser)
-                setExternalView(false);
-            }
-        }
+        // if(props.currentUser && userId) {
+        //     console.log("in here")
+        //     if(props.currentUser._id !== userId) {
+        //         if(passedUser) {
+        //             userId === passedUser._id ? setUser(passedUser) : getUser()
+        //         }
+        //         else {
+        //             getUser()
+        //         }
+        //         setExternalView(true);
+        //     }
+        //     else {
+        //         setUser(props.currentUser)
+        //         setExternalView(false);
+        //     }
+        // }
   
     }, [userId, props.currentUser])
 
@@ -54,13 +85,11 @@ function Profile (props) {
         setExternalView(!externalView);
     };
 
-    console.log("this is userID " + userId)
-
 
     return (
        <div className="page"> 
-           {user && <ProfileHeader externalView={externalView} currentUser={user} page={'profile'} toggleView={toggleView} loggedUser={props.currentUser} updateUser={props.updateUser} updateOtherUser={getUser}/>}
-           {user && <ProfileContent user={user} externalView={externalView} updateUser={props.updateUser}/>}
+           {user && <ProfileHeader externalView={externalView} currentUser={user} page={'profile'} toggleView={toggleView} loggedUser={loggedUser} updateUser={updateWithUserId} updateLoggedUser={updateLoggedUser}/>}
+           {user && <ProfileContent user={user} externalView={externalView} updateUser={updateWithUserId}/>}
         </div>
 
     );
@@ -68,8 +97,7 @@ function Profile (props) {
 }
 
 Profile.propTypes = {
-    currentUser: PropTypes.object,
-    updateUser: PropTypes.func
+    currentUser: PropTypes.object
 };
 
 export default Profile;

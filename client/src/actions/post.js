@@ -29,15 +29,18 @@ export const addPost = async (workForm) => {
             if (res.status === 200) {
                 // If student was added successfully, tell the user.
                 console.log("Post was successfully added")
-                return 1;
+                alert("Your work was successfully uploaded");
             } else {
                 // If server couldn't add the student, tell the user.
                 // Here we are adding a generic message, but you could be more specific in your app.
                 console.log("failed to add post")
+                alert("Your work was not uploaded. Try again");
             }
         })
         .catch(error => {
             console.log("post error: " + error);
+            alert("Your work was not uploaded. Try again");
+            
         });
         return 0;
 };

@@ -228,7 +228,7 @@ function App() {
   const [state, setState] = useState({
     username: null,
     isAdmin: null,
-    user: null
+    id: null
   })
 
   function changeState(child) {
@@ -256,9 +256,9 @@ function App() {
 
   useEffect(() => {
 
-    setUser(state.user); // sees if a user is logged in
+    setUser(state.username); // sees if a user is logged in
 
-  }, [state.user])
+  }, [state.username])
 
 
 
@@ -266,7 +266,7 @@ function App() {
     //this should be home page
     <div>
       <BrowserRouter>
-      {state.username && !state.isAdmin && <NavigationBar changeState={changeState} currentUser={user}/>}
+      {state.username && !state.isAdmin && <NavigationBar changeState={changeState} currentUser={state}/>}
         {state.username && state.isAdmin && <AdminNavigationBar changeState={changeState} />}
         <Switch> 
           <Route exact path='/SignUp' render={() => (<SignUp/>)}/>
@@ -282,12 +282,12 @@ function App() {
           <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentPost={currentPost} currentUser={currentUser} setInfo={setPostInfo}/>)}/>
 
-          <Route exact path='/Profile' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
-          <Route path='/Profile/:profileName' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
-          <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={user}/>)}/>
-          <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={user}/>)}/>
-          <Route exact path='/Followers' render={() => (<Follows currentUser={user} updateUser={updateUser}/>)}/>
-          <Route exact path='/Followings' render={() => (<Follows currentUser={user} updateUser={updateUser}/>)}/>
+          <Route exact path='/Profile' render={() => (<Profile currentUser={state}/>)}/>
+          <Route path='/Profile/:profileName' render={() => (<Profile currentUser={state}/>)}/>
+          <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={state}/>)}/>
+          <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={state}/>)}/>
+          <Route exact path='/Followers' render={() => (<Follows currentUser={state}/>)}/>
+          <Route exact path='/Followings' render={() => (<Follows currentUser={state}/>)}/>
           <Route exact path='/Features' render={() => (<Features/>)}/>
           <Route exact path='/Explore' render={() => (<ExplorePage works={works}/>)}/>
           <Route exact path='/Home' render={() => (<PersonalizedFeed works={works}/>)}/>

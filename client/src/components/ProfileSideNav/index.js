@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "./styles.css";
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -17,21 +17,18 @@ function ProfileSideNav (props) {
                 pathname: "/Followers",
                 state: {
                     header: "Followers",
-                    user: props.currentUser ? props.currentUser : {},
-                    externalView: props.externalView ?  props.externalView : false
-                }}} className={followersClass}>Followers: <span className="internal-profile-stats-num">{props.currentUser ? props.currentUser.followers.length : ""}</span></Link>
+                    userId: props.currentUser ? props.currentUser._id : ""
+                }}} className={followersClass}>Followers: <span className="internal-profile-stats-num">{props.followersNum}</span></Link>
             <Link to={{
                 pathname: "/Followings",
                 state: {
                     header: "Followings",
-                    user: props.currentUser ? props.currentUser : {},
-                    externalView: props.externalView ?  props.externalView : false
-                }}} className={followingsClass}>Following: <span className="internal-profile-stats-num">{props.currentUser ? props.currentUser.followings.length : ""}</span></Link>
+                    userId: props.currentUser ? props.currentUser._id : ""
+                }}} className={followingsClass}>Following: <span className="internal-profile-stats-num">{props.followingsNum}</span></Link>
             <Link to={{
                 pathname: (props.loggedUser &&  props.currentUser) ?  ((props.loggedUser._id === props.currentUser._id ) ? "/Profile" : `/Profile/${props.currentUser.profileName}`) : "/Profile",
                 state: {
-                    userId: props.currentUser ? props.currentUser._id : "",
-                    passedUser: props.currentUser
+                    userId: props.currentUser ? props.currentUser._id : ""
                 }}}
                 className={profileClass}>Profile</Link>
             {!props.externalView && <Link to="/UploadWork" className={uploadClass}>Upload Work</Link>}
@@ -44,7 +41,9 @@ ProfileSideNav.propTypes = {
     page: PropTypes.string,
     currentUser: PropTypes.object,
     loggedUser: PropTypes.object,
-    externalView: PropTypes.bool
+    externalView: PropTypes.bool,
+    followingsNum: PropTypes.number,
+    followersNum: PropTypes.number
 };
 
 export default ProfileSideNav;

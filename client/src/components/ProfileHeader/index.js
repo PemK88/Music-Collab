@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import "./styles.css";
 import ProfileSideNav from '../ProfileSideNav';
 import ReportPopup from '../ReportPopup';
-import defaultCoverPhoto from '../../data/default_cover_photo.jpeg';
+import defaultProfilePhoto from '../../data/default_profile_photo.jpeg';
 import { addFollowing, removeFollowing } from '../../actions/user';
 
 
@@ -12,6 +12,10 @@ function ProfileHeader (props) {
     const [followBtnVal, setFollowBtnVal] = useState();
     const [followBtnId, setFollowBtnId] = useState('follow-btn');
     const [reportPopupTrigger, setReportPopupTrigger] = useState(false);
+    const [followersNum, setFollowersNum] = useState()
+    const [followingsNum, setFollowingsNum] = useState()
+
+
 
     useEffect(() =>
     {
@@ -24,6 +28,10 @@ function ProfileHeader (props) {
                 setFollowBtnVal('+ Follow');
                 setFollowBtnId('follow-btn');
             }
+        }
+        if(props.currentUser) {
+            setFollowersNum(props.currentUser.followers.length)
+            setFollowingsNum(props.currentUser.followings.length)
         }
     }, [props.loggedUser, props.currentUser])
 
@@ -40,13 +48,13 @@ function ProfileHeader (props) {
         try  {
             if(flag) {
                 await addFollowing(props.loggedUser._id, props.currentUser._id);
-                await props.updateOtherUser();
-                await props.updateUser();
+                // await props.updateLoggedUser();
+                // await props.updateUser();
             }
             else {
                 await removeFollowing(props.loggedUser._id, props.currentUser._id);
-                await props.updateOtherUser();
-                await props.updateUser();
+                // await props.updateLoggedUser();
+                // await props.updateUser();
             }
 
             return 1;
@@ -65,7 +73,7 @@ function ProfileHeader (props) {
             //add loggedin user to current users followers
 
             // addFollowing(props.loggedUser._id, props.currentUser._id);
-            // props.updateOtherUser();
+            // props.updateLoggedUser();
             // props.updateUser();
             // setFollowBtnVal('Unfollow');
             // setFollowBtnId('unfollow-btn');
@@ -74,6 +82,7 @@ function ProfileHeader (props) {
                 if(value) {
                     setFollowBtnVal('Unfollow');
                     setFollowBtnId('unfollow-btn');
+                    setFollowersNum(followersNum + 1)
             }})
 
         
@@ -82,7 +91,7 @@ function ProfileHeader (props) {
             //remove loggedin user from current users followers
 
             // removeFollowing(props.loggedUser._id, props.currentUser._id);
-            // props.updateOtherUser();
+            // props.updateLoggedUser();
             // props.updateUser();
             // setFollowBtnVal('+ Follow');
             // setFollowBtnId('follow-btn');
@@ -90,6 +99,7 @@ function ProfileHeader (props) {
                 if(value) {
                     setFollowBtnVal('+ Follow');
                     setFollowBtnId('follow-btn');
+                    setFollowersNum(followersNum - 1)
                 }
         })
 
@@ -100,14 +110,14 @@ function ProfileHeader (props) {
         <div className="profile-header no-overflow">
             <div id="hidden-container">
             
-            <img id="profile-photo" src={(props.currentUser && props.currentUser.profilePhotoUrl) ? props.currentUser.profilePhotoUrl : defaultCoverPhoto} alt={"User Profile"}/>
+            <img id="profile-photo" src={(props.currentUser && props.currentUser.profilePhoto) ? props.currentUser.profilePhoto.imageUrl : defaultProfilePhoto} alt={"User Profile"}/>
             <h2 id="profile-name">{props.currentUser ? props.currentUser.profileName : ""}</h2>
             <br/>
             {(props.externalView && props.page === 'profile') && <button id={followBtnId} className="btn" onClick={handleFollow}>{followBtnVal}</button>}
             {(props.externalView && props.page !== 'profile') && <br/>}
             <br/>
             <br/>
-            <ProfileSideNav page={props.page} currentUser={props.currentUser} externalView={props.externalView} loggedUser={props.loggedUser}/>
+            <ProfileSideNav page={props.page} currentUser={props.currentUser} externalView={props.externalView} loggedUser={props.loggedUser} followersNum={followersNum} followingsNum={followingsNum}/>
             <br/>
 
             {props.page === 'profile' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>}
@@ -128,7 +138,7 @@ ProfileHeader.propTypes = {
     loggedUser: PropTypes.object,
     page: PropTypes.string,
     updateUser: PropTypes.func,
-    updateOtherUser: PropTypes.func,
+    updateLoggedUser: PropTypes.func,
     toggleView: PropTypes.func
 };
 

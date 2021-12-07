@@ -58,15 +58,9 @@ export const checkSession = (changeState, changeUser) => {
     .then(json => {
         if (json && json.username) {
             console.log('change')
-            changeState({ username: json.username, isAdmin: json.isAdmin, user: json.user });
+            changeState({ username: json.username, isAdmin: json.isAdmin, id: json.id });
             return json.username;
         }
-    })
-    .then(username => { 
-        if(username) {
-            getUserDetails(username, changeUser)
-        }
-
     })
     .catch(error => {
         console.log(error + '1');
@@ -96,7 +90,7 @@ export const login = (loginComp, changeState) => {
         .then(json => {
             if (json.username !== undefined) {
                 console.log('change')
-                changeState({ username: json.username, isAdmin: json.isAdmin, user: json.user });
+                changeState({ username: json.username, isAdmin: json.isAdmin, id: json.id });
             }
         })
         .catch(error => {

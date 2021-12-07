@@ -127,10 +127,18 @@ function UploadWorkDetails (props) {
         setUploadFormInputs(inputs => ({...inputs, [name]: references}));
     }
 
-    const handleUpload = async (event) => {
+    const handleUpload = (event) => {
         //a post request will be made with the upload form data, including the cover image
         event.preventDefault();
         console.log("about to upload")
+
+        if(uploadFormInputs["originalAudio"] === "" || uploadFormInputs["originalImage"] === "" || uploadFormInputs["title"] === "") {
+            alert("Your work was not uploaded. Try again");
+            setUploadFormInputs(defaultFormInputs);
+            setSelectedRefWork([[]]);
+            setAudioLabel("Click this area to select a file (Max Size 10MB)");
+            return;
+        }
 
         let formData = new FormData();
 
@@ -151,18 +159,8 @@ function UploadWorkDetails (props) {
             console.log(value);
         }
 
-        console.log(JSON.stringify(formData))
-
         try {
-            const result = await addPost(formData)
-
-            console.log("this is result" + result)
-            if(result){
-                alert("Your work was successfully uploaded");
-            }
-            else{
-                alert("Your work was not uploaded. Try again");
-            }
+            addPost(formData)
             
         }
         catch (error) {

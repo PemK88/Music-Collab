@@ -21,8 +21,8 @@ const app = express();
 
 // enable CORS if in development, for React local development server to connect to the web server.
 const cors = require('cors')
-//if (env !== 'production') { app.use(cors()) }
-app.use(cors())
+if (env !== 'production') { app.use(cors()) }
+//app.use(cors())
 
 // mongoose and mongo connection
 const { mongoose } = require("./db/mongoose");
@@ -116,7 +116,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            expires: 60000,
+            expires: 600000,
             httpOnly: true
         },
         // store the sessions on the database in production
@@ -142,9 +142,8 @@ app.post("/users/login", (req, res) => {
             req.session.user = user._id;
             req.session.username = user.username;
             req.session.isAdmin = user.isAdmin;
-            req.session.object = user
              // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-            res.send({ username: user.username,  isAdmin: user.isAdmin, user: user });
+            res.send({ username: user.username,  isAdmin: user.isAdmin, id: user._id });
         })
         .catch(error => {
             res.status(400).send()
@@ -173,7 +172,7 @@ app.get("/users/check-session", (req, res) => {
     }
 
     if (req.session.user) {
-        res.send({ username: req.session.username,  isAdmin: req.session.isAdmin, user: req.session.object});
+        res.send({ username: req.session.username,  isAdmin: req.session.isAdmin, id: req.session.user});
     } else {
         res.status(401).send();
     }
@@ -414,20 +413,6 @@ app.post('/posts/getWorksByIds', async (req, res) => {
 
 app.post('/posts', multipartMiddleware, async (req, res) => {
     log(`Adding post`)
-    try {
-        console.log(`This is body ${req.body}`)
-    }
-    catch(error) {
-        log("error happened here 2")
-    }
-
-    try {
-        console.log(req.files)
-    }
-    catch(error) {
-        log("error happened here 3")
-    }
-    
  
     // Create a new student using the Student mongoose model
     const post = new Post({
@@ -444,10 +429,13 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
     try {
         console.log("hi");
 
-        await cloudinary.uploader.upload(
+        await cloudinary.v2.uploader.upload(
             req.files.originalImage.path, // req.files contains uploaded files
             function (err, result) {
-                console.log(err)
+                if(err) {
+                    console.log(err)
+                    return res.status(400).send(err)
+                }
                 // Create a new image using the Image mongoose model
                 const img = {
                     imageId: result.public_id, // image id on cloudinary server
@@ -467,7 +455,11 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
             },
             function (err, result) {
 
-                console.log(err)
+                
+                if(err) {
+                    console.log(err)
+                    return res.status(400).send(err)
+                }
 
                 // Create a new image using the Image mongoose model
                 const audio = {
@@ -476,7 +468,7 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
                     createdOn: new Date(),
                 };
 
-                post.coverPhoto = audio;
+                post.audio = audio;
             });
 
         console.log("uploaded audio")
@@ -486,7 +478,6 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
         result ? res.send(result) :  res.status(400).send('Failed to add work')
 
     } catch(error) {
-        log("error happened here 1")
         log(error) // log server error to the console, not to the client.
         res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
     }
@@ -575,7 +566,6 @@ app.use(express.static(path.join(__dirname, "/client/build")));
 
 // All routes other than above will go to index.html
 app.get("*", (req, res) => {
-    log("about to get index.html")
     // check for page routes that we expect in the frontend to provide correct status code.
     const goodPageRoutes = ["/", "/LogIn", "/SignUp"];
     if (!goodPageRoutes.includes(req.url)) {
