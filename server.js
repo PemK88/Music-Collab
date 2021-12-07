@@ -259,7 +259,7 @@ app.post("/users/checkPassword", (req, res) => {
                 res.send({result: "valid"});
             }
             else{
-                
+                res.send({result: "invalid"});
             }
         })
         .catch(error => {
@@ -312,16 +312,31 @@ app.patch("/users/updatePassword", async (req, res) => {
 
 	try {
 
-        		
-		const result = await User.findOneAndUpdate({_id: id} , {$set: {"password" : password }}, {new: true, useFindAndModify: false})
+        User.findById(id, function(err, doc) {
+            if(err){
+                console.log(err)
+                res.status(400).send(err)
+                return
+            }
+            if(doc){
+                doc.password = password;
+                doc.save();
+                res.send("successfully changed password")
+            }
+            else{
+                res.status(404).send('Resource not found')
+            }
+            
+          });	
+		//const result = await User.findOneAndUpdate({_id: id} , {$set: {"password" : password }}, {new: true, useFindAndModify: false})
 
 
-		if(!result) {
-			res.status(404).send('Resource not found')
-			return;
-		}
+		// if(!result) {
+		// 	res.status(404).send('Resource not found')
+		// 	return;
+		// }
 
-		res.send(result)
+		// res.send(result)
 
 	} catch(error) {
 		log(error) // log server error to the console, not to the client.

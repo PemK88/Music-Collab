@@ -164,6 +164,43 @@ export const getUserByID = (userId, changeState) => {
         });
 };
 
+export const updateUserPasswordById = (userId, password, changeValidPassword) => {
+
+    const url = `${API_HOST}/users/updatePassword`;
+
+    const body = {
+        id: userId,
+        password: password
+    }
+
+    const request = new Request(url, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                changeValidPassword(1)
+                console.log("updated password")
+                return;
+            } else {
+                changeValidPassword(0)
+                console.log("Could not update password");
+            }
+        })
+        .catch(error => {
+            changeValidPassword(0)
+            console.log(error);
+        });
+};
+
 export const updateUserBioByID = (userId, biography) => {
 
     const url = `${API_HOST}/users/bio`;
@@ -311,7 +348,7 @@ export const checkPassword = async (username, password, passwordValidation) => {
     const url = `${API_HOST}/users/checkPassword`;
 
     const  data = {
-        usernam: username,
+        username: username,
         password: password
     }
 

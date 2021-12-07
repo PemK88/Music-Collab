@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import "./styles.css";
 import SelectCategories from '../SelectCategories';
 import FormRow from '../FormRow';
-import { updateUserProfileById } from '../../actions/user';
+import { updateUserProfileById, updateUserPasswordById } from '../../actions/user';
 import { checkPassword } from '../../actions/user';
 
 
@@ -62,6 +62,20 @@ function ProfileSettingsContent (props) {
         setPasswordFormInputs(inputs => ({...inputs, [name]: value}))
     }
 
+    const changeValidPassword = (changed) => {
+        if(changed === 1) {
+            alert("Successfully changed password")
+            setPasswordFormInputs(defaultPasswordInput);
+            setChangePassword(!changePassword);
+            props.updateUser()
+        }
+        else if(changed === 0) {
+            alert("Failed to change password")
+            setPasswordFormInputs(defaultPasswordInput);
+            setChangePassword(!changePassword);
+        }
+    }
+
     const passwordValidation = (validity) => {
         if(validity === 1){
             if(passwordFormInputs.newPassword === "" || passwordFormInputs.confirmPassword === ""){
@@ -71,8 +85,7 @@ function ProfileSettingsContent (props) {
                 return alert("Passwords don't match!");
             } else {
                 //call to server
-                setPasswordFormInputs(defaultPasswordInput);
-                setChangePassword(!changePassword);
+                updateUserPasswordById(props.currentUser._id, passwordFormInputs.newPassword, changeValidPassword);
                 return;
             }
         }
@@ -171,7 +184,8 @@ function ProfileSettingsContent (props) {
     
 
 ProfileSettingsContent.propTypes = {
-    currentUser: PropTypes.object
+    currentUser: PropTypes.object,
+    updateUser: PropTypes.func
 };
 
 export default ProfileSettingsContent;

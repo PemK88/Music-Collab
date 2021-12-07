@@ -32,7 +32,7 @@ function ProfileSettings (props) {
     return (
         <div className="page"> 
              {user && <ProfileSettingsHeader currentUser={user} loggedUser={user}/>}
-             {user && <ProfileSettingsContent currentUser={user}/>}
+             {user && <ProfileSettingsContent currentUser={user} updateUser={updateWithCurrentId}/>}
         </div>
  
      );
