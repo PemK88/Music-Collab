@@ -145,8 +145,11 @@ function UploadWorkDetails (props) {
         for ( var key in uploadFormInputs ) {
             if(key !== "coverImage"  && key !== "audio") {
                 if(key === "references") {
-                    let value = (uploadFormInputs[key][0].id === null) ? [] : uploadFormInputs[key]
+                    let value = (uploadFormInputs[key][0].id === null) ? [] : JSON.stringify(uploadFormInputs[key])
                     formData.append(key, value);
+                }
+                else if(key === "hashtags"){
+                    formData.append(key, JSON.stringify(uploadFormInputs[key]));
                 }
                 else {
                     formData.append(key, uploadFormInputs[key]);
@@ -187,7 +190,7 @@ function UploadWorkDetails (props) {
                         <br/>
                         <div className="row">
                             <label className="input-label">Categories</label>
-                            <SelectCategories selectedValues={uploadFormInputs.categories} disabled={false} handleSelect={handleCategoryChange}/>
+                            <SelectCategories selectedValues={[]} disabled={false} handleSelect={handleCategoryChange}/>
                         </div>
                         <br/>
                         <FormRow label={"Hashtags"} type={"text"} className={"input-box"} value={uploadFormInputs.hashtags.join(" #")} 
@@ -209,7 +212,7 @@ function UploadWorkDetails (props) {
                                 {uploadFormInputs.references.map((ref, idx) => {
                                     return (
                                         <div className="add-ref-box" key={idx}> 
-                                            <SelectReference options={downloads} selectedOptions={selectedRefWork[idx]} selectLimit={1}
+                                            <SelectReference options={downloads} selectedOptions={[]} selectLimit={1}
                                                 handleSelect={selectedWork => handleRefSelect(idx, selectedWork.length ? selectedWork[0].id : "", selectedWork)}/>
                                             <textarea className="description-text-box ref-description" name="description" value={uploadFormInputs.references[idx].description}
                                                 onChange={event => handleDescriptionChange(idx, event)} placeholder={"How did you use this work?"}/>

@@ -420,9 +420,9 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
         audio: {},
         artist: {id: req.body.userId, profileName: req.body.artist},
         description: req.body.description,
-        tags: req.body.hashtags,
+        tags: JSON.parse(req.body.hashtags),
         categories: req.body.categories,
-        references: req.body.references,
+        references: JSON.parse(req.body.references),
         title: req.body.title
     })
 
