@@ -65,16 +65,10 @@ function Profile (props) {
   
     }, [userId, props.currentUser])
 
-    const toggleView = () => {
-        setExternalView(!externalView);
-    };
-
-    console.log("this is userID " + userId)
-
 
     return (
        <div className="page"> 
-           {user && <ProfileHeader externalView={externalView} currentUser={user} page={'profile'} toggleView={toggleView} loggedUser={loggedUser} updateUser={updateWithUserId} updateLoggedUser={updateLoggedUser}/>}
+           {user && <ProfileHeader externalView={externalView} currentUser={user} page={'profile'} loggedUser={loggedUser} updateUser={updateWithUserId} updateLoggedUser={updateLoggedUser}/>}
            {user && <ProfileContent user={user} externalView={externalView} updateUser={updateWithUserId}/>}
         </div>
 
@@ -83,8 +77,7 @@ function Profile (props) {
 }
 
 Profile.propTypes = {
-    currentUser: PropTypes.object,
-    updateUser: PropTypes.func
+    currentUser: PropTypes.object
 };
 
 export default Profile;

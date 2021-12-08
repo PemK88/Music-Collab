@@ -234,7 +234,7 @@ export const getUser = (id, setUser) => {
 
 export const getUserByID = (userId, changeState) => {
 
-    const url = `${API_HOST}/users/${userId};`
+    const url = `${API_HOST}/users/${userId}`
 
     fetch(url)
         .then(res => {

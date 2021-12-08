@@ -36,7 +36,7 @@ function ProfileContent (props) {
                 <li key={idx}>
                     <Link to={{
                         pathname:'/coverpage',
-                        id: work._id
+                        state: { postId: work._id }
                     }}>
                         <img src={work.coverPhoto.imageUrl} alt='work cover'/>
                     </Link> 

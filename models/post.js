@@ -1,7 +1,6 @@
 /* User mongoose model */
 const { Int32 } = require('mongodb/lib/bson');
 const mongoose = require('mongoose');
-const { number } = require('yargs');
 
 const referenceSchema = mongoose.Schema( {
 	id: {
