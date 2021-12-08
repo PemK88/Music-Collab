@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
 
-const artistSchema = new mongoose.Schema({
+const artistSchema2 = new mongoose.Schema({
     id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    profileName: String,
-    usename: String
+    profileName: String
 }, { _id : false });
 
 const commentSchema = mongoose.Schema({
@@ -38,12 +37,12 @@ const Request = mongoose.model('Request', {
     postId: {type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
    
 	requestor: {
-        type: artistSchema ,
+        type: artistSchema2 ,
         required: false
     },
 
 	acceptor: {
-        type:artistSchema ,
+        type:artistSchema2 ,
         required: false
     },
 

@@ -2,7 +2,7 @@ import './App.css';
 import Profile from './pages/Profile';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { getUserInfo, checkSession } from './actions/user';
+import { checkSession } from './actions/user';
 
 import profile_photo from './data/profile/profile_photo.jpeg'
 import profile_photo2 from './data/profile/profile_photo2.jpeg'

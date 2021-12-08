@@ -4,10 +4,9 @@ const API_HOST = ENV.api_host
 
 
 // A function to send a POST request with a new user
-export const addPost = async (workForm) => {
+export const addPost = (workForm) => {
     // the URL for the request
     const url = `${API_HOST}/posts`;
-    console.log("in add post")
 
     // The data we are going to send in our request
     const post = workForm;
@@ -46,7 +45,7 @@ export const addPost = async (workForm) => {
         });
 };
 
-export const updatePost = async (workForm) => {
+export const updatePost = (workForm) => {
     // the URL for the request
     const url = `${API_HOST}/posts/updatePost`;
     console.log("in add post")
@@ -86,7 +85,6 @@ export const updatePost = async (workForm) => {
             alert("Your work was not uploaded. Try again");
             
         });
-        return 0;
 };
 
 

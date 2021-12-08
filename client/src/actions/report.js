@@ -2,8 +2,7 @@
 import ENV from '../config.js'
 const API_HOST = ENV.api_host
 
-// A function to send a POST request with a new user
-export const addReport = async (workForm) => {
+export const addReport = (workForm) => {
     // the URL for the request
     const url = `${API_HOST}/api/reports`;
     console.log("in add post")
@@ -39,7 +38,6 @@ export const addReport = async (workForm) => {
         .catch(error => {
             console.log( error);
         });
-        return 0;
 };
 
 

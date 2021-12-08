@@ -32,6 +32,7 @@ const { mongoose } = require("./db/mongoose");
 const { Post } = require("./models/post");
 const { User } = require("./models/user");
 const { Report } = require("./models/report");
+const { Request } = require("./models/request");
 
 // to validate object IDs
 const { ObjectID } = require("mongodb");
@@ -871,7 +872,78 @@ app.get("/api/posts/:id", async (req, res) => {
 	
 });
 
+//request routes
 
+app.post('/request', multipartMiddleware, async (req, res) => {
+    log(`Adding request`)
+ 
+    // Create a new student using the Student mongoose model
+    const request = new Request({
+        requestor: { id: req.body.requestorId, profileName: req.body.requestorProfileName },
+        acceptor: { id: req.body.acceptorId, profileName: req.body.acceptorProfileName },
+        postId: req.body.postId
+    })
+
+    try {
+
+        const result = await request.save() 
+        result ? res.send(request) :  res.status(400).send('Failed to send request')
+
+    } catch(error) {
+        log(error) // log server error to the console, not to the client.
+        res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+    }
+})
+
+
+app.get('/request/sentRequests/:requestorId', async (req, res) => {
+	// Add code here
+
+    const id = req.params.requestorId
+
+	try {
+		
+        const results = await Request.find({
+            'requestor.id': id
+        });
+
+        results ? res.send(results) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+
+app.get('/request/receivedRequests/:acceptorId', async (req, res) => {
+	// Add code here
+
+    const id = req.params.acceptorId
+
+	try {
+		
+        const results = await Request.find({
+            'acceptor.id': id
+        });
+
+        results ? res.send(results) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
 /*********************************************************/
 
 /*** API Routes below ************************************/

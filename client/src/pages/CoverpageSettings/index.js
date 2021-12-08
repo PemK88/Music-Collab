@@ -32,7 +32,7 @@ function CoverpageSettings (props) {
     useEffect(() => {
 
         if(post && post.artist.id){
-            updateWithCurrentId();
+            getUserByID(post.artist.id, setUser)
         }
 
     }, [post])
@@ -42,7 +42,7 @@ function CoverpageSettings (props) {
        //get post
        getPost(postId, updatePost)
 
-    }, [])
+    })
 
     return (
         <div className="page">
