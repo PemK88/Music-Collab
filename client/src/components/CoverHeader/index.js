@@ -86,8 +86,8 @@ function CoverHeader (props) {
         <div className="cover-no-overflow">
                 <img id="cover-photo" src={props.currentPost.coverPhoto.imageUrl} alt={"Song Cover"}/>
                 <h3 id="profile-name"> {props.currentPost.title} by <Link to={{
-                            pathname: `/Profile/${props.currentUser.username}`,
-                            state: { userId: props.currentUser.id }
+                            pathname: `/Profile/${props.currentPost.artist.profileName}`,
+                            state: { userId: props.currentPost.artist.id }
                 }} className="purple-link"> {`${props.currentPost.artist.profileName}`} </Link> </h3>
                 <AudioPlayer
                     src={props.currentPost.audio.audioUrl}

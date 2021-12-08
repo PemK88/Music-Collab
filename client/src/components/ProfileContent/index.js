@@ -34,10 +34,10 @@ function ProfileContent (props) {
         return works.map((work, idx) => {
             return (
                 <li key={idx}>
-                    <Link to={{
-                        pathname:'/coverpage',
+                    <Link className="profile-works-link" to={{
+                        pathname: `/CoverPage/${work.title}`,
                         state: { postId: work._id }
-                    }}>
+                        }}>
                         <img src={work.coverPhoto.imageUrl} alt='work cover'/>
                     </Link> 
                     <Link className="profile-works-link" to={{

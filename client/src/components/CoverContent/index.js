@@ -53,7 +53,7 @@ function CoverContent (props) {
                 );
             }
             else {
-                if (comment.id !== props.currentUser.id) {
+                if (comment.userId !== props.currentUser.id) {
                     return (
                         <li key={idx} className='comment-box'>
                             <div className='comment-username-container'>

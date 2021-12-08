@@ -31,8 +31,7 @@ function AdminProfileContent (props) {
                                         <ul>
                                         {generateLogs(props.currentUser.activityLog)}
                                         </ul>
-                                    </div>
-                                    <button type="select" onClick={ () => clear() }>Clear Logs</button>    
+                                    </div>    
                                 </div>
     );};
 
@@ -40,6 +39,7 @@ function AdminProfileContent (props) {
     return (
         <div id="profile-content">  
             {activityLogBox()}
+            {!props.isView && <button type="select" onClick={ () => clear() }>Clear Logs</button>}
         </div>
     )
 
@@ -47,7 +47,7 @@ function AdminProfileContent (props) {
 
 AdminProfileContent.propTypes = {
     currentUser: PropTypes.object,
-    externalView: PropTypes.bool,
+    isView: PropTypes.bool,
     setUser: PropTypes.func
 
 }

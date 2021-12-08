@@ -38,6 +38,7 @@ import ReportManagementPage from './components/AdminComponents/ReportManagementP
 import ArchivedReportManagementPage from './components/AdminComponents/ArchivedReportManagementPage';
 import AdminNavigationBar from './components/AdminComponents/NavigationBar/AdminNavigationBar';
 import AdminProfile from './pages/Profile/AdminProfile';
+import AdminProfileView from './pages/Profile/AdminProfileView';
 import AdminProfileSettings from './pages/ProfileSettings/AdminProfileSettings';
 import ReportView from './components/AdminComponents/ReportView';
 
@@ -239,7 +240,7 @@ function App() {
           
           <Route exact path='/ExternalCoverPage' render={() => (<ExternalCoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           {/* <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/> */}
-          <Route exact path='/CoverPage/:title' render={() => (<CoverPage setComment={setPostComment} currentUser={state.id} setUserInfo={setUserInfo}/>)}/>
+          <Route exact path='/CoverPage/:title' render={() => (<CoverPage currentUser={state.id} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/Features/:title' render={() => (<Features/>)}/>
           <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentUser={state}/>)}/>
@@ -262,6 +263,7 @@ function App() {
           <Route exact path="/ReportManagement" component={() => (<ReportManagementPage setLog={setLog} currentUser={state.id} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
           <Route exact path="/ArchivedReportManagement" component={() => (<ArchivedReportManagementPage setLog={setLog} currentUser={state.id} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
           <Route exact path='/AdminProfile' render={() => (<AdminProfile currentUser={state.id}/>)}/>
+          <Route exact path='/AdminProfile/:profileName' render={() => (<AdminProfileView/>)}/>
           <Route exact path='/AdminProfileSettings' render={() => (<AdminProfileSettings currentUser={state}/>)}/>
           <Route exact path='/ProfileView' render={() => (<ProfileView currentUser={currentUser}/>)}/>
           <Route exact path='/ProfileSettingsView' render={() => (<ProfileSettingsView currentUser={currentUser}/>)}/>

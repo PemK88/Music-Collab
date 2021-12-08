@@ -11,7 +11,7 @@ function ExploreView (props) {
             return (
                 <li key={idx}>
                     <Link to={{
-                        pathname:'/CoverPage',
+                        pathname:`/CoverPage/${work.title}`,
                         state: { postId: work._id }
                     }}>
                         <img id="large-img" src={work.coverPhoto.imageUrl} alt='work cover'/>

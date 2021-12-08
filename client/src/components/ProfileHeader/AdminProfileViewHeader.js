@@ -6,7 +6,7 @@ import default_profile from '../../data/profile/default_profile_photo.jpeg'
 
 
 
-function AdminProfileHeader (props) {
+function AdminProfileViewHeader (props) {
 
     return(
         <div className="profile-header no-overflow">
@@ -14,18 +14,15 @@ function AdminProfileHeader (props) {
             {/* <img id="profile-photo" src={props.currentUser.profilePhotoUrl} alt={"User Profile"}/> */}
             <img id="profile-photo" src={props.currentUser.profilePhoto.imageUrl} alt={"User Profile"}/>
             <h2 id="profile-name">{props.currentUser.profileName}</h2>
-            <br/>
-            <AdminProfileNav page={props.page} currentUser={props.currentUser}/>
-            <br/>
             </div>
         </div>
 
     )
 }
 
-AdminProfileHeader.propTypes = {
+AdminProfileViewHeader.propTypes = {
     currentUser: PropTypes.object,
     page: PropTypes.string
 };
 
-export default AdminProfileHeader;
+export default AdminProfileViewHeader;

@@ -19,7 +19,6 @@ function AdminProfileNav (props) {
 AdminProfileNav.propTypes = {
     page: PropTypes.string,
     currentUser: PropTypes.object,
-    externalView: PropTypes.bool
 };
 
 export default AdminProfileNav;

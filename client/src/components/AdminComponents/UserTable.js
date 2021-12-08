@@ -111,24 +111,46 @@ class UserTable extends React.Component {
 
     tableData = (searchResult) => {
         return searchResult.map((user) => {
-            return (
-                <tr key= {user.username}>
-                    <td><input type="checkbox" onChange={ () => this.handleChange(user) }/></td>
-                    <td id='inputText'>{user.username}</td>
-                    <td id='inputText'>{user.isAdmin ? 'admin' : 'user'}</td>
-                    <td id='inputText'>{user.profileName}</td>
-                    <td id='inputText'>{user.lastLogIn}</td>
-                    <td><Link to={{
-                            pathname: `/EditUser`,
-                            state: { userId: user._id }
-                            }}>{!user.isAdmin && <button type="edit">Edit</button>}</Link></td>
-                    <td><Link to={{
-                            pathname: `/Profile/${user.profileName}`,
-                            state: { userId: user._id }
-                            }}> {!user.isAdmin && <button type="view">View</button>}</Link></td>
-                    <td><button type="select" onClick={ () => this.removeUser(user) }>Delete</button></td>
-                </tr>
-            )
+            if (user._id === this.props.currentUser) {
+                return (
+                    <tr key= {user.username}>
+                        <td><input type="checkbox" onChange={ () => this.handleChange(user) }/></td>
+                        <td id='inputText'>{user.username}</td>
+                        <td id='inputText'>{user.isAdmin ? 'admin' : 'user'}</td>
+                        <td id='inputText'>{user.profileName}</td>
+                        <td id='inputText'>{user.lastLogIn}</td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                    </tr>
+                )
+            }
+
+            else {
+                return (
+                    <tr key= {user.username}>
+                        <td><input type="checkbox" onChange={ () => this.handleChange(user) }/></td>
+                        <td id='inputText'>{user.username}</td>
+                        <td id='inputText'>{user.isAdmin ? 'admin' : 'user'}</td>
+                        <td id='inputText'>{user.profileName}</td>
+                        <td id='inputText'>{user.lastLogIn}</td>
+                        <td><Link to={{
+                                pathname: `/EditUser`,
+                                state: { userId: user._id }
+                                }}><button type="edit">Edit</button></Link> </td>
+                        <td>{(user.isAdmin ? <Link to={{
+                                pathname: `/AdminProfile/${user.profileName}`,
+                                state: { userId: user._id }
+                                }}> {<button type="view">View</button>}</Link> :
+                                <Link to={{
+                                    pathname: `/Profile/${user.profileName}`,
+                                    state: { userId: user._id }
+                                    }}> {<button type="view">View</button>}</Link> )}</td>
+                        <td><button type="select" onClick={ () => this.removeUser(user) }>Delete</button></td>
+                    </tr>
+                )
+            }
+
         })
     }
  

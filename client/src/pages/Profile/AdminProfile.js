@@ -4,12 +4,10 @@ import AdminProfileContent from '../../components/ProfileContent/AdminProfileCon
 import "./styles.css";
 import PropTypes from 'prop-types';
 import { getUser } from '../../actions/user';
-import { Link } from "react-router-dom";
 
 function AdminProfile (props) {
 
     const [externalView, setExternalView] = useState(false);
-    const [redirctTo, setRedirctTo] = useState(true);
     //will check if the currentUserid provided through link matches the curentUser Id
     //If it does not, a get request will be made to get the currentUser's information
 
