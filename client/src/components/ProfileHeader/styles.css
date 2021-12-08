@@ -29,21 +29,24 @@
 }
 
 #follow-btn {
-    width: 100px;
+    background-image: linear-gradient( 
+        144deg,#3f51b5, #673ab7 50%,#673ab7);
+    width: 110px;
     font-size: 17px;
 }
 
 #unfollow-btn {
-    width: 100px;
+    width: 110px;
     font-size: 17px;
-    background-color: rgb(28 51 116);
+    background-image: linear-gradient(
+        144deg,#293787, #51249f 50%,#291152);
+    /* background-color: rgb(28 51 116); */
     border: 0.5px solid rgb(14 26 60);
 }
 
-#unfollow-btn:hover {
-    background-color: rgb(19 37 88);
+#unfollow-btn:hover, #follow-btn:hover {
+    opacity: 0.8;
 }
-
 
 #report-btn {
     background-color: rgba(221, 3, 3, 0.863);

@@ -35,7 +35,7 @@ function ProfileContent (props) {
             return (
                 <li key={idx}>
                     <Link to={{
-                        pathname:'/coverpage',
+                        pathname:`/CoverPage/${work.title}`,
                         state: { postId: work._id }
                     }}>
                         <img src={work.coverPhoto.imageUrl} alt='work cover'/>
@@ -54,11 +54,13 @@ function ProfileContent (props) {
         if(!list) return;
 
         return list.map((interest, idx) => {
-            return (
-                <li key={idx}>
-                    <p className="btn">{interest}</p>
-                </li>
-            );   
+            if(interest){
+                return (
+                    <li key={idx}>
+                        <p className="interest">{interest}</p>
+                    </li>
+                );
+            }   
         });
     
     };

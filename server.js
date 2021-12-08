@@ -609,8 +609,6 @@ app.get('/posts/recentWorks', async (req, res) => {
                 res.status(404).send('Resource not found')
                 return;
             }
-
-            log("ordered by trending works")
             res.send(docs)
 
         });
@@ -636,7 +634,6 @@ app.get('/posts/trendingWorks', async (req, res) => {
                 return;
             }
 
-            log("ordered by recent works")
             res.send(docs)
 
         });
@@ -662,7 +659,7 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
         artist: {id: req.body.userId, profileName: req.body.artist},
         description: req.body.description,
         tags: JSON.parse(req.body.hashtags),
-        categories: req.body.categories,
+        categories: JSON.parse(req.body.categories),
         references: JSON.parse(req.body.references),
         title: req.body.title
     })
@@ -685,8 +682,6 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
 
                 post.coverPhoto = img
             });
-
-        console.log("uploaded image")
 
         await cloudinary.v2.uploader.upload(
             req.files.originalAudio.path, 
@@ -711,7 +706,6 @@ app.post('/posts', multipartMiddleware, async (req, res) => {
                 post.audio = audio;
             });
 
-        console.log("uploaded audio")
 
 
         const result = await post.save() 
@@ -734,7 +728,7 @@ app.patch('/posts/updatePost', multipartMiddleware, async (req, res) => {
     let post = {
         description: req.body.description,
         tags: JSON.parse(req.body.hashtags),
-        categories: req.body.categories,
+        categories: JSON.parse(req.body.categories),
         references: JSON.parse(req.body.references),
         title: req.body.title
     }

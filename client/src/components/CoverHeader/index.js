@@ -55,6 +55,8 @@ function CoverHeader (props) {
         props.toggleView();
     };
 
+    
+
     const generateTags = (list) => {
         if(!list) return;
 
@@ -74,9 +76,24 @@ function CoverHeader (props) {
         return list.map((interest, idx) => {
             return (
                 <li key={idx}>
-                    <p className="btn">{interest}</p>
+                    <p className="interest">{interest}</p>
                 </li>
             );   
+        });
+    
+    };
+
+    const generateInterests = (list) => {
+        if(!list) return;
+
+        return list.map((interest, idx) => {
+            if(interest){
+                return (
+                    <li key={idx}>
+                        <p className="interest">{interest}</p>
+                    </li>
+                );
+            }   
         });
     
     };
@@ -93,32 +110,35 @@ function CoverHeader (props) {
                     src={props.currentPost.audio.audioUrl}
                 />
                 <div id="coverButtons2">
-                    {props.externalView && <button id="like-btn" className="btn" onClick={setlikePost}>{props.isLiked ? 'Unlike':'Like'}</button>}
+                    {props.externalView && <button id="like-btn" className="btn" onClick={setlikePost}>{props.isLiked ? '💔 Unlike':'💜 Like'}</button>}
                 </div>
                  <div id="description-box">
                     <h3 className="box-title">Description</h3>
                     <p id="description-text">{props.currentPost.description}</p>
                     <ul id="interests-list" className="no-left-padding">
-                        {generateTags(props.currentPost.tags)}
+                    <p className="hashtag">{(props.currentPost && props.currentPost.tags) ? props.currentPost.tags.join(" #") : ""}</p>
+                        {//generateTags(props.currentPost.tags)
+                        }
                     </ul>
                     <ul id="interests-list1">
-                        {generateGenres(props.currentPost.categories)}
+                        {generateInterests(props.currentPost.categories)}
                     </ul>
                 </div>
             <ReportPopup reportType={"post"} currentUser={props.currentUser} reported={props.currentPost} trigger={reportPopupTrigger} handleTrigger={handleReport}/>
             <div id="coverButtons">
-                {props.externalView && <a href={props.currentPost.audio.audioUrl} onClick={handleDownload} id="download-btn" className="btn" download>Download</a>}
+                {props.externalView && <a href={props.currentPost.audio.audioUrl} target="_blank" onClick={handleDownload} id="download-btn" className="btn" download>Download</a>}
                 <Link to={{
                             pathname: `/Features/${props.currentPost.title}`,
                             state: { postId: props.currentPost.id, userId: props.currentUser.id }
-                        }} id="timeline-btn" className="btn">Features</Link>
-                {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
+                        }} id="timeline-btn" className="btn">🎼 Features</Link>
+                
                 {!props.externalView && <Link to={{
                             pathname: `/CoverPageSettings/${props.currentPost.title}`,
                             state: { postId: props.currentPost.id }
                         }}  id="edit-btn" className="btn">Edit</Link>}
             </div>
             <br/>
+            {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
             {/* {props.page === 'cover' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>} */}
         </div>
 

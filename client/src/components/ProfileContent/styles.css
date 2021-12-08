@@ -35,21 +35,30 @@
 }
 
 
-#interests-list li{
+#interests-list li {
     width:fit-content;
 }
 
-.interests-list li p{
-    margin: 0px 10px;
+.interest {
+    /* margin: 0px 10px;
     font-size: 16px;
     cursor: default;
     background-color: #6412ad;
+    border-color: #53138d; */
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: default;
     border-color: #53138d;
+    padding: 5px 9px;
+    border-radius: 8px;
+    background-color: #7f1691;
+    font-weight: 500;
+    color: #e5ddf3;
 }
 
-.interests-list li p:hover{
+/* .interests-list li p:hover{
     background-color: #6412ad;
-}
+} */
 
 .large-dark-box-activty {
     background-color: #1c1c1e;

@@ -26,7 +26,7 @@ function MusicNotes (props) {
                         <div className="vertical-purple-line"/>
                             <div className={"details-container" + (display[idx] ? "" : " no-display")}> 
                                 <h3>
-                                    <Link to={{pathname='/CoverPage', state:{postId: ref._id}}} className="purple-link light-purple">{ref.title}</Link>
+                                    <Link to={{pathname:'/CoverPage', state:{postId: ref._id}}} className="purple-link light-purple">{ref.title}</Link>
                                     {" by " + ref.artist.profileName}
                                 </h3>
                                 <p>{ref.description}</p>

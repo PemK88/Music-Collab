@@ -20,7 +20,7 @@ function ExploreView (props) {
                                 pathname: `/CoverPage/${work.title}`,
                                 state: { postId: work._id }
                                 }}>{work.title}</Link>
-                    <p>{work.tags.join(" #")}</p>
+                    <p className="hashtag">{work.tags.join(" #")}</p>
                 </li>
             );   
         });
