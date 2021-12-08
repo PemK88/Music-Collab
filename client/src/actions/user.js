@@ -229,7 +229,8 @@ export const getUser = (id, setUser) => {
                 followings: json.followings,
                 lastLogIn: json.lastLogIn,
                 activityLog: json.activityLog,
-                profilePhoto: json.profilePhoto
+                profilePhoto: json.profilePhoto,
+                accessTo: json.accessTo
             });
         })
         .catch(error => {

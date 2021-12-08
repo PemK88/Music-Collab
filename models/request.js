@@ -29,12 +29,13 @@ const commentSchema = mongoose.Schema({
 })
 
 
-const Report = mongoose.model('Report', {
+const Request = mongoose.model('Request', {
 	// id: {
 	// 	type: Number,
 	// 	required: true,
     //     unique: true
 	// },
+    postId: {type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
    
 	requestor: {
         type: artistSchema ,
@@ -61,4 +62,4 @@ const Report = mongoose.model('Report', {
   
 })
 
-module.exports = { Report }
+module.exports = { Request }

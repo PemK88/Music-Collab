@@ -106,7 +106,6 @@ function RequestComment (props) {
 }
 
 RequestComment.propTypes = {
-    externalView: PropTypes.bool,
     currentUser: PropTypes.object,
     currentPost: PropTypes.object,
     setComment: PropTypes.func
