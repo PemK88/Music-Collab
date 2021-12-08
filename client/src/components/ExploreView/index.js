@@ -17,9 +17,9 @@ function ExploreView (props) {
                         <img id="large-img" src={work.coverPhoto.imageUrl} alt='work cover'/>
                     </Link>
                     <Link className="profile-works-link" to={{
-                        pathname:'/CoverPage',
-                        id: work._id
-                    }}>{work.title}</Link>
+                                pathname: `/CoverPage/${work.title}`,
+                                state: { postId: work._id }
+                                }}>{work.title}</Link>
                     <p>{work.tags.join(" #")}</p>
                 </li>
             );   

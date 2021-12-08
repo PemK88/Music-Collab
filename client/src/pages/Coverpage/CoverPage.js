@@ -78,9 +78,9 @@ function CoverPage (props) {
     }
 
     useEffect(() => {
-    
-        getPost(postId, setPostInfo)
-    
+        if (postId) {
+            getPost(postId, setPostInfo)
+        }
     }, [])
 
     useEffect(() => {
