@@ -80,15 +80,13 @@ function CoverPage (props) {
     useEffect(() => {
         if (postId) {
             getPost(postId, setPostInfo)
-        }
+        } 
     }, [])
 
     useEffect(() => {
         if (props.currentUser) {
             getUser(props.currentUser, setUserInfo)
         }
-        getPost(postId, setPostInfo)
-    
     }, [props.currentUser])
 
     const setUserInfo = (data) => {
@@ -101,6 +99,9 @@ function CoverPage (props) {
         if (user.id) {
             checkLiked()
         }
+        if (user.isAdmin) {
+            setExternalView(false)
+        }
         console.log('chnaged')
     }, [user])
 
@@ -109,9 +110,6 @@ function CoverPage (props) {
             if (user.id === post.artist.id) {
                 setExternalView(false)
             } 
-            else if (user.isAdmin) {
-                setExternalView(false)
-            }
             else {
                 setExternalView(true)
             }

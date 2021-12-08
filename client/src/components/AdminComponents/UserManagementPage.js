@@ -2,16 +2,44 @@ import UserTable from './UserTable'
 import React, { useState, useEffect } from 'react';
 import 'react-router-dom'
 import PropTypes from 'prop-types';
-import { getUserInfo } from '../../actions/user';
-import { Link } from "react-router-dom";
+import { getUserInfo, getUser } from '../../actions/user';
+
 
 function UserManagementPage(props) {
   
   //a get request will be made to the server to get the user details
-  const [redirctTo, setRedirctTo] = useState(false);
   const [userData, setUserData] = useState({
     users: []
   })
+
+  const [user, setUser] = useState({
+      username: null,
+      isAdmin: null,
+      id: null,
+      password: null,
+      profileName: null,
+      email: null,
+      interests: null,
+      uploadedWorks: null,
+      downloadedWorks: null,
+      likedWorks: [], 
+      followers: null,
+      followings: null,
+      lastLogIn: null,
+      activityLog: null,
+      profilePhoto: null
+  })
+
+  useEffect(() => {
+    if (props.currentUser) {
+        getUser(props.currentUser, setUserInfo)
+    }
+  }, [props.currentUser])
+
+  const setUserInfo = (data) => {
+      setUser(data)
+  }
+
 
   function setUserChanged(child) {
     const name = child[0]
@@ -20,22 +48,17 @@ function UserManagementPage(props) {
 
   useEffect(() => {
     if (props.currentUser) {
-      setRedirctTo(false)
       getUserInfo(setUserData)
       console.log('changed')
     }
   }, [])
 
-  if (redirctTo) {
-    return <Link to="/" />
-  } else {
-      return (
-        <div className='management-container'>
-          <UserTable currentUser={props.currentUser} setLog={props.setLog} users={userData.users} setUsers = {setUserChanged} />
-        </div>
-      );
-  }
 
+    return (
+      <div className='management-container'>
+        <UserTable currentUser={props.currentUser} fullUser={user} setLog={props.setLog} users={userData.users} setUsers = {setUserChanged} />
+      </div>
+    );
 }
 
 UserManagementPage.propTypes = {

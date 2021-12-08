@@ -20,7 +20,6 @@ function ArchivedReportManagementPage(props) {
   useEffect(() => {
     if (props.currentUser) {
       getArchivedReportInfo(setReportData)
-      console.log('changed')
     }
   }, [])
 

@@ -1065,6 +1065,10 @@ app.delete('/api/users/:id', async (req, res) => {
 	// Delete a user by their _id
 	try {
 		const student = await User.findByIdAndRemove(id)
+        await User.updateMany({}, { $pull: { "followings": id } });
+        await User.updateMany({}, { $pull: { "followers": id } });
+        await Post.updateMany({}, { $pull: { "recievedLikes": id } });
+        await Report.updateMany({}, { $pull: { "reported": {"_id": id} } });
 		if (!student) {
 			res.status(404).send()
 		} else {   
@@ -1379,7 +1383,7 @@ app.delete('/api/posts/recievedLikes/:id/:user_id', (req, res) => {
 	}) 
 })
 
-// Delete User
+// Delete Post
 app.delete('/api/posts/:id', async (req, res) => {
 	const id = req.params.id
 
@@ -1394,6 +1398,10 @@ app.delete('/api/posts/:id', async (req, res) => {
 	// Delete a user by their _id
 	try {
 		const post = await Post.findByIdAndRemove(id)
+        await User.updateMany({}, { $pull: { "likedWorks": id } });
+        await User.updateMany({}, { $pull: { "downloadedWorks": id } });
+        await Post.updateMany({}, { $pull: { "references": {"id": id} } });
+        await Report.updateMany({}, { $pull: { "reported": {"id": id} } });
 		if (!post) {
 			res.status(404).send()
 		} else {   

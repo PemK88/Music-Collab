@@ -240,7 +240,7 @@ function App() {
           <Route exact path='/CoverPage/:title' render={() => (<CoverPage currentUser={state.id} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/Features/:title' render={() => (<Features/>)}/>
           <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
-          <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentUser={state}/>)}/>
+          <Route exact path='/CoverPageSettings/:title' render={() => (<CoverpageSettings currentUser={state}/>)}/>
           
           <Route exact path='/EditUser' render={() => (<EditUser/>)}/>
           <Route exact path='/Profile' render={() => (<Profile currentUser={state}/>)}/>

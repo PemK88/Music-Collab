@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css';
 import UserFooter from './UserFooter';
 import SearchBar from './SearchBar';
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { addActivty, deleteUser } from '../../actions/user';
 
 class UserTable extends React.Component {
@@ -11,6 +11,7 @@ class UserTable extends React.Component {
         query: ""
     }
 
+ 
     getDateTime = () => {
         const today = new Date();
         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();

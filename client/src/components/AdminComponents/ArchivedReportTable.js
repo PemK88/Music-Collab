@@ -33,8 +33,8 @@ class ArchivedReportTable extends React.Component {
         return(
             <tr>
                 <th id='inputText'> Select </th>
-	 			<th id='inputText'> Report ID </th>
-                <th id='inputText'> Item ID </th>
+	 			<th id='inputText'> Date </th>
+                <th id='inputText'> What Reported </th>
 	 			<th id='inputText'> Type </th>
 	 			<th id='inputText'> Reported By </th>
                 <th id='inputText'> Reason </th>
@@ -131,8 +131,15 @@ class ArchivedReportTable extends React.Component {
             return (
                 <tr key={r._id}>
                     <td><input type="checkbox" onChange={ () => this.handleChange(r) }/></td>
-                    <td id='inputText'>{r._id}</td>
-                    <td id='inputText'>{(r.type==='post')?r.reported.title:r.reported.username}</td>
+                    <td id='inputText'>{r.date}</td>
+                    <td id='inputText'>{(r.type==='post')?<Link to={{
+                                pathname: `/CoverPage/${r.reported.title}`,
+                                state: { postId: r.reported.id }
+                                }}> {r.reported.title} </Link> : 
+                                <Link to={{
+                                    pathname: `/Profile/${r.reported.profileName}`,
+                                    state: { userId: r.reported._id }
+                                    }}>{r.reported.username}</Link> }</td>
                     <td id='inputText'>{r.type}</td>
                     <td id='inputText'>{r.user.profileName}</td>
                     <td id='inputText'>{r.reason}</td>

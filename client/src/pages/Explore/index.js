@@ -53,6 +53,7 @@ function ExplorePage (props) {
     const [loggedUser, setLoggedUser] = useState();
     const [likedWorks, setLikedWorks] = useState([]);
     const [works, setWorks] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
 
    const setTrending = (data) => {setTrendingWorks(data)}
    const setRecent = (data) => {setRecentWorks(data)}
@@ -91,6 +92,9 @@ function ExplorePage (props) {
 
         if(loggedUser) {
             getPostsWithIds(loggedUser.likedWorks, setLiked)
+            if (loggedUser.isAdmin) {
+                setIsAdmin(true)
+            }
         }
     
     }, [loggedUser])
@@ -136,7 +140,7 @@ function ExplorePage (props) {
             (   <div className="bottom-page">
                     <ExploreView works={trendingWorks} title={"Trending"}/>
                     <ExploreView works={recentWorks} title={"Recently Uploaded"}/>
-                    <ExploreView works={likedWorks} title={"Liked Works"}/>
+                    {!isAdmin && <ExploreView works={likedWorks} title={"Liked Works"}/>}
                     <CategoryWork handleClick={handleClick}/>
                     <ExploreView works={categoryWorks} title={categoryName}/>
                     

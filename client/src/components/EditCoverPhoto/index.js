@@ -12,8 +12,11 @@ function EditCoverPhoto(props) {
                 <label id="change-cover-photo-label" htmlFor="photo">Select Cover Photo</label>
                 <input name="coverImage" id="photo" type="file" accept=".png, .jpg, .jpeg" onChange={props.handleImgChange}/>
             </div>
-            <div>
-                <Link to="/CoverPage"><button className='btn' id='edit-cancel-btn' > Cancel </button></Link>
+            <div>.
+                <Link to={{
+                            pathname: `/CoverPage/${props.currentPost.title}`,
+                            state: { postId: props.currentPost._id }
+                            }}><button className='btn' id='edit-cancel-btn' > Cancel </button></Link>
                 <button className='btn' id='upload-btn' onClick={(event) => {props.handleUpload(event)}}> Save Changes</button>
             </div>    
         </div>
@@ -26,7 +29,8 @@ function EditCoverPhoto(props) {
 EditCoverPhoto.propTypes = {
     coverImageSrc: PropTypes.string,
     handleImgChange: PropTypes.func,
-    handleUpload: PropTypes.func
+    handleUpload: PropTypes.func,
+    currentPost: PropTypes.object
 }
 
 export default EditCoverPhoto;

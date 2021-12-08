@@ -3,11 +3,8 @@ const { Int32 } = require('mongodb/lib/bson');
 const mongoose = require('mongoose');
 
 const referenceSchema = mongoose.Schema( {
-	id: {
-		type: String,
-		required: true,
-        unique: true
-	},
+
+	id: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'},
 
     description: {
 		type: String,
@@ -22,7 +19,7 @@ const referenceSchema = mongoose.Schema( {
 
 const commentSchema = mongoose.Schema({
 	userId: {
-		type: String,
+		type: mongoose.Schema.Types.ObjectId, ref: 'User',
 		required: true,
 		minlegth: 1,
 		trim: true,
@@ -51,7 +48,7 @@ const commentSchema = mongoose.Schema({
 })
 
 const artistSchema = new mongoose.Schema({
-    id: String,
+    id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     profileName: String
 }, { _id : false });
 
@@ -105,7 +102,7 @@ const Post = mongoose.model('Post', {
 	},
 
     recievedLikes: {
-        type: [String],
+        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
         required: true,
         default: []
     },

@@ -14,6 +14,7 @@ function ProfileHeader (props) {
     const [reportPopupTrigger, setReportPopupTrigger] = useState(false);
     const [followersNum, setFollowersNum] = useState()
     const [followingsNum, setFollowingsNum] = useState()
+    const [isAdmin, setIsAdmin] = useState(false)
 
 
 
@@ -32,6 +33,11 @@ function ProfileHeader (props) {
         if(props.currentUser) {
             setFollowersNum(props.currentUser.followers.length)
             setFollowingsNum(props.currentUser.followings.length)
+        }
+        if (props.loggedUser) {
+            if (props.loggedUser.isAdmin) {
+                setIsAdmin(true)
+            }
         }
     }, [props.loggedUser, props.currentUser, props.externalView, props.page])
 
@@ -102,7 +108,7 @@ function ProfileHeader (props) {
             <img id="profile-photo" src={(props.currentUser && props.currentUser.profilePhoto) ? props.currentUser.profilePhoto.imageUrl : defaultProfilePhoto} alt={"User Profile"}/>
             <h2 id="profile-name">{props.currentUser ? props.currentUser.profileName : ""}</h2>
             <br/>
-            {(props.externalView && props.page === 'profile') && <button id={followBtnId} className="btn" onClick={handleFollow}>{followBtnVal}</button>}
+            {(!isAdmin && props.externalView && props.page === 'profile') && <button id={followBtnId} className="btn" onClick={handleFollow}>{followBtnVal}</button>}
             {(props.externalView && props.page !== 'profile') && <br/>}
             <br/>
             <br/>

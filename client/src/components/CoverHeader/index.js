@@ -51,9 +51,9 @@ function CoverHeader (props) {
     }
 
 
-    const handleViewChange = () => {
-        props.toggleView();
-    };
+    // const handleViewChange = () => {
+    //     props.toggleView();
+    // };
 
     
 

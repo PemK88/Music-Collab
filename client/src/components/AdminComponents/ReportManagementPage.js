@@ -20,7 +20,6 @@ function ReportManagementPage(props) {
   useEffect(() => {
     if (props.currentUser) {
       getUnarchivedReportInfo(setReportData)
-      console.log('changed')
     }
   }, [])
 

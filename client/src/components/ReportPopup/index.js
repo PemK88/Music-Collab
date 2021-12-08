@@ -13,9 +13,14 @@ function ReportPopup (props) {
 
     const handleSubmit = () => {
         //on submit a post request will be made to the server with the report details
+        let userInfo = {id: props.currentUser._id, profileName: props.currentUser.profileName }
+        if (props.reportType === "post") {
+            userInfo = {id: props.currentUser.id, profileName: props.currentUser.profileName }
+        } 
+
         const form = {
             type: props.reportType,
-            user: {id: props.currentUser.id, profileName: props.currentUser.profileName, username:props.currentUser.username},
+            user: userInfo,
             date: getDateTime(),
             reason: state.value,
             reported: props.reported

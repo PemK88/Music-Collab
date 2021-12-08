@@ -78,11 +78,6 @@ const UserSchema = new mongoose.Schema({
 		required: false
     },
 
-    interests: {
-        type: [String],
-		required: false
-    },
-
     downloadedWorks: {
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
         required: false
@@ -94,12 +89,12 @@ const UserSchema = new mongoose.Schema({
     },
 
 	followers: {
-        type: [String],
+        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
         required: false
     },
 
     followings: {
-        type: [String],
+        type: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
         required: false
     },
 
@@ -159,6 +154,7 @@ UserSchema.statics.findByUsernamePassword = function(username, password) {
 		})
 	})
 }
+
 
 // make a model using the User schema
 const User = mongoose.model('User', UserSchema)

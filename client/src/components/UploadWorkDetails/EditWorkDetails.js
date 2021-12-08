@@ -250,7 +250,7 @@ function EditWorkDetails (props) {
                     </form>
                 </div>
             </div>
-            <EditCoverPhoto coverImageSrc={uploadFormInputs.coverImage} handleImgChange={handleInputChange} handleUpload={handleUpload}/>
+            <EditCoverPhoto currentPost={props.currentPost} coverImageSrc={uploadFormInputs.coverImage} handleImgChange={handleInputChange} handleUpload={handleUpload}/>
         </div>
     );
 

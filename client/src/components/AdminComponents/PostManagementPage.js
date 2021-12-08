@@ -22,7 +22,6 @@ function PostManagementPage(props) {
   useEffect(() => {
     if (props.currentUser) {
       getPostInfo(setPostData)
-      console.log('changed')
     }
   }, [])
 

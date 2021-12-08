@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './styles.css';
@@ -10,6 +10,7 @@ function CoverContent (props) {
     const [state, setState] = useState ({
         comment: ""
     })
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const handleInputChange = (event) => {
         const target=event.target
@@ -34,21 +35,33 @@ function CoverContent (props) {
         addPostComment(newComment, props.currentPost.id)
     }
 
+    useEffect(() => {
+        if (props.currentUser) {
+            if (props.currentUser.isAdmin) {
+                setIsAdmin(true)
+            }
+        }
+    }, [props.currentUser])
+
     const generateComments = (list) => {
         if(!list) return;
 
         return list.map((comment, idx) => {
-            if (props.currentUser.isAdmin) {
+            if (isAdmin) {
                 return (
                     <li key={idx} className='curr-comment-box'>
                         <div className='comment-username-container'>
-                        <Link to="/Profile"><button className='btn'>{comment.profileName}</button></Link>
+                        <Link to={{
+                                    pathname: `/Profile/${comment.profileName}`,
+                                    state: { userId: comment.id }
+                                    }}><button className='btn'>{comment.profileName}</button></Link>
                         </div>
                         <div className='comment-content-container'>
                             <p id='comment-content'> {comment.comment} </p>
                         </div>
-                        <button id='comment-delete-btn' onClick={ () => removeComment(comment) } >Delete</button>
-                       
+                        <div>
+                            <button id='comment-delete-btn' onClick={ () => removeComment(comment) } >Delete</button>
+                        </div>
                     </li>
                 );
             }
@@ -75,8 +88,9 @@ function CoverContent (props) {
                             <div className='comment-content-container'>
                                 <p id='comment-content'> {comment.comment} </p>
                             </div>
-                            <button id='comment-delete-btn' onClick={ () => removeComment(comment) } >Delete</button>
-                        
+                            <div>
+                                <button id='comment-delete-btn' onClick={ () => removeComment(comment) } >Delete</button>
+                            </div>
                         </li>
                     );
                 }
@@ -92,8 +106,7 @@ function CoverContent (props) {
                 <h3 className="box-title">Comments</h3>
                     <div id="comments">
                         <ul className="comment-list">
-                            {props.externalView && generateComments(props.currentPost.comments)}
-                            {!props.externalView && generateComments(props.currentPost.comments)}
+                            {generateComments(props.currentPost.comments)}
                         </ul>
                     </div>
                     <div className='comment-content-container'>
