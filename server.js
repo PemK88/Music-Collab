@@ -187,13 +187,10 @@ app.get("/users/details/:username", async (req, res) => {
     }
     
     const username = req.params.username;
-    console.log("this is username: " + username)
 
 	try {
 
 		const user = await User.findOne({username: username})
-
-        console.log("this is user details: " + user)
 		
 		if(!user) {
 			res.status(404).send('Resource not found')

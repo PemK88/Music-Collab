@@ -21,7 +21,7 @@ function CoverpageSettings (props) {
 
     const updateWithCurrentId = () => {
 
-        updateUser(props.currentUser.id, setUser)
+        updateUser(post.artist.id, setUser)
 
     }
 
@@ -31,11 +31,11 @@ function CoverpageSettings (props) {
 
     useEffect(() => {
 
-        if(props.currentUser && props.currentUser.id){
+        if(post && post.artist.id){
             updateWithCurrentId();
         }
 
-    }, [props.currentUser])
+    }, [post])
 
     useEffect(() => {
 
