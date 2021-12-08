@@ -47,14 +47,24 @@ function RequestComment (props) {
         if(!list) return;
 
         return list.map((comment, idx) => {
-            if (isAdmin) {
+            if (comment.userId !== props.currentUser.id) {
+                return (
+                    <li key={idx} className='comment-box'>
+                        <div className='comment-username-container'>
+                            <Link to="/Profile"><button id='comment-username-btn'>{comment.profileName}</button></Link>
+                        </div>
+                        <div className='comment-content-container'>
+                            <p id='comment-content'> {comment.comment} </p>
+                        </div>
+                    
+                    </li>
+                );  
+            }
+            else {
                 return (
                     <li key={idx} className='curr-comment-box'>
                         <div className='comment-username-container'>
-                        <Link to={{
-                                    pathname: `/Profile/${comment.profileName}`,
-                                    state: { userId: comment.id }
-                                    }}><button className='btn'>{comment.profileName}</button></Link>
+                        <Link to="/Profile"><button className='btn'>{comment.profileName}</button></Link>
                         </div>
                         <div className='comment-content-container'>
                             <p id='comment-content'> {comment.comment} </p>
@@ -64,37 +74,7 @@ function RequestComment (props) {
                         </div>
                     </li>
                 );
-            }
-            else {
-                if (comment.userId !== props.currentUser.id) {
-                    return (
-                        <li key={idx} className='comment-box'>
-                            <div className='comment-username-container'>
-                                <Link to="/Profile"><button id='comment-username-btn'>{comment.profileName}</button></Link>
-                            </div>
-                            <div className='comment-content-container'>
-                                <p id='comment-content'> {comment.comment} </p>
-                            </div>
-                        
-                        </li>
-                    );  
-                }
-                else {
-                    return (
-                        <li key={idx} className='curr-comment-box'>
-                            <div className='comment-username-container'>
-                            <Link to="/Profile"><button className='btn'>{comment.profileName}</button></Link>
-                            </div>
-                            <div className='comment-content-container'>
-                                <p id='comment-content'> {comment.comment} </p>
-                            </div>
-                            <div>
-                                <button id='comment-delete-btn' onClick={ () => removeComment(comment) } >Delete</button>
-                            </div>
-                        </li>
-                    );
-                }
-            }  
+            } 
         });
     };
 
@@ -125,7 +105,7 @@ function RequestComment (props) {
 
 }
 
-CoverContent.propTypes = {
+RequestComment.propTypes = {
     externalView: PropTypes.bool,
     currentUser: PropTypes.object,
     currentPost: PropTypes.object,
