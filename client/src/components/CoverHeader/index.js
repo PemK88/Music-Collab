@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
 import ReportPopup from '../ReportPopup';
 import {Link } from "react-router-dom";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import { likePost, unlikePost, downloadPost } from '../../actions/user';
+import { removedLikeUser, addLikedUser, changeLikedCounts } from '../../actions/post';
 
 
 function CoverHeader (props) {
 
     const [reportPopupTrigger, setReportPopupTrigger] = useState(false);
 
-    const [isLiked, setIsLiked] = useState(false);
 
 
     // const checkLiked = () => {
@@ -23,11 +24,31 @@ function CoverHeader (props) {
     //     }
     // }
 
-    const likePost = () => setIsLiked(!isLiked)
+    const setlikePost = () => {
+        let now = props.currentPost.likesCount
+        if (!props.isLiked) {
+            now = now + 1
+            props.setIsLiked(true)
+            likePost(props.currentUser.id, props.currentPost.id)
+            addLikedUser(props.currentUser.id, props.currentPost.id)
+            changeLikedCounts(props.currentPost.id, now)
+        }
+        else {
+            now = now -1
+            props.setIsLiked(false)
+            unlikePost(props.currentUser.id, props.currentPost.id)
+            removedLikeUser(props.currentUser.id, props.currentPost.id)
+            changeLikedCounts(props.currentPost.id, now)
+        }
+    }
 
     const handleReport = () => {
         setReportPopupTrigger(!reportPopupTrigger);
     };
+
+    const handleDownload = () => {
+        downloadPost(props.currentUser.id, props.currentPost.id)
+    }
 
 
     const handleViewChange = () => {
@@ -63,13 +84,16 @@ function CoverHeader (props) {
 
     return(
         <div className="cover-no-overflow">
-                <img id="cover-photo" src={props.currentPost.imgSrc} alt={"Song Cover"}/>
-                <h3 id="profile-name">{props.currentPost.artist} - {props.currentPost.title}</h3>
+                <img id="cover-photo" src={props.currentPost.coverPhoto.imageUrl} alt={"Song Cover"}/>
+                <h3 id="profile-name"> {props.currentPost.title} by <Link to={{
+                            pathname: `/Profile/${props.currentUser.username}`,
+                            state: { userId: props.currentUser.id }
+                }} className="purple-link"> {`${props.currentPost.artist.profileName}`} </Link> </h3>
                 <AudioPlayer
-                    src={props.currentPost.audio}
+                    src={props.currentPost.audio.audioUrl}
                 />
                 <div id="coverButtons2">
-                    <button id="like-btn" className="btn" onClick={likePost}>{isLiked ? 'Like':'Unlike'}</button>
+                    {props.externalView && <button id="like-btn" className="btn" onClick={setlikePost}>{props.isLiked ? 'Unlike':'Like'}</button>}
                 </div>
                  <div id="description-box">
                     <h3 className="box-title">Description</h3>
@@ -81,15 +105,21 @@ function CoverHeader (props) {
                         {generateGenres(props.currentPost.categories)}
                     </ul>
                 </div>
-            <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
+            <ReportPopup reportType={"post"} currentUser={props.currentUser} reported={props.currentPost} trigger={reportPopupTrigger} handleTrigger={handleReport}/>
             <div id="coverButtons">
-                {props.externalView && <a href={props.currentPost.audio} id="download-btn" className="btn" download>Download</a>}
-                <Link to="Features" id="timeline-btn" className="btn">Features</Link>
+                {props.externalView && <a href={props.currentPost.audio.audioUrl} onClick={handleDownload} id="download-btn" className="btn" download>Download</a>}
+                <Link to={{
+                            pathname: `/Features/${props.currentPost.title}`,
+                            state: { postId: props.currentPost.id, userId: props.currentUser.id }
+                        }} id="timeline-btn" className="btn">Features</Link>
                 {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
-                {!props.externalView && <Link to="/CoverPageSettings" id="edit-btn" className="btn">Edit</Link>}
+                {!props.externalView && <Link to={{
+                            pathname: `/CoverPageSettings/${props.currentPost.title}`,
+                            state: { postId: props.currentPost.id }
+                        }}  id="edit-btn" className="btn">Edit</Link>}
             </div>
             <br/>
-            {props.page === 'cover' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>}
+            {/* {props.page === 'cover' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>} */}
         </div>
 
     )
@@ -102,6 +132,8 @@ CoverHeader.propTypes = {
     setWork: PropTypes.func,
     page: PropTypes.string,
     toggleView: PropTypes.func,
+    setIsLiked: PropTypes.func,
+    isLiked: PropTypes.bool
 };
 
 export default CoverHeader;

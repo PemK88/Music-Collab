@@ -218,3 +218,15 @@ button {
     overflow: hidden;
 
   }
+
+#adminForm {
+    position: relative;
+    left: 20%;
+    margin-top: 5%;
+}
+
+#adminInput {
+    position: absolute;
+    left: 150px;
+    margin-top: 8px;
+}

@@ -3,6 +3,7 @@ import './styles.css';
 import UserFooter from './UserFooter';
 import SearchBar from './SearchBar';
 import {Link } from "react-router-dom";
+import { addActivty, deleteUser } from '../../actions/user';
 
 class UserTable extends React.Component {
     state = {
@@ -10,11 +11,19 @@ class UserTable extends React.Component {
         query: ""
     }
 
+    getDateTime = () => {
+        const today = new Date();
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        const dateTime = date+' '+time;
+        return dateTime
+    }
+
     callBack = (childData) => {
         const userList = this.props.users 
         userList.push(childData)
-        this.props.setUsers(userList)
-        this.props.setLog("added new admin '" + childData.username + "'")
+        this.props.setUsers(["users", userList])
+        this.logActivity(this.getDateTime(), "added new admin '" + childData.username + "'")
     }
 
     queryCallBack = (childData) => {
@@ -38,10 +47,16 @@ class UserTable extends React.Component {
         )
     }
 
-    removeUser = (user) => {
-        const filteredUsers = this.props.users.filter((u) => { return u !== user })
-        this.props.setUsers(filteredUsers)
-        this.props.setLog("deleted user '" + user.username + "'")
+    removeUser = (thisuser) => {
+        const filteredUsers = this.props.users.filter((u) => { return u !== thisuser })
+        this.props.setUsers(["users", filteredUsers])
+        deleteUser(thisuser._id)
+        this.logActivity(this.getDateTime(), "deleted user '" + thisuser.username + "'")
+    }
+
+   
+    logActivity = (time, action) => {
+        addActivty({ time: time, action: action }, this.props.currentUser)
     }
 
     handleChange = (user) => {
@@ -62,15 +77,20 @@ class UserTable extends React.Component {
     deleteSelected = () => {
         const selected = this.state.selected
         let userList = this.props.users
-        for (let user of selected ) {
-            let filteredList = userList.filter((u) => { return u !== user })
+        for (let thisuser of selected ) {
+            let filteredList = userList.filter((u) => { return u !== thisuser })
             userList = filteredList
-            this.props.setLog("deleted user '" + user.username + "'")
+            this.logActivity(this.getDateTime(), "deleted user '" + thisuser.username + "'")
         }
         this.setState({
             selected: []
         })
-        this.props.setUsers(userList)
+
+        for (let thisuser of selected ) {
+            deleteUser(thisuser._id)
+        }
+        
+        this.props.setUsers(["users", userList])
     }
 
     filterUsers = (users, query) => {
@@ -95,8 +115,8 @@ class UserTable extends React.Component {
                 <tr key= {user.username}>
                     <td><input type="checkbox" onChange={ () => this.handleChange(user) }/></td>
                     <td id='inputText'>{user.username}</td>
-                    <td id='inputText'>{user.userType}</td>
-                    <td id='inputText'>{user.name}</td>
+                    <td id='inputText'>{user.isAdmin ? 'admin' : 'user'}</td>
+                    <td id='inputText'>{user.profileName}</td>
                     <td id='inputText'>{user.lastLogIn}</td>
                     <td><Link to="/ProfileSettingsView"><button type="edit">Edit</button></Link></td>
                     <td><Link to="/ProfileView"><button type="view">View</button></Link></td>

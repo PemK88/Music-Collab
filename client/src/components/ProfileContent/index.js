@@ -1,24 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import "./styles.css";
+import { getUsersPosts } from '../../actions/post';
+import { getPostsWithIds } from '../../actions/post';
+import { updateUserBioByID } from '../../actions/user';
 
 
 function ProfileContent (props) {
 
     const[editMode, setEditMode] = useState(false);
     const[editBtnVal, setEditBtnVal] = useState('Edit');
-    const[bio, setBio] = useState(props.currentUser.bio)
+    const[bio, setBio] = useState(props.user.biography)
+    const[profileWorks, setProfileWorks] = useState([]);
+    const[downloadedWorks, setDownloadedWorksState] = useState([]);
+    const[interests, setInterests] = useState(props.user.interests)
+
+    const setProfileWorksState = (works) => {
+        setProfileWorks(works)
+    }
+
+    useEffect(() => {
+
+        getUsersPosts(props.user._id, setProfileWorksState);
+        getPostsWithIds(props.user.downloadedWorks, setDownloadedWorksState);
+        setBio(props.user.biography)
+        setInterests(props.user.interests)
+  
+    }, [props.user])
 
     const generateWorks = (works) => {
         if(!works) return;
         return works.map((work, idx) => {
             return (
                 <li key={idx}>
-                    <img src={work.imgSrc} alt='work cover'/>
+                    <Link to={{
+                        pathname:'/coverpage',
+                        id: work._id
+                    }}>
+                        <img src={work.coverPhotoUrl} alt='work cover'/>
+                    </Link> 
                     <Link className="profile-works-link" to={{
                         pathname:'/coverpage',
-                        id: work.id
+                        id: work._id
                     }}>{work.title}</Link> 
                 </li>
             );   
@@ -39,12 +63,18 @@ function ProfileContent (props) {
     
     };
 
+    const updateUserInfo = async () => {
+        await updateUserBioByID(props.user._id, bio)
+        await props.updateUser();
+    }
+
     const handleEdit = () => {
         if(editMode === false) {
             setEditMode(true);
             setEditBtnVal('Save');
         } else {
             //on Save a post request will be made to the server with the new bio
+            updateUserInfo()
             setEditMode(false);
             setEditBtnVal('Edit');
         }
@@ -53,15 +83,16 @@ function ProfileContent (props) {
     const handleCancel = () => {
         setEditMode(false);
         setEditBtnVal('Edit');
-        setBio(props.currentUser.bio);
+        setBio(props.user.biography);
     }
 
-    const worksBox = () => { return (
+    const worksBox = () => { 
+        return (
                                 <div className="large-dark-box">
                                     <h3 className="box-title">Works</h3>
                                     <div className="profile-works">
                                         <ul className="small-works-list">
-                                        {generateWorks(props.currentUser.works)}
+                                        {generateWorks(profileWorks)}
                                         </ul>
                                     </div>
                                 </div>
@@ -91,20 +122,21 @@ function ProfileContent (props) {
                                 <div className="tall-small-dark-box">
                                     <h3 className="box-title">Interests</h3>
                                     <ul className="interests-list">
-                                        {generateInterests(props.currentUser.interests)}
+                                        {generateInterests(interests)}
                                     </ul>
-                                    </div>
+                                </div>
     );};
 
-    const downloadsBox = () => { return ( 
-        <div className="small-dark-box height-300">
-            <h3 className="box-title">Downloads</h3>
-            <div className="profile-works">
-                <ul className="small-works-list">
-                    {generateWorks(props.currentUser.downloadedWorks)}
-                </ul>
+    const downloadsBox = () => { 
+        return ( 
+            <div className="small-dark-box height-300">
+                <h3 className="box-title">Downloads</h3>
+                <div className="profile-works">
+                    <ul className="small-works-list">
+                        {generateWorks(downloadedWorks)}
+                    </ul>
+                </div>
             </div>
-        </div>
     );};
 
 
@@ -127,8 +159,9 @@ function ProfileContent (props) {
 }
 
 ProfileContent.propTypes = {
-    currentUser: PropTypes.object,
+    user: PropTypes.object,
     externalView: PropTypes.bool,
+    updateUser: PropTypes.func
 }
 
 export default ProfileContent;

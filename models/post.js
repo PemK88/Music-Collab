@@ -1,55 +1,94 @@
 /* User mongoose model */
-const mongoose = require('mongoose')
+const { Int32 } = require('mongodb/lib/bson');
+const mongoose = require('mongoose');
+const { number } = require('yargs');
 
-// const ReferencePost = mongoose.model('ReferencePost', {
-// 	id: {
-// 		type: Number,
-// 		required: true,
-//         unique: true
-// 	},
+const referenceSchema = mongoose.Schema( {
+	id: {
+		type: String,
+		required: true,
+        unique: true
+	},
 
-//     description: {
-// 		type: String,
-// 		required: false,
-// 	}
-// })
+    description: {
+		type: String,
+		required: false,
+	},
 
-// const Comment = mongoose.model('Comment', {
-// 	username: {
-// 		type: String,
-// 		required: true,
-// 		minlegth: 1,
-// 		trim: true,
-//         unique: true
-// 	},
+    name: {
+		type: String,
+		required: false,
+	}
+})
 
-//     profileName: {
-// 		type: String,
-// 		required: true,
-// 		minlegth: 1,
-// 		trim: true
-// 	},
+const commentSchema = mongoose.Schema({
+	userId: {
+		type: String,
+		required: true,
+		minlegth: 1,
+		trim: true,
+        unique: true
+	},
 
-//     comment: {
-// 		type: String,
-// 		required: true
-// 	}
-// })
+    profileName: {
+		type: String,
+		required: true,
+		minlegth: 1,
+		trim: true
+	},
+
+    comment: {
+		type: String,
+		required: true
+	},
+
+    username: {
+		type: String,
+		required: true,
+		minlegth: 1,
+		trim: true,
+        unique: true
+	}
+})
+
+const artistSchema = new mongoose.Schema({
+    id: String,
+    profileName: String
+}, { _id : false });
+
+const coverPhotoSchema = new mongoose.Schema({
+    imageId: String,
+    imageUrl: String,
+    createdOn: Date
+}, { _id : false });
+
+const audioSchema = new mongoose.Schema({
+    audioId: String,
+    audioUrl: String,
+    createdOn: Date
+}, { _id : false });
+
 
 const Post = mongoose.model('Post', {
-	// id: {
-	// 	type: Number,
-	// 	required: true,
-    //     unique: true
-	// },
+    dateCreated: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
 
-    coverPhotoUrl: {
-        type: String,
+    likesCount: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+
+    coverPhoto: {
+        type: coverPhotoSchema,
 		required: false
     },
 
-    audioUrl: {
-        type: String,
+    audio: {
+        type: audioSchema,
 		required: true
     },
 
@@ -61,9 +100,8 @@ const Post = mongoose.model('Post', {
 	},
 
     artist: {
-		type: {'id': String, 'profileName': String},
+		type: artistSchema,
 		required: true,
-		minlegth: 1,
 		trim: true
 	},
 
@@ -91,17 +129,16 @@ const Post = mongoose.model('Post', {
     },
 
     references: {
-        type: [Object],
+        type: [referenceSchema],
         required: true,
         default: []
     },
 
     comments: {
-        type: [String],
+        type: [commentSchema],
         required: true,
         default: []
     }
-
 })
 
 

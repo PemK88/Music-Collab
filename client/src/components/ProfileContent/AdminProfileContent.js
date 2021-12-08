@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
+import { clearActivity } from '../../actions/user';
 
 
 function AdminProfileContent (props) {
@@ -18,7 +19,10 @@ function AdminProfileContent (props) {
     
     };
 
-
+    function clear() {
+        props.setUser(["activityLog", []])
+        clearActivity(props.currentUser.id)
+    }
 
     const activityLogBox = () => { return (
                                 <div className="large-dark-box-activty">
@@ -28,6 +32,7 @@ function AdminProfileContent (props) {
                                         {generateLogs(props.currentUser.activityLog)}
                                         </ul>
                                     </div>
+                                    <button type="select" onClick={ () => clear() }>Clear Logs</button>    
                                 </div>
     );};
 
@@ -43,6 +48,8 @@ function AdminProfileContent (props) {
 AdminProfileContent.propTypes = {
     currentUser: PropTypes.object,
     externalView: PropTypes.bool,
+    setUser: PropTypes.func
+
 }
 
 export default AdminProfileContent;

@@ -24,6 +24,11 @@ const mongoose = require('mongoose')
 // 		required: false
 //     }
 // })
+const profilePhotoSchema = new mongoose.Schema({
+    imageId: String,
+    imageUrl: String,
+    createdOn: Date
+}, { _id : false });
 
 const UserSchema = new mongoose.Schema({
     isAdmin: {
@@ -60,19 +65,23 @@ const UserSchema = new mongoose.Schema({
         unique: true
 	},
 
-    profilePhotoUrl: {
+    profilePhoto: {
+        type: profilePhotoSchema,
+		required: false
+    },
+	biography: {
         type: String,
+		required: false,
+		default: ''
+    },
+	interests: {
+        type: [String],
 		required: false
     },
 
     interests: {
         type: [String],
 		required: false
-    },
-
-    uploadedWorks: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-        required: false
     },
 
     downloadedWorks: {
@@ -97,7 +106,8 @@ const UserSchema = new mongoose.Schema({
 
     activityLog: {
         type: [String],
-        required: false
+        required: false,
+		default: []
     },
 
     lastLogIn: {

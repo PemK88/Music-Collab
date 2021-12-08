@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './styles.css';
+import { addPostComment, deleteComment } from '../../actions/post';
 
 
 function CoverContent (props) {
@@ -22,67 +23,68 @@ function CoverContent (props) {
     const removeComment = (comment) => {
         const filteredList = props.currentPost.comments.filter((c) => { return c !== comment })
         props.setComment(filteredList)
+        deleteComment(props.currentPost.id, comment._id)
     }
 
     const addComment = () => {
         const commentList = props.currentPost.comments
-        const newComment = [props.currentUser.profileName, state.comment, props.currentUser.username]
+        const newComment = {profileName: props.currentUser.profileName, comment: state.comment, userId: props.currentUser.id}
         commentList.push(newComment)
-
         props.setComment(commentList)
+        addPostComment(newComment, props.currentPost.id)
     }
-
-    const generateUserComments = (list) => {
-        if(!list) return;
-
-        return list.map((comment, idx) => {
-            if (comment[2] !== props.currentUser.username) {
-                return (
-                    <li key={idx} className='comment-box'>
-                        <div className='comment-username-container'>
-                            <Link to="/Profile"><button id='comment-username-btn'>{comment[0]}</button></Link>
-                        </div>
-                        <div className='comment-content-container'>
-                            <p id='comment-content'> {comment[1]} </p>
-                        </div>
-                       
-                    </li>
-                );  
-            }
-            else {
-                return (
-                    <li key={idx} className='curr-comment-box'>
-                        <div className='comment-username-container'>
-                        <Link to="/Profile"><button className='btn'>{comment[0]}</button></Link>
-                        </div>
-                        <div className='comment-content-container'>
-                            <p id='comment-content'> {comment[1]} </p>
-                        </div>
-                        <button id='comment-delete-btn' onClick={ () => removeComment(comment) } >Delete</button>
-                       
-                    </li>
-                );
-            }  
-        });
-    };
 
     const generateComments = (list) => {
         if(!list) return;
 
         return list.map((comment, idx) => {
-            return (
-                <li key={idx} className='comment-box'>
-                    <div className='comment-username-container'>
-                        <button id='comment-username-btn'>{comment[0]}</button>
-                    </div>
-                    <div className='comment-content-container'>
-                        <p id='comment-content'> {comment[1]} </p>
-                    </div>
-                    
-                </li>
-            );  
+            if (props.currentUser.isAdmin) {
+                return (
+                    <li key={idx} className='curr-comment-box'>
+                        <div className='comment-username-container'>
+                        <Link to="/Profile"><button className='btn'>{comment.profileName}</button></Link>
+                        </div>
+                        <div className='comment-content-container'>
+                            <p id='comment-content'> {comment.comment} </p>
+                        </div>
+                        <button id='comment-delete-btn' onClick={ () => removeComment(comment) } >Delete</button>
+                       
+                    </li>
+                );
+            }
+            else {
+                if (comment.id !== props.currentUser.id) {
+                    return (
+                        <li key={idx} className='comment-box'>
+                            <div className='comment-username-container'>
+                                <Link to="/Profile"><button id='comment-username-btn'>{comment.profileName}</button></Link>
+                            </div>
+                            <div className='comment-content-container'>
+                                <p id='comment-content'> {comment.comment} </p>
+                            </div>
+                        
+                        </li>
+                    );  
+                }
+                else {
+                    return (
+                        <li key={idx} className='curr-comment-box'>
+                            <div className='comment-username-container'>
+                            <Link to="/Profile"><button className='btn'>{comment.profileName}</button></Link>
+                            </div>
+                            <div className='comment-content-container'>
+                                <p id='comment-content'> {comment.comment} </p>
+                            </div>
+                            <button id='comment-delete-btn' onClick={ () => removeComment(comment) } >Delete</button>
+                        
+                        </li>
+                    );
+                }
+            }  
         });
     };
+
+
     
     return (
         <div id="profile-content">
@@ -91,7 +93,7 @@ function CoverContent (props) {
                     <div id="comments">
                         <ul className="comment-list">
                             {props.externalView && generateComments(props.currentPost.comments)}
-                            {!props.externalView && generateUserComments(props.currentPost.comments)}
+                            {!props.externalView && generateComments(props.currentPost.comments)}
                         </ul>
                     </div>
                     <div className='comment-content-container'>

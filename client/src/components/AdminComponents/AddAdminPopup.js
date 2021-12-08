@@ -1,5 +1,6 @@
 import React from "react";
 import './styles.css'
+import { addUser } from "../../actions/user";
  
 class AddAdminPopup extends React.Component {
     state = {
@@ -26,15 +27,16 @@ class AddAdminPopup extends React.Component {
     addAdminUser = (event) => {
         const adminUser = {
             username: this.state.username,
-            userType: "admin",
+            isAdmin: true,
             email: this.state.email,
             password: this.state.password,
-            name: this.state.name,
+            profileName: this.state.name,
             lastLogIn: this.state.lastLogIn,
             activityLog: []
         }
 
         this.props.parentCallBack(adminUser)
+        addUser(adminUser)
         this.props.handleClose()
     }
 
@@ -44,10 +46,10 @@ class AddAdminPopup extends React.Component {
                 <div className="popup-content">
                     <h3 id="popup-title"> Add Admin </h3>
                     <form id='adminForm'>
-                        <div className='Row'>
-                            <label className='inputLabel'>Username</label>
+                        <div className='Row' id='adminRow'>
+                            <label className='inputLabel' id='adminLabel'>Username</label>
                             <input type="text" 
-                                id="addInput"
+                                id="adminInput"
                                 name='username' 
                                 placeholder="username" 
                                 value={ this.state.username }
@@ -57,7 +59,7 @@ class AddAdminPopup extends React.Component {
                         <div className='Row'>
                             <label className='inputLabel'>Name</label>
                             <input type="text"
-                                id="addInput" 
+                                id="adminInput" 
                                 name='name' 
                                 placeholder="name" 
                                 value={ this.state.name }
@@ -67,7 +69,7 @@ class AddAdminPopup extends React.Component {
                         <div className='Row'>
                             <label className='inputLabel'>Email</label>
                             <input type="text"
-                                id="addInput" 
+                                id="adminInput" 
                                 name='email' 
                                 placeholder="email" 
                                 value={ this.state.email }
@@ -76,7 +78,7 @@ class AddAdminPopup extends React.Component {
                         </div>
                         <div className='Row'>
                             <label className='inputLabel'>Password</label>
-                            <input id="addInput"
+                            <input id="adminInput"
                                 type="password" 
                                 name='password' 
                                 placeholder="password" 

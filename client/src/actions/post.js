@@ -4,7 +4,7 @@ const API_HOST = ENV.api_host
 
 
 // A function to send a POST request with a new user
-export const addPost = (workForm) => {
+export const addPost = async (workForm) => {
     // the URL for the request
     const url = `${API_HOST}/posts`;
     console.log("in add post")
@@ -30,6 +30,7 @@ export const addPost = (workForm) => {
             if (res.status === 200) {
                 // If student was added successfully, tell the user.
                 console.log("Post was successfully added")
+                return 1;
             } else {
                 // If server couldn't add the student, tell the user.
                 // Here we are adding a generic message, but you could be more specific in your app.
@@ -39,4 +40,392 @@ export const addPost = (workForm) => {
         .catch(error => {
             console.log("post error: " + error);
         });
+        return 0;
 };
+
+
+export const getUsersPosts = async (userID,setState) => {
+
+    const url = `${API_HOST}/posts/usersPosts/${userID}`;
+
+    try {
+        const res =  await fetch(url);
+
+        if (res.status !== 200) {
+            console.log("Could not get user's posts");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            console.log("got user's posts");
+            console.log("this is result " + result)
+            // the resolved promise with the JSON body
+            if(json) {
+                setState([...json]);
+            }
+            
+        })
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
+};
+
+
+export const getPostsWithIds = async (idsList, setState) => {
+
+    const url = `${API_HOST}/posts/getWorksByIds`;
+
+    const  list = {
+        ids: idsList
+    }
+
+    const request = new Request(url, {
+        method: "post",
+        body: JSON.stringify(list),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    try {
+        const res =  await fetch(request);
+
+        if (res.status !== 200) {
+            console.log("Could not get works");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            console.log("got works");
+            console.log("this is result " + result)
+            // the resolved promise with the JSON body
+            if(json) {
+                setState([...json]);
+            }
+            
+        })
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
+};
+
+export const getPostInfo = (setPostData) => {
+    // the URL for the request
+    const url = `${API_HOST}/api/posts`;
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "get",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                console.log('200')
+                return res.json();
+            }
+        })
+        .then(json => {
+            setPostData({posts: json.posts});
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const getPost = (id, setPost) => {
+
+    const url = `${API_HOST}/api/posts/${id}`;
+
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "get",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                console.log('200')
+                return res.json();
+            }
+        })
+        .then(json => {
+            setPost({
+                id: json.id,
+                coverPhoto: json.coverPhoto,
+                audio: json.audio,
+                title: json.title,
+                artist: json.artist,
+                description: json.description,
+                recievedLikes: json.recievedLikes,
+                likesCount: json.likesCount,
+                categories: json.categories,            
+                tags: json.tags,
+                references: json.references,
+                comments: json.comments,
+                dateCreated: json.dateCreated
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const addPostComment = (comment, postID) => {
+    // the URL for the request
+    const url = `${API_HOST}/api/posts/comment/${ postID }`;
+
+    // The data we are going to send in our request
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "post",
+        body: JSON.stringify(comment),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(function (res) {
+            // Handle response we get from the API.
+            // Usually check the error codes to see what happened.
+            if (res.status === 200) {
+                // If student was added successfully, tell the user.
+                console.log("successfully added comment")
+            } else {
+                // If server couldn't add the student, tell the user.
+                // Here we are adding a generic message, but you could be more specific in your app.
+                console.log("failed to add comment")
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const deleteComment = (postID, commentID) => {
+    // the URL for the request
+    const url = `${API_HOST}/api/posts/comment/${postID}/${commentID}`;
+
+    // The data we are going to send in our request
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "delete",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(function (res) {
+            // Handle response we get from the API.
+            // Usually check the error codes to see what happened.
+            if (res.status === 200) {
+                // If student was added successfully, tell the user.
+                console.log("successfully deleted comment")
+            } else {
+                // If server couldn't add the student, tell the user.
+                // Here we are adding a generic message, but you could be more specific in your app.
+                console.log("failed to delete comment")
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const deletePost = (id) => {
+    // the URL for the request
+    const url = `${API_HOST}api/posts/${id}`;
+
+    // The data we are going to send in our request
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "delete",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(function (res) {
+            // Handle response we get from the API.
+            // Usually check the error codes to see what happened.
+            if (res.status === 200) {
+                // If student was added successfully, tell the user.
+                console.log("successfully removed post")
+            } else {
+                // If server couldn't add the student, tell the user.
+                // Here we are adding a generic message, but you could be more specific in your app.
+                console.log("failed to remove post")
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const addLikedUser = (userID, postID) => {
+    // the URL for the request
+    const url = `${API_HOST}/api/posts/recievedLikes/${ postID }`;
+    const postJSON = {id: userID}
+    // The data we are going to send in our request
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "post",
+        body: JSON.stringify(postJSON),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(function (res) {
+            // Handle response we get from the API.
+            // Usually check the error codes to see what happened.
+            if (res.status === 200) {
+                // If student was added successfully, tell the user.
+                console.log("successfully added liked user")
+            } else {
+                // If server couldn't add the student, tell the user.
+                // Here we are adding a generic message, but you could be more specific in your app.
+                console.log("failed to add liked user")
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const removedLikeUser = (userID, postID) => {
+    // the URL for the request
+    const url = `${API_HOST}/api/posts/recievedLikes/${postID}/${userID}`;
+
+    // The data we are going to send in our request
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "delete",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(function (res) {
+            // Handle response we get from the API.
+            // Usually check the error codes to see what happened.
+            if (res.status === 200) {
+                // If student was added successfully, tell the user.
+                console.log("successfully removed user from liked list")
+            } else {
+                // If server couldn't add the student, tell the user.
+                // Here we are adding a generic message, but you could be more specific in your app.
+                console.log("failed to remove user from liked list")
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const changeLikedCounts = (postID, number) => {
+    // the URL for the request
+    const url = `${API_HOST}/api/posts/likesCount/${ postID }`;
+    const postJSON = {n: number}
+    // The data we are going to send in our request
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "post",
+        body: JSON.stringify(postJSON),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(function (res) {
+            // Handle response we get from the API.
+            // Usually check the error codes to see what happened.
+            if (res.status === 200) {
+                // If student was added successfully, tell the user.
+                console.log("successfully added liked user")
+            } else {
+                // If server couldn't add the student, tell the user.
+                // Here we are adding a generic message, but you could be more specific in your app.
+                console.log("failed to add liked user")
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+// export const getIsLiked = (id, userId, setIsLiked) => {
+
+//     const url = `${API_HOST}/api/posts/isLiked/${id}/${userId}`;
+
+
+//     // Create our request constructor with all the parameters we need
+//     const request = new Request(url, {
+//         method: "get",
+//         headers: {
+//             Accept: "application/json, text/plain, */*",
+//             "Content-Type": "application/json"
+//         }
+//     });
+
+//     // Send the request with fetch()
+//     fetch(request)
+//         .then(res => {
+//             if (!res) {
+//                 setIsLiked(false);
+//             }
+//             else {
+//                 setIsLiked(true)
+//             }
+//         })
+//         .catch(error => {
+//             console.log(error);
+//         });
+// };
+

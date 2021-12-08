@@ -2,12 +2,25 @@ import React from 'react';
 import './styles.css';
 import SearchBar from './SearchBar';
 import {Link } from "react-router-dom";
+import { addActivty } from '../../actions/user';
+import { changeArchive, deleteReport } from '../../actions/report';
 
 class ArchivedReportTable extends React.Component {
-
     state = {
         selected: [],
         query: ""
+    }
+
+    getDateTime = () => {
+        const today = new Date();
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        const dateTime = date+' '+time;
+        return dateTime
+    }
+
+    logActivity = (time, action) => {
+        addActivty({ time: time, action: action }, this.props.currentUser)
     }
 
     queryCallBack = (childData) => {
@@ -21,9 +34,9 @@ class ArchivedReportTable extends React.Component {
             <tr>
                 <th id='inputText'> Select </th>
 	 			<th id='inputText'> Report ID </th>
-                <th id='inputText'> Reported </th>
+                <th id='inputText'> Item ID </th>
 	 			<th id='inputText'> Type </th>
-	 			<th id='inputText'> User Reported </th>
+	 			<th id='inputText'> Reported By </th>
                 <th id='inputText'> Date Reported </th>
                 <th id='inputText'> Unarchive </th>
                 <th id='inputText'> View </th>
@@ -32,20 +45,18 @@ class ArchivedReportTable extends React.Component {
         )
     }
 
-    unarchiveReport = (report) => {
-        const filteredArchivedReports = this.props.archived.filter((r) => { return r !== report })
-        const reportList = this.props.reports
-        reportList.push(report)
-        this.props.setLog("unarchived report ID: " + report.reportID)
-
-        this.props.setReports(reportList)
-        this.props.setArchived(filteredArchivedReports)
+    archiveReport = (report) => {
+        const filteredReports = this.props.reports.filter((r) => { return r !== report })
+        this.props.setReports(["reports", filteredReports])
+        changeArchive(report._id, false)
+        this.logActivity(this.getDateTime(), `unarchived report with ID: ${report._id}`)
     }
 
     removeReport = (report) => {
-        const filteredReports = this.props.archived.filter((r) => { return r !== report })
-        this.props.setArchived(filteredReports)
-        this.props.setLog("removed report ID: " + report.reportID)
+        const filteredReports = this.props.reports.filter((r) => { return r !== report })
+        this.props.setReports(["reports", filteredReports])
+        deleteReport(report._id)
+        this.logActivity(this.getDateTime(), `removed report with ID: ${report._id}`)
     }
 
     handleChange = (report) => {
@@ -65,41 +76,45 @@ class ArchivedReportTable extends React.Component {
 
     deleteSelected = () => {
         const selected = this.state.selected
-        let archivedReportList = this.props.archived
+        let reportList = this.props.reports
         for (let report of selected ) {
-            let filteredList = archivedReportList.filter((r) => { return r !== report })
-            archivedReportList = filteredList
-            this.props.setLog("removed report ID: " + report.reportID)
+            let filteredList = reportList.filter((r) => { return r !== report })
+            reportList = filteredList
+            this.logActivity(this.getDateTime(), `removed report with ID: ${report._id}`)
         }
+
+        for (let report of selected ) {
+            changeArchive(report._id, true)
+        }
+
         this.setState({
             selected: []
         })
-        this.props.setArchived(archivedReportList)
+        this.props.setReports(["reports", reportList])
     }
 
-    unarchiveSelected = () => {
+    archiveSelected = () => {
         const selected = this.state.selected
-        const reportList = this.props.reports
-        
-        let archivedReportList = this.props.archived
+        let reportList = this.props.reports
         for (let report of selected ) {
-            let filteredList = archivedReportList.filter((r) => { return r !== report })
-            archivedReportList = filteredList
-            reportList.push(report)
-            this.props.setLog("unarchived report ID: " + report.reportID)
+            let filteredList = reportList.filter((r) => { return r !== report })
+            reportList = filteredList
+            this.logActivity(this.getDateTime(), `unarchived report with ID: ${report._id}`)
+        }
+
+        for (let report of selected ) {
+            changeArchive(report._id, false)
         }
 
         this.setState({
             selected: []
         })
-
-        this.props.setReports(reportList)
-        this.props.setArchived(archivedReportList)
+        this.props.setReports(["reports", reportList])
     }
 
     filterPosts = (reports, query) => {
         if (query === "") {
-            return this.tableData(this.props.archived)
+            return this.tableData(this.props.reports)
         }
         const lowerQuery = query.toLowerCase()
 
@@ -115,15 +130,18 @@ class ArchivedReportTable extends React.Component {
     tableData = (searchResult) => {
         return searchResult.map((r) => {
             return (
-                <tr key= {r.reportID}>
+                <tr key={r._id}>
                     <td><input type="checkbox" onChange={ () => this.handleChange(r) }/></td>
-                    <td id='inputText'>{r.reportID}</td>
-                    <td id='inputText'>{r.reported}</td>
+                    <td id='inputText'>{r._id}</td>
+                    <td id='inputText'>{(r.type==='post')?r.reported.title:r.reported.username}</td>
                     <td id='inputText'>{r.type}</td>
-                    <td id='inputText'>{r.user}</td>
+                    <td id='inputText'>{r.user.username}</td>
                     <td id='inputText'>{r.date}</td>
-                    <td><button type="archive" onClick={ () => this.unarchiveReport(r) }>Unarchive</button></td>
-                    <td><Link to='/ReportView'><button type="view">View</button></Link></td>
+                    <td><button type="archive" onClick={ () => this.archiveReport(r) }>Unarchive</button></td>
+                    <td><Link to={{
+                                pathname: `/ReportView`,
+                                state: { reportId: r._id }
+                                }}><button type="view">View</button></Link></td>
                     <td><button type="select" onClick={ () => this.removeReport(r) }>Delete</button></td>
                 </tr>
             )
@@ -138,13 +156,13 @@ class ArchivedReportTable extends React.Component {
                 <table className='table'>
                 <tbody>
                         { this.tableHeader() }
-                        { this.filterPosts(this.props.archived, this.state.query) }
+                        { this.filterPosts(this.props.reports, this.state.query) }
                 </tbody>
                 </table>
                 <div className='footer'>
-                    <Link to="/ReportManagement"><button id='left-button' type="link" >Go To Reports</button></Link>
+                    <Link to="/ReportManagement"><button id='left-button' type="link" >Go Back To Reports</button></Link>
                     <button id='right-button' type="deleteAll" onClick={ () => this.deleteSelected() }>Delete Selected</button>
-                    <button id='right-button-b' type="archiveAll" onClick={ () => this.unarchiveSelected() }>Unarchive Selected</button>
+                    <button id='right-button-b' type="deleteAll" onClick={ () => this.archiveSelected() }>Unarchive Selected</button>
                 </div>
         </div>
       )

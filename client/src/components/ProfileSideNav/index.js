@@ -18,16 +18,23 @@ function ProfileSideNav (props) {
                 state: {
                     header: "Followers",
                     list: props.currentUser.followers,
-                    externalView: props.externalView
+                    user: props.currentUser ? props.currentUser : {},
+                    externalView: props.externalView ?  props.externalView : false
                 }}} className={followersClass}>Followers: <span className="internal-profile-stats-num">{props.currentUser.followers.length}</span></Link>
             <Link to={{
                 pathname: "/Followings",
                 state: {
                     header: "Followings",
                     list: props.currentUser.followings,
-                    externalView: props.externalView
+                    user: props.currentUser ? props.currentUser : {},
+                    externalView: props.externalView ?  props.externalView : false
                 }}} className={followingsClass}>Following: <span className="internal-profile-stats-num">{props.currentUser.followings.length}</span></Link>
-            <Link to="/Profile" className={profileClass}>Profile</Link>
+            <Link to={{
+                pathname: (props.loggedUser && (props.loggedUser._id === props.currentUser._id ))? "/Profile" : `/Profile/${props.currentUser.profileName}`,
+                state: {
+                    userId: props.currentUser._id
+                }}}
+                className={profileClass}>Profile</Link>
             {!props.externalView && <Link to="/UploadWork" className={uploadClass}>Upload Work</Link>}
             {!props.externalView && <Link to="/ProfileSettings" className={settingsClass}>Settings</Link>}   
         </div>
@@ -37,6 +44,7 @@ function ProfileSideNav (props) {
 ProfileSideNav.propTypes = {
     page: PropTypes.string,
     currentUser: PropTypes.object,
+    loggedUser: PropTypes.object,
     externalView: PropTypes.bool
 };
 

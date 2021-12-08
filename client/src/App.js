@@ -2,7 +2,7 @@ import './App.css';
 import Profile from './pages/Profile';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { login, checkSession } from './actions/user';
+import { getUserInfo, checkSession } from './actions/user';
 
 import profile_photo from './data/profile/profile_photo.jpeg'
 import profile_photo2 from './data/profile/profile_photo2.jpeg'
@@ -41,7 +41,7 @@ import ReportView from './components/AdminComponents/ReportView';
 
 import ExplorePage from './pages/ExplorePage/ExplorePage';
 import PersonalizedFeed from './pages/PersonalizedFeed';
-import { getUserDetails } from './actions/user';
+import { getUserByID } from './actions/user';
 
 
 function App() {
@@ -77,7 +77,7 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState({
     id: 1,
-    imgSrc: profile_photo,
+    profilePhotoUrl: profile_photo,
     profileName:'Beat Maker',
     username: 'user',
     password: 'user',
@@ -114,7 +114,8 @@ function App() {
     followings: [{
       id: 2,
       imgSrc: profile_photo2,
-      profileName: 'Singer 101'}]
+      profileName: 'Singer 101'}],
+    activityLog: []
   });
 
     const works = [
@@ -155,15 +156,6 @@ function App() {
           artist: 'Bulletproof Boys'
         }];
 
-  const [userData, setUserData] = useState({
-    users: [
-    { username: 'abc123',  userType: 'regular', email: 'jdoe123@mail.com', password: '123', name: 'John Doe', lastLogIn: "2021-11-02 10:34:23" },
-    { username: 'hihii99', userType: 'regular', email: 'jsmith123@mail.com', password: '123', name: 'The Best Vocalist', lastLogIn: "2021-10-31 16:28:02" },
-    { username: 'kimyu18', userType: 'regular', email: 'kimyu18@mail.com', password: '123', name: 'Jennifer Kim', lastLogIn: "2021-11-03 02:11:29" },
-    { username: 'admin', userType: 'admin', email: 'admin@mail.com', password: 'admin', name: 'Harry Potter', lastLogIn: "2021-11-03 02:11:29", activityLog: [] }
-    ]
-  })
-
   const [postData, setPostData] = useState({
     posts: [
       { postID: 1,  name: 'Jingle Bell', genre: 'Christmas Carol', user: 'kimyu18', date: "2021-10-22 18:14:12" },
@@ -188,9 +180,6 @@ function App() {
   const [adminUser, setAdminUser] = useState({ username: 'admin', userType: 'admin', email: 'admin@mail.com', password: 'admin', profileName: 'The Admin', lastLogIn: "2021-11-03 02:11:29", 
   activityLog: [" deleted user 'user123'", " deleted post 'Alphabet Song'"], imgSrc: profile_photo })
 
-  function setUserChanged(child) {
-    setUserData({ users: child });
-  }
 
   function setPostChanged(child) {
     setPostData({ posts: child });
@@ -211,24 +200,12 @@ function App() {
     setAdminUser(inputs => ({...inputs, [name]: logs}))
   }
 
-  const [userType, setUserType] = useState({
-    isAdmin: false,
-    isRegular: false
-  })
-
-  function setIsAdmin(child) {
-    setUserType({ isAdmin: child });
-  }
-
-  function setIsRegular(child) {
-    setUserType({ isRegular: child });
-  }
-
-
   const [state, setState] = useState({
     username: null,
-    isAdmin: null
+    isAdmin: null,
+    id: null
   })
+
 
   function changeState(child) {
     setState(child)
@@ -238,50 +215,55 @@ function App() {
 
   const changeUser = (newUser) => {setUser(newUser)};
 
-
-
   useEffect(() => {
 
       checkSession(changeState, changeUser); // sees if a user is logged in
-
   }, [])
+  
+  const updateUser = () => {
+
+    getUserByID(user._id, changeUser) 
+
+  }
 
   return (
     //this should be home page
     <div>
       <BrowserRouter>
-      {state.username && !state.isAdmin && <NavigationBar changeState={changeState}/>}
+        {state.username && !state.isAdmin && <NavigationBar changeState={changeState} currentUser={user}/>}
         {state.username && state.isAdmin && <AdminNavigationBar changeState={changeState} />}
         <Switch> 
           <Route exact path='/SignUp' render={() => (<SignUp/>)}/>
 
           <Route
-              exact path={["/", "/LogIn"] /* any of these URLs are accepted. */ }
+              exact path={["/", "/LogIn", '/AdminProfile'] /* any of these URLs are accepted. */ }
               render={ () => (
-                !state.username ? <LogInPage changeState={changeState} /> : !state.isAdmin ? <PersonalizedFeed works={works}/> : <AdminProfile currentUser={adminUser}/>
+                !state.username ? <LogInPage changeState={changeState} /> : !state.isAdmin ? <PersonalizedFeed works={works}/> : <AdminProfile currentUser={state.id}/>
               )}
           />
 
           <Route exact path='/ExternalCoverPage' render={() => (<ExternalCoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
-          <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
+          {/* <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/> */}
+          <Route exact path='/CoverPage/:title' render={() => (<CoverPage setComment={setPostComment} currentUser={state.id} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentPost={currentPost} currentUser={currentUser} setInfo={setPostInfo}/>)}/>
 
-          <Route exact path='/Profile' render={() => (<Profile currentUser={currentUser}/>)}/>
+          <Route exact path='/Profile' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
+          <Route path='/Profile/:rofileName' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
           <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
           <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={user}/>)}/>
-          <Route exact path='/Followers' render={() => (<Follows currentUser={currentUser}/>)}/>
-          <Route exact path='/Followings' render={() => (<Follows currentUser={currentUser}/>)}/>
-          <Route exact path='/Features' render={() => (<Features/>)}/>
+          <Route exact path='/Followers' render={() => (<Follows currentUser={user}/>)}/>
+          <Route exact path='/Followings' render={() => (<Follows currentUser={user}/>)}/>
+          <Route exact path='/Features/:title' render={() => (<Features/>)}/>
           <Route exact path='/Explore' render={() => (<ExplorePage works={works}/>)}/>
           <Route exact path='/Home' render={() => (<PersonalizedFeed works={works}/>)}/>
 
 
           <Route exact path='/ReportView' render={() => (<ReportView currentReport={currentReport}/>)}/>
-          <Route exact path="/UserManagement" component= {() => (<UserManagementPage setAdmin={setIsAdmin} setLog={setLog} users={userData.users} setUsers = {setUserChanged}/>)} />
-          <Route exact path="/PostManagement" component={() => (<PostManagementPage setLog={setLog} posts={postData.posts} setPosts = {setPostChanged}/>)} />
-          <Route exact path="/ReportManagement" component={() => (<ReportManagementPage setLog={setLog} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
-          <Route exact path="/ArchivedReportManagement" component={() => (<ArchivedReportManagementPage setLog={setLog} currentUser={adminUser} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
-          <Route exact path='/AdminProfile' render={() => (<AdminProfile currentUser={adminUser}/>)}/>
+          <Route exact path="/UserManagement" component= {() => (<UserManagementPage currentUser={state.id} setLog={setLog} />)} />
+          <Route exact path="/PostManagement" component={() => (<PostManagementPage currentUser={state.id} setLog={setLog} posts={postData.posts} setPosts = {setPostChanged}/>)} />
+          <Route exact path="/ReportManagement" component={() => (<ReportManagementPage setLog={setLog} currentUser={state.id} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
+          <Route exact path="/ArchivedReportManagement" component={() => (<ArchivedReportManagementPage setLog={setLog} currentUser={state.id} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
+          <Route exact path='/AdminProfile' render={() => (<AdminProfile currentUser={state.id}/>)}/>
           <Route exact path='/AdminProfileSettings' render={() => (<AdminProfileSettings currentUser={adminUser}/>)}/>
           <Route exact path='/ProfileView' render={() => (<ProfileView currentUser={currentUser}/>)}/>
           <Route exact path='/ProfileSettingsView' render={() => (<ProfileSettingsView currentUser={currentUser}/>)}/>

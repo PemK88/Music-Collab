@@ -30,6 +30,7 @@ const { mongoose } = require("./db/mongoose");
 // import the mongoose models
 const { Post } = require("./models/post");
 const { User } = require("./models/user");
+const { Report } = require("./models/report");
 
 // to validate object IDs
 const { ObjectID } = require("mongodb");
@@ -42,7 +43,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // parsing URL-encoded form 
 
 // express-session for managing user sessions
 const session = require("express-session");
-const MongoStore = require('connect-mongo') // to store session information on the database in production
+const MongoStore = require('connect-mongo'); // to store session information on the database in production
+const { tupleExpression } = require('@babel/types');
 
 
 function isMongoError(error) { // checks for first error returned by promise rejection if Mongo database suddently disconnects
@@ -91,7 +93,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            expires: 60000,
+            expires: 600000,
             httpOnly: true
         },
         // store the sessions on the database in production
@@ -117,7 +119,7 @@ app.post("/users/login", (req, res) => {
             req.session.username = user.username;
             req.session.isAdmin = user.isAdmin;
              // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-            res.send({ username: user.username,  isAdmin: user.isAdmin});
+            res.send({ username: user.username,  isAdmin: user.isAdmin, id: user._id });
         })
         .catch(error => {
             res.status(400).send()
@@ -146,7 +148,7 @@ app.get("/users/check-session", (req, res) => {
     }
 
     if (req.session.user) {
-        res.send({ username: req.session.username,  isAdmin: req.session.isAdmin});
+        res.send({ username: req.session.username,  isAdmin: req.session.isAdmin, id: req.session.user });
     } else {
         res.status(401).send();
     }
@@ -183,9 +185,168 @@ app.get("/users/details/:username", async (req, res) => {
 });
 
 
+// A route to get user info
+app.get("/api/users/:id", async (req, res) => {
+    
+    const id = req.params.id
+
+	// Good practise: Validate id immediately.
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+		return;  // so that we don't run the rest of the handler.
+	}
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const user = await User.findById(id)
+		if (!user) {
+			user.status(404).send('Resource not found')  // could not find this student
+		} else {
+			/// sometimes we might wrap returned object in another object:
+			//res.send({student})   
+			res.send({  
+                id: user._id,
+                username: user.username,
+                isAdmin: user.isAdmin,
+                password: user.password,
+                profileName: user.profileName,
+                email: user.email,
+                interests: user.interests,
+                uploadedWorks: user.uploadedWorks,
+                downloadedWorks: user.downloadedWorks,
+                likedWorks: user.likedWorks, 
+                followers: user.followers,
+                followings: user.followings,
+                lastLogIn: user.lastLogIn,
+                activityLog: user.activityLog,
+                profilePhoto: user.profilePhoto
+            });
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send('Internal Server Error')  // server error
+	}
+	
+});
+
+
+app.patch("/users/bio", async (req, res) => {
+
+    const id = req.body.userId;
+    const bio = req.body.biography;
+
+	try {
+
+        		
+		const result = await User.findOneAndUpdate({_id: id} , {$set: {"biography" : bio }}, {new: true, useFindAndModify: false})
+
+
+		if(!result) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        
+
+		res.send(result)
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+app.post('/users/getUsersByIds', async (req, res) => {
+	// Add code here
+
+    const ids = req.body.ids;
+
+	try {
+		
+        const results = await User.find({
+            '_id': {$in : ids}
+        });
+
+        results ? res.send(results) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+
+
+
+/// Route for getting works for 1 user
+app.get('/posts/usersPosts/:userId', async (req, res) => {
+	// Add code here
+
+	const userId = req.params.userId
+
+	try {
+		const post = await Post.find({"artist.id": userId})
+		post ? res.send(post) : res.status(404).send('Resource not found')
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+
+
+//Posts routes
+
+app.post('/posts/getWorksByIds', async (req, res) => {
+	// Add code here
+
+    const ids = req.body.ids;
+
+	try {
+		
+        const results = await Post.find({
+            '_id': {$in : ids}
+        });
+
+        results ? res.send(results) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+
+
+
 //Post Routes
 
-app.post('/posts', mongoChecker, async (req, res) => {
+app.post('/posts', async (req, res) => {
     log(`Adding post`)
 
     // Create a new student using the Student mongoose model
@@ -210,11 +371,7 @@ app.post('/posts', mongoChecker, async (req, res) => {
         res.send(result)
     } catch(error) {
         log(error) // log server error to the console, not to the client.
-        if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
-            res.status(500).send('Internal server error')
-        } else {
-            res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
-        }
+        res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
     }
 })
 
@@ -249,7 +406,7 @@ app.post('/posts', mongoChecker, async (req, res) => {
 /** User resource routes **/
 // a POST route to *create* a user
 app.post('/api/users', mongoChecker, async (req, res) => {
-    log(`Adding user ${req.body.name}`)
+    log(`Adding user ${req.body.username}`)
 
     // Create a new student using the Student mongoose model
     const user = new User({
@@ -277,20 +434,624 @@ app.post('/api/users', mongoChecker, async (req, res) => {
     }
 })
 
-// a GET route to get all students
-// app.get('/api/students', mongoChecker, authenticate, async (req, res) => {
+// a POST route to *create* a log
+// {
+//    time : '',
+//    action: ''
+// }
+app.post('/api/users/activity/:id', mongoChecker, async (req, res) => {
+    log(`Adding log`)
+    const id = req.params.id
 
-//     // Get the students
-//     try {
-//         const students = await Student.find({creator: req.user._id})
-//         // res.send(students) // just the array
-//         res.send({ students }) // can wrap students in object if want to add more properties
-//     } catch(error) {
-//         log(error)
-//         res.status(500).send("Internal Server Error")
-//     }
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
 
-// })
+	// If id valid, findById
+	try {
+		const log = await User.findOneAndUpdate({_id: id}, {$push: {"activityLog": req.body.time + ' - ' + req.body.action}}, {new: true, useFindAndModify: false})
+		if (!log) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(log)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+app.delete('/api/users/activity/:id', mongoChecker, async (req, res) => {
+    log(`clearing logs`)
+    const id = req.params.id
+
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const log = await User.findOneAndUpdate({_id: id}, {"activityLog": []}, {new: true, useFindAndModify: false})
+		if (!log) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(log)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+// a GET route to get all users
+app.get('/api/users', mongoChecker, async (req, res) => {
+
+    // Get the students
+    try {
+        const users = await User.find()
+        // res.send(students) // just the array
+        res.send({ users }) // can wrap students in object if want to add more properties
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+
+// Delete User
+app.delete('/api/users/:id', async (req, res) => {
+	const id = req.params.id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Delete a user by their _id
+	try {
+		const student = await User.findByIdAndRemove(id)
+		if (!student) {
+			res.status(404).send()
+		} else {   
+			res.send(student)
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send() // server error, could not delete.
+	}
+
+	
+})
+
+
+app.post('/api/users/likedWorks/:id', mongoChecker, async (req, res) => {
+    log(`Liking Posts`)
+    const id = req.params.id
+
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const liked = await User.findOneAndUpdate({_id: id}, {$push: {"likedWorks": req.body.id }}, {new: true, useFindAndModify: false})
+		if (!liked) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(liked)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+app.delete('/api/users/likedWorks/:id/:post_id', (req, res) => {
+	// Add code here
+	const id = req.params.id
+	const post_id = req.params.post_id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	User.findOneAndUpdate({_id: id}, {$pull: {"likedWorks":  post_id}}, {new: true, useFindAndModify: false})
+	.then((like) => {
+		if (!like) {
+			res.status(404).send()
+		} else {   
+			res.send(like)
+		}
+	})
+	.catch((error) => {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}) 
+})
+
+app.post('/api/users/downloadedWorks/:id', mongoChecker, async (req, res) => {
+    log(`Downloading Posts`)
+    const id = req.params.id
+
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const liked = await User.findOneAndUpdate({_id: id}, {$push: {"downloadedWorks": req.body.id }}, {new: true, useFindAndModify: false})
+		if (!liked) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(liked)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+
+app.post('/api/users/setLastLogIn/:id', async (req, res) => {
+	// check mongoose connection established.
+	log(`changing last log in info`)
+    const id = req.params.id
+
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const log = await User.findOneAndUpdate({_id: id}, {"lastLogIn": req.body.time}, {new: true, useFindAndModify: false})
+		if (!log) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(log)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+//---------------------------------------------------------------------------------------------------------------------------------------------//
+
+// a GET route to get all posts
+app.get('/api/posts', mongoChecker, async (req, res) => {
+
+    // Get the students
+    try {
+        const posts = await Post.find()
+        // res.send(students) // just the array
+        res.send({ posts }) // can wrap students in object if want to add more properties
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+// A route to get user info
+app.get("/api/posts/:id", async (req, res) => {
+    
+    const id = req.params.id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const post = await Post.findById(id)
+		if (!post) {
+			post.status(404).send('Resource not found')  // could not find this student
+		} else {
+			/// sometimes we might wrap returned object in another object:
+			//res.send({student})   
+			res.send({  
+                id: post._id,
+                coverPhoto: post.coverPhoto,
+                audio: post.audio,
+                title: post.title,
+                artist: post.artist,
+                description: post.description,
+                likesCount: post.likesCount,
+                recievedLikes: post.recievedLikes,
+                categories: post.categories,            
+                tags: post.tags,
+                references: post.references,
+                comments: post.comments,
+                dateCreated: post.dateUploaded
+            });
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send('Internal Server Error')  // server error
+	}
+	
+});
+
+app.post('/api/posts/comment/:id', mongoChecker, async (req, res) => {
+    log(`Adding comment`)
+    const id = req.params.id
+
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const comment = await Post.findOneAndUpdate({_id: id}, {$push: {"comments": req.body }}, {new: true, useFindAndModify: false})
+		if (!comment) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(comment)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+app.delete('/api/posts/comment/:id/:comment_id', (req, res) => {
+	// Add code here
+	const id = req.params.id
+	const comment_id = req.params.comment_id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	Post.findOneAndUpdate({_id: id}, {$pull: {"comments": {"_id": comment_id}}}, {new: true, useFindAndModify: false})
+	.then((comment) => {
+		if (!comment) {
+			res.status(404).send()
+		} else {   
+			res.send(comment)
+		}
+	})
+	.catch((error) => {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}) 
+})
+
+app.post('/api/posts/recievedLikes/:id', mongoChecker, async (req, res) => {
+    log(`Adding Users To liked list`)
+    const id = req.params.id
+
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const liked = await Post.findOneAndUpdate({_id: id}, {$push: {"recievedLikes": req.body.id }}, {new: true, useFindAndModify: false})
+		if (!liked) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(liked)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+app.delete('/api/posts/recievedLikes/:id/:user_id', (req, res) => {
+	// Add code here
+	const id = req.params.id
+	const user_id = req.params.user_id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	Post.findOneAndUpdate({_id: id}, {$pull: {"recievedLikes":  user_id}}, {new: true, useFindAndModify: false})
+	.then((like) => {
+		if (!like) {
+			res.status(404).send()
+		} else {   
+			res.send(like)
+		}
+	})
+	.catch((error) => {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}) 
+})
+
+// Delete User
+app.delete('/api/posts/:id', async (req, res) => {
+	const id = req.params.id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Delete a user by their _id
+	try {
+		const post = await Post.findByIdAndRemove(id)
+		if (!post) {
+			res.status(404).send()
+		} else {   
+			res.send(post)
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send() // server error, could not delete.
+	}
+
+	
+})
+
+app.post('/api/posts/likesCount/:id', mongoChecker, async (req, res) => {
+    log(`changing count likes`)
+    const id = req.params.id
+
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const log = await Post.findOneAndUpdate({_id: id}, {"likesCount": req.body.n}, {new: true, useFindAndModify: false})
+		if (!log) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(log)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+// A route to get user info
+app.get("/api/posts/isLiked/:id/:userId", async (req, res) => {
+
+    const id = req.params.id
+    const userId = req.params.userId
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const liked = await Post.find({_id: id, recievedLikes: { $in: [userId] }})
+		res.send(liked)
+
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+	
+});
+
+// -----------------------------------------------------------------------------------------
+
+app.post('/api/reports', async (req, res) => {
+    log(`Adding report`)
+
+    // Create a new student using the Student mongoose model
+    const report = new Report({
+        type: req.body.type,
+        user: req.body.user,
+        date: req.body.date,
+        reason: req.body.reason,
+        reported: req.body.reported 
+    })
+
+    // async-await version:
+    try {
+        const result = await report.save() 
+        res.send(result)
+    } catch(error) {
+        log(error) // log server error to the console, not to the client.
+        res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+    }
+})
+
+app.get('/api/reports', mongoChecker, async (req, res) => {
+
+    // Get the students
+    try {
+        const reports = await Report.find()
+        // res.send(students) // just the array
+        res.send({ reports }) // can wrap students in object if want to add more properties
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+
+app.get('/api/unarchived/reports', mongoChecker, async (req, res) => {
+
+    // Get the students
+    try {
+        const reports = await Report.find({isArchived: false})
+        // res.send(students) // just the array
+        res.send({ reports }) // can wrap students in object if want to add more properties
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+app.get('/api/archived/reports', mongoChecker, async (req, res) => {
+
+    // Get the students
+    try {
+        const reports = await Report.find({isArchived: true})
+        // res.send(students) // just the array
+        res.send({ reports }) // can wrap students in object if want to add more properties
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+
+// Delete User
+app.delete('/api/reports/:id', async (req, res) => {
+	const id = req.params.id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+
+	// Delete a user by their _id
+	try {
+		const report = await Report.findByIdAndRemove(id)
+		if (!report) {
+			res.status(404).send()
+		} else {   
+			res.send(report)
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send() // server error, could not delete.
+	}
+
+	
+})
+
+app.post('/api/reports/changeArchive/:id', mongoChecker, async (req, res) => {
+    log(`changing archive status`)
+    const id = req.params.id
+
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const log = await Report.findOneAndUpdate({_id: id}, {"isArchived": req.body.isArchived}, {new: true, useFindAndModify: false})
+		if (!log) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(log)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
 
 // other student API routes can go here...
 // ...

@@ -8,7 +8,7 @@ function ProfileSettings (props) {
 
     return (
         <div className="page"> 
-             <ProfileSettingsHeader currentUser={props.currentUser}/>
+             <ProfileSettingsHeader currentUser={props.currentUser} loggedUser={props.currentUser}/>
              <ProfileSettingsContent currentUser={props.currentUser}/>
         </div>
  

@@ -18,8 +18,8 @@ function MusicNotes (props) {
         return references.map((ref, idx) => {
             return (
                 <li key={idx}>
-                    <div className={"music-note" + ( (ref.id%2) === 0 ? "" : " margin-88")}>
-                        <img className="" src={ref.imgSrc} alt={"Cover"}/>
+                    <div className={"music-note" + ( (idx%2) === 0 ? "" : " margin-88")}>
+                        <img className="" src={ref.coverPhoto.imageUrl} alt={"Cover"}/>
                         <button className="work-details-btn" onClick={event => {handleClick(idx, event)}}>
                             <span className="no-display">Feature Details</span>
                         </button>
@@ -27,7 +27,7 @@ function MusicNotes (props) {
                             <div className={"details-container" + (display[idx] ? "" : " no-display")}> 
                                 <h3>
                                     <Link to='/CoverPage' className="purple-link light-purple">{ref.title}</Link>
-                                    {" by " + ref.artist}
+                                    {" by " + ref.artist.profileName}
                                 </h3>
                                 <p>{ref.description}</p>
                             </div>
