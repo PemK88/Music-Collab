@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "./styles.css";
-import album_cover2 from '../../data/album_cover2.jpeg';
-import album_cover3 from '../../data/album_cover3.jpeg';
 import MusicSheet from '../../components/MusicSheet';
-import album_cover4 from '../../data/album_cover4.jpeg';
-import album_cover5 from '../../data/album_cover4.png';
-import album_cover6 from '../../data/album_cover5.jpeg';
 import { Link, useLocation } from 'react-router-dom';
 import { getUser } from '../../actions/user';
 import { getPost, getPostsWithIds, getPostInfo } from '../../actions/post';
@@ -88,7 +83,6 @@ function Features (props) {
             getPostsWithIds(lists, setFeatureInfo)
             getFeatures()
         }
-        console.log('chnaged')
     }, [post])
 
     function getReferenceIds() {

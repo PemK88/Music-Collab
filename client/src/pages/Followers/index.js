@@ -15,35 +15,13 @@ function Follows (props) {
     const [loggedUser, setLoggedUser] = useState();
     const [externalView, setExternalView] = useState(false);
 
-    const updateUser = (id, setState) => {
-
-        getUserByID(id, setState) 
-
-    }
-
-    const updateLoggedUser = () => {
-
-        updateUser(props.currentUserid, setLoggedUser)
-
-    }
-    const updateWithUserId = () => {
-
-        updateUser(userId, setUser)
-
-    }
-    const updateWithCurrentId = () => {
-
-        updateUser(props.currentUser.id, setUser)
-
-    }
-
     useEffect(() => {
 
             if(userId){
-                updateWithUserId();
+                getUserByID(userId, setUser);
             }
             else if(props.currentUser && props.currentUser.id){
-                updateWithCurrentId();
+                getUserByID(props.currentUser.id, setUser);
             }
 
             if(props.currentUser && userId && props.currentUser.id) {
@@ -55,7 +33,7 @@ function Follows (props) {
                 }
             }
             if(props.currentUser && props.currentUser.id) {
-                updateLoggedUser(); 
+                getUserByID(props.currentUserid, setLoggedUser)
             }
   
     }, [userId, props.currentUser])

@@ -24,7 +24,7 @@ function ProfileSettings (props) {
     useEffect(() => {
 
         if(props.currentUser && props.currentUser.id){
-            updateWithCurrentId();
+            getUserByID(props.currentUser.id, setUser)
         }
 
     }, [props.currentUser])

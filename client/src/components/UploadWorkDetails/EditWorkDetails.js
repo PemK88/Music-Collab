@@ -13,7 +13,7 @@ function EditWorkDetails (props) {
     
     const defaultFormInputs = {
         title: props.currentPost.title,
-        references: props.currentPost.references,
+        references: (props.currentPost.references.length === 0) ?  [{id: null, description: "", name: null}] : props.currentPost.references,
         categories: props.currentPost.categories,
         hashtags: props.currentPost.tags,
         audio: props.currentPost.audio.audioUrl,
@@ -169,7 +169,7 @@ function EditWorkDetails (props) {
         for ( var key in uploadFormInputs ) {
             if(key !== "coverImage"  && key !== "audio") {
                 if(key === "references") {
-                    let value = (uploadFormInputs[key][0].id === null) ? JSON.stringify([]) : JSON.stringify(uploadFormInputs[key])
+                    let value = (uploadFormInputs[key]) ? JSON.stringify(uploadFormInputs[key]) : JSON.stringify([])
                     formData.append(key, value);
                 }
                 else if(key === "hashtags" || key === "categories"){

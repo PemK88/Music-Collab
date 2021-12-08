@@ -129,10 +129,15 @@ export const login = (loginComp, changeState, time) => {
             }
         })
         .then(json => {
-            if (json.username !== undefined) {
-                console.log('change')
-                changeState({ username: json.username, isAdmin: json.isAdmin, id: json.id });
-                return json.id
+            if(json) {
+                if (json.username !== undefined) {
+                    console.log('change')
+                    changeState({ username: json.username, isAdmin: json.isAdmin, id: json.id });
+                    return json.id
+                }
+            }
+            else{
+                alert("Failed to log in. Incorrect credentials")
             }
         })
         .then(userID => {
@@ -143,6 +148,7 @@ export const login = (loginComp, changeState, time) => {
         })
         .catch(error => {
             console.log(error);
+             alert("Failed to log in. Incorrect credentials")
         });
 };
 

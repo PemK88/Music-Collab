@@ -47,4 +47,10 @@
 #edit-cancel-btn {
     font-size: 17px;
     margin-right: 10px;
+    background-color: rgba(221, 3, 3, 0.863);
+    border-color: rgba(160, 2, 2, 0.863);
+}
+
+#edit-cancel-btn:hover {
+    background-color: rgba(160, 4, 4, 0.863);
 }

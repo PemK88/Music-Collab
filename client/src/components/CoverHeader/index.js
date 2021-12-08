@@ -107,8 +107,7 @@ function CoverHeader (props) {
                             state: { userId: props.currentPost.artist.id }
                 }} className="purple-link"> {`${props.currentPost.artist.profileName}`} </Link> </h3>
                 <AudioPlayer
-                    src={props.currentPost.audio.audioUrl}
-                />
+                    src={props.currentPost.audio.audioUrl} autoPlayAfterSrcChange={false}/>
                 <div id="coverButtons2">
                     {props.externalView && <button id="like-btn" className="btn" onClick={setlikePost}>{props.isLiked ? '💔 Unlike':'💜 Like'}</button>}
                 </div>
@@ -139,7 +138,6 @@ function CoverHeader (props) {
             </div>
             <br/>
             {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
-            {/* {props.page === 'cover' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>} */}
         </div>
 
     )

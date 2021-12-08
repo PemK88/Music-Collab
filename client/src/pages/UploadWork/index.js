@@ -9,22 +9,10 @@ function UploadWork (props) {
 
     const [user, setUser] = useState();
 
-    const updateUser = (id, setState) => {
-
-        getUserByID(id, setState) 
-
-    }
-
-    const updateWithCurrentId = () => {
-
-        updateUser(props.currentUser.id, setUser)
-
-    }
-
     useEffect(() => {
 
         if(props.currentUser && props.currentUser.id){
-            updateWithCurrentId();
+            getUserByID(props.currentUser.id, setUser)
         }
 
     }, [props.currentUser])
