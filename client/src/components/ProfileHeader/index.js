@@ -21,7 +21,7 @@ function ProfileHeader (props) {
     {
         if(props.externalView && props.loggedUser && props.page === 'profile'){
             if(props.loggedUser.followings.find(user => user === props.currentUser._id)) {
-                setFollowBtnVal('Unfollow');
+                setFollowBtnVal('x Unfollow');
                 setFollowBtnId('unfollow-btn');
             
             } else {
@@ -77,21 +77,13 @@ function ProfileHeader (props) {
 
             following(1).then( value => {
                 if(value) {
-                    setFollowBtnVal('Unfollow');
+                    setFollowBtnVal('x Unfollow');
                     setFollowBtnId('unfollow-btn');
                     setFollowersNum(followersNum + 1)
             }})
 
         
         } else {
-            //remove current user from logged in user follosing
-            //remove loggedin user from current users followers
-
-            // removeFollowing(props.loggedUser._id, props.currentUser._id);
-            // props.updateLoggedUser();
-            // props.updateUser();
-            // setFollowBtnVal('+ Follow');
-            // setFollowBtnId('follow-btn');
             following(0).then(value => {
                 if(value) {
                     setFollowBtnVal('+ Follow');
@@ -116,7 +108,7 @@ function ProfileHeader (props) {
             <br/>
             <ProfileSideNav page={props.page} currentUser={props.currentUser} externalView={props.externalView} loggedUser={props.loggedUser} followersNum={followersNum} followingsNum={followingsNum}/>
             <br/>
-            </div>d
+            </div>
             {props.externalView && 
                 (<div id="overflow-container">
                     <ReportPopup reportType={"user"} currentUser={props.loggedUser} reported={props.currentUser} trigger={reportPopupTrigger} handleTrigger={handleReport}/>

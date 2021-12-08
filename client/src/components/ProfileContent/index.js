@@ -54,11 +54,13 @@ function ProfileContent (props) {
         if(!list) return;
 
         return list.map((interest, idx) => {
-            return (
-                <li key={idx}>
-                    <p className="btn">{interest}</p>
-                </li>
-            );   
+            if(interest){
+                return (
+                    <li key={idx}>
+                        <p className="interest">{interest}</p>
+                    </li>
+                );
+            }   
         });
     
     };

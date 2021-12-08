@@ -27,7 +27,6 @@ import EditUser from './pages/ProfileSettings/editUser';
 
 import CoverPage from './pages/Coverpage/CoverPage';
 import CoverpageSettings from './pages/CoverpageSettings';
-import ExternalCoverPage from './pages/Coverpage/ExternalCoverPage';
 
 import ProfileView from './pages/Profile/ProfileView';
 import ProfileSettingsView from './pages/ProfileSettings/ProfileSettingsView';
@@ -237,8 +236,6 @@ function App() {
               )}
           />
 
-          
-          <Route exact path='/ExternalCoverPage' render={() => (<ExternalCoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           {/* <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/> */}
           <Route exact path='/CoverPage/:title' render={() => (<CoverPage currentUser={state.id} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/Features/:title' render={() => (<Features/>)}/>

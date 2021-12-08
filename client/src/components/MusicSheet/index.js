@@ -21,7 +21,7 @@ function MusicSheet(props) {
                 <div className={lineClass}/>
                 <div className="vertical-white-Line grid1 left-300"/>
                 <h2 className="sheet-section-num grid1"> {props.references.length} </h2>
-                <h2 className={titleClass}> {props.top ? "Works Featured" : "Work Featured In"} </h2>
+                <h2 className={titleClass}> {props.top ? "Works Featured" : "Works Featured In"} </h2>
 
                 <MusicNotes references={props.references} grid="grid1"/>
             </div>

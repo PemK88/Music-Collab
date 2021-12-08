@@ -34,13 +34,3 @@
 #interests-list li{
     width:fit-content;
 }
-
-#interests-list li p{
-    margin: 0px 10px;
-    font-size: 16px;
-    cursor: default;
-}
-
-#interests-list li p:hover{
-    background-color: rgb(63, 13, 156);
-}
