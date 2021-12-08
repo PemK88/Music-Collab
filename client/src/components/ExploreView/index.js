@@ -10,12 +10,17 @@ function ExploreView (props) {
         return works.map((work, idx) => {
             return (
                 <li key={idx}>
-                    <img id="large-img" src={work.imgSrc} alt='work cover'/>
+                    <Link to={{
+                        pathname:'/CoverPage',
+                        id: work._id
+                    }}>
+                        <img id="large-img" src={work.coverPhoto.imageUrl} alt='work cover'/>
+                    </Link>
                     <Link className="profile-works-link" to={{
                         pathname:'/CoverPage',
-                        id: work.id
+                        id: work._id
                     }}>{work.title}</Link>
-                    <p>#songs #singer</p>
+                    <p>{work.tags.join(" #")}</p>
                 </li>
             );   
         });

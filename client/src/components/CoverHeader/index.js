@@ -114,7 +114,7 @@ function CoverHeader (props) {
                         }} id="timeline-btn" className="btn">Features</Link>
                 {props.externalView && <button id="report-btn" className="btn" onClick={handleReport}>Report</button>}
                 {!props.externalView && <Link to={{
-                            pathname: `/CoverPageSettings/${props.currentPost.title}`,
+                            pathname: `/CoverPageSettings`,
                             state: { postId: props.currentPost.id }
                         }}  id="edit-btn" className="btn">Edit</Link>}
             </div>

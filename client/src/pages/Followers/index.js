@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProfileHeader from '../../components/ProfileHeader';
 import PropTypes from 'prop-types';
 import FollowList from '../../components/FollowList';
@@ -8,31 +8,64 @@ import { getUserByID } from '../../actions/user';
 
 
 function Follows (props) {
+
     const location = useLocation();
-    const {header, list, user, externalView} = location.state;
-    // const [user, setUser] = useState(props.currentUser);
-    // const [externalView, setExternalView] = useState(false);
+    const {header, userId} = location.state;
+    const [user, setUser] = useState();
+    const [loggedUser, setLoggedUser] = useState();
+    const [externalView, setExternalView] = useState(false);
 
-    // const getUser = async () =>{
-    //     console.log("in async")
+    const updateUser = (id, setState) => {
 
-    //     await getUserByID(userId, setUser);
+        getUserByID(id, setState) 
 
-    // }
+    }
 
-    // if(props.currentUser && userId) {
-    //     console.log("in here")
-    //     if(props.currentUser._id !== userId) {
-    //         setExternalView(true);
-    //         debugger;
-    //         getUser()
-    //     }
-        
-    // }
+    const updateLoggedUser = () => {
+
+        updateUser(props.currentUserid, setLoggedUser)
+
+    }
+    const updateWithUserId = () => {
+
+        updateUser(userId, setUser)
+
+    }
+    const updateWithCurrentId = () => {
+
+        updateUser(props.currentUser.id, setUser)
+
+    }
+
+    useEffect(() => {
+
+            if(userId){
+                updateWithUserId();
+            }
+            else if(props.currentUser && props.currentUser.id){
+                updateWithCurrentId();
+            }
+
+            if(props.currentUser && userId && props.currentUser.id) {
+                if(props.currentUser.id !== userId) {
+                    setExternalView(true)
+                }
+                else{
+                    setExternalView(false)
+                }
+            }
+            if(props.currentUser && props.currentUser.id) {
+                updateLoggedUser(); 
+            }
+  
+    }, [userId, props.currentUser])
+
+
+
     return (
         <div className="page">
-            <ProfileHeader externalView={externalView} currentUser={user} page={header === 'Followings'? 'followings':'followers'} loggedUser={props.currentUser}/>
-            <FollowList header={header} list={list} user={user} />
+            {user && <ProfileHeader externalView={externalView} currentUser={user} page={header === 'Followings'? 'followings':'followers'} loggedUser={loggedUser}/>}
+            {user && <FollowList header={header} list={header === 'Followings'? user.followings : user.followers} user={user}/>}
         </div>
     );
 }

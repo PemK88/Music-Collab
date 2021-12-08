@@ -14,7 +14,7 @@ function EditCoverPhoto(props) {
             </div>
             <div>
                 <Link to="/CoverPage"><button className='btn' id='edit-cancel-btn' > Cancel </button></Link>
-                <Link to="/CoverPage"><button className='btn' id='upload-btn' onClick={() => props.saveChanges()}> Save Changes</button></Link>
+                <button className='btn' id='upload-btn' onClick={(event) => {props.handleUpload(event)}}> Save Changes</button>
             </div>    
         </div>
         
@@ -26,7 +26,7 @@ function EditCoverPhoto(props) {
 EditCoverPhoto.propTypes = {
     coverImageSrc: PropTypes.string,
     handleImgChange: PropTypes.func,
-    saveChanges: PropTypes.func
+    handleUpload: PropTypes.func
 }
 
 export default EditCoverPhoto;

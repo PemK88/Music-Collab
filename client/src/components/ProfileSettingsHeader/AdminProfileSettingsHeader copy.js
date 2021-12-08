@@ -1,45 +1,29 @@
-import AdminProfileNav from '../ProfileSideNav/AdminProfileNav';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
-import defaultProfilePhoto from '../../data/default_profile_photo.jpeg';
-import { updateUserPhotoByID } from '../../actions/user';
-
+import AdminProfileNav from '../ProfileSideNav/AdminProfileNav';
 
 function AdminProfileSettingsViewHeader (props) {
 
     const [photoChanged, setPhotoChanged] = useState(false);
-    const [savedProfileImageSrc, setSavedProfileImageSrc] = useState(props.currentUser.profilePhoto ? props.currentUser.profilePhoto.imageUrl : defaultProfilePhoto);
-    const [profileImageSrc, setProfileImageSrc] = useState(props.currentUser.profilePhoto ? props.currentUser.profilePhoto.imageUrl : defaultProfilePhoto);
-    const [imageFile, setImageFile] = useState();
-    
+    const [profileImageSrc, setProfileImageSrc] = useState(props.currentUser.imgSrc);
+   
     const handleImgChange = (event) => {
         const image = event.target.files[0];
         if(image) {
             setProfileImageSrc(URL.createObjectURL(image));
             setPhotoChanged(true);
-            setImageFile(image);
         }
     }
 
     const handleSave = () => {
-
-        if(imageFile) {
-            let form = new FormData();
-            form.append("userId", props.currentUser._id);
-            form.append("imageId", props.currentUser.profilePhoto ? props.currentUser.profilePhoto.imageId : "");
-            form.append("image", imageFile);
-            updateUserPhotoByID(form)
-            setPhotoChanged(false);
-            setSavedProfileImageSrc(profileImageSrc)
-        }
-        //a post call will be made to send the new profile photo to the server
-        
+        //a call will be made to send the new profile photo to the database
+        setPhotoChanged(false);
     }
 
     const handleCancel = () => {
         setPhotoChanged(false);
-        setProfileImageSrc(savedProfileImageSrc);
+        setProfileImageSrc(props.currentUser.imgSrc);
     }
 
     return (
@@ -47,7 +31,7 @@ function AdminProfileSettingsViewHeader (props) {
                 <div id="profile-photo-container">
                     <img id="profile-photo" src={profileImageSrc} alt={"User Profile"}/>
                     <label id="change-photo-label" htmlFor="photo">Change Photo</label>
-                    <input id="photo" type="file" accept=".png, .jpg, .jpeg" onChange={(event) => {handleImgChange(event)}}/>
+                    <input id="photo" type="file" accept=".png, .jpg, .jpeg" onChange={handleImgChange}/>
                 </div>
                 <div className="save-cancel-container" >
                     {photoChanged && <button className="box-btn" onClick={handleSave}>Save</button>}

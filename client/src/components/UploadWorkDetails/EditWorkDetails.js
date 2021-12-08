@@ -1,44 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EditCoverPhoto from '../EditCoverPhoto';
 import "./styles.css";
 import FormRow from '../FormRow';
 import SelectCategories from '../SelectCategories';
 import SelectReference from '../SelectReference';
 import PropTypes from 'prop-types';
+import { getPostsWithIds, updatePost } from '../../actions/post';
 
 
 function EditWorkDetails (props) {
 
-    const defaultSelectedReferences = props.currentPost.references.map(work => {
-        return {name: work.name, id: work.workId }
-    });
     
     const defaultFormInputs = {
         title: props.currentPost.title,
         references: props.currentPost.references,
         categories: props.currentPost.categories,
         hashtags: props.currentPost.tags,
-        audio: props.currentPost.audio,
+        audio: props.currentPost.audio.audioUrl,
         description: props.currentPost.description,
-        coverImage: props.currentPost.imgSrc
+        coverImage: props.currentPost.coverPhoto.imageUrl,
+        originalImage: "",
+        originalAudio: "",
+        imageId: props.currentPost.coverPhoto.imageId,
+        audioId: props.currentPost.coverPhoto.audioId,
+        postId: props.currentPost.id
+
     };
 
+    const [defaultSelectedReferences, setDefaultSelectedReferences] = useState()
     const [uploadFormInputs, setUploadFormInputs] = useState(defaultFormInputs);
-    const [audioLabel, setAudioLabel] = useState("Click this area to select a file");
-    const [selectedRefWork, setSelectedRefWork] = useState([defaultSelectedReferences]);
+    const [audioLabel, setAudioLabel] = useState("Click this area to select a new audio file (Max Size 10MB)");
+    const [selectedRefWork, setSelectedRefWork] = useState();
+    const [downloadedWorks, setDownloadedWorks] = useState([]);
 
-    const downloads = props.currentUser.downloadedWorks.map(work => {
-        return {name: work.title + " - " + work.artist, id: work.id }});
+    useEffect(()=> {
 
-    const saveChanges = () => {
-        props.setInfo(['title', uploadFormInputs.title])
-        props.setInfo(['references', uploadFormInputs.references])
-        props.setInfo(['categories', uploadFormInputs.categories])
-        props.setInfo(['hashtags', uploadFormInputs.hashtags])
-        props.setInfo(['audio', uploadFormInputs.audio])
-        props.setInfo(['description', uploadFormInputs.description])
-        props.setInfo(['imgSrc', uploadFormInputs.coverImage])
-    }
+        getPostsWithIds(props.currentUser.downloadedWorks, setDownloadedWorks);
+
+    }, [props.currentUser])
+
+    useEffect(()=> {
+        const refs = props.currentPost.references.map(work => {
+            return {name: work.name, id: work.id}
+        });
+
+        setDefaultSelectedReferences(refs)
+        setSelectedRefWork([refs])
+
+    }, [props.currentPost])
+
+
+    const downloads = downloadedWorks.map(work => {
+        return {name: work.title + " by " + work.artist.profileName, id: work.id }});
+
+
+    // const saveChanges = () => {
+    //     props.setInfo(['title', uploadFormInputs.title])
+    //     props.setInfo(['references', uploadFormInputs.references])
+    //     props.setInfo(['categories', uploadFormInputs.categories])
+    //     props.setInfo(['hashtags', uploadFormInputs.hashtags])
+    //     props.setInfo(['audio', uploadFormInputs.audio])
+    //     props.setInfo(['description', uploadFormInputs.description])
+    //     props.setInfo(['imgSrc', uploadFormInputs.coverImage])
+    // }
 
     const handleInputChange = (event) => {
         const name = event.target.name;
@@ -48,7 +72,15 @@ function EditWorkDetails (props) {
         } else if(name === "coverImage") {
             const image = event.target.files[0];
             if(image) {
-                value = URL.createObjectURL(image);
+                if(image.size <= 10000000) {
+                    value = URL.createObjectURL(image);
+                    const name2 = "originalImage";
+                    setUploadFormInputs(inputs => ({...inputs, [name]: value, [name2]: event.target.files[0]}));
+                }
+                else {
+                    alert("The file you selected is too large!");
+                    return;
+                }
             } else {
                 return;
             }
@@ -85,19 +117,26 @@ function EditWorkDetails (props) {
         setSelectedRefWork(works);
       }
 
-    const handleAudioChange = (event) => {
+      const handleAudioChange = (event) => {
         if(event.target.files.length){
-            console.log(event.target.files);
-            const name = "audio";
-            const value = URL.createObjectURL(event.target.files[0]);
-            setUploadFormInputs(inputs => ({...inputs, [name]: value}));
-            setAudioLabel(event.target.files[0].name);
+            if(event.target.files[0].size <= 10000000){
+                console.log(event.target.files);
+                const name = "audio";
+                const name2 = "originalAudio";
+                const value = URL.createObjectURL(event.target.files[0]);
+                setUploadFormInputs(inputs => ({...inputs, [name]: value, [name2]:event.target.files[0]}));
+                setAudioLabel(event.target.files[0].name);
+            }
+            else {
+                alert("The file you selected is too large!")
+            }
         }
     }
 
-    const handleRefSelect = (idx, workId, selectedWork) => {
+    const handleRefSelect = (idx, workId, workName, selectedWork) => {
         let references = [...uploadFormInputs.references];
-        references[idx].workId = workId;
+        references[idx].id = workId;
+        references[idx].name = workName;
         const name = 'references';
         setUploadFormInputs(inputs => ({...inputs, [name]: references}));
         let works = [...selectedRefWork];
@@ -113,11 +152,52 @@ function EditWorkDetails (props) {
     }
 
     const handleUpload = (event) => {
+        //a post request will be made with the upload form data, including the cover image
         event.preventDefault();
-        //a post request will be made with the form data
-        setUploadFormInputs(defaultFormInputs);
-        setSelectedRefWork([[]]);
-        return alert("Your work was successfully uploaded");
+        console.log("about to upload")
+
+        if(uploadFormInputs["audio"] === "" || uploadFormInputs["coverImage"] === "" || uploadFormInputs["title"] === "") {
+            alert("Your work was not uploaded. Try again");
+            //setUploadFormInputs(defaultFormInputs);
+            //setSelectedRefWork([defaultSelectedReferences]);
+            //setAudioLabel("Click this area to select a new audio file (Max Size 10MB)");
+            return;
+        }
+
+        let formData = new FormData();
+
+        for ( var key in uploadFormInputs ) {
+            if(key !== "coverImage"  && key !== "audio") {
+                if(key === "references") {
+                    let value = (uploadFormInputs[key][0].id === null) ? JSON.stringify([]) : JSON.stringify(uploadFormInputs[key])
+                    formData.append(key, value);
+                }
+                else if(key === "hashtags"){
+                    formData.append(key, JSON.stringify(uploadFormInputs[key]));
+                }
+                else {
+                    formData.append(key, uploadFormInputs[key]);
+                }
+                
+            }
+        }
+
+        for (var value of formData.values()) {
+            console.log(value);
+        }
+
+        try {
+            updatePost(formData)
+            
+        }
+        catch (error) {
+            console.log(error)
+            alert("Your work was not uploaded. Try again");
+        }
+        props.updateUser()
+        //setUploadFormInputs(defaultFormInputs);
+        //setSelectedRefWork([defaultSelectedReferences]);
+        //setAudioLabel("Click this area to select a new audio file (Max Size 10MB)");
     }
 
     return(
@@ -134,7 +214,7 @@ function EditWorkDetails (props) {
                         <br/>
                         <div className="row">
                             <label className="input-label">Categories</label>
-                            <SelectCategories selectedValues={uploadFormInputs.categories} disabled={false} handleSelect={handleCategoryChange}/>
+                            <SelectCategories selectedValues={defaultFormInputs.categories} disabled={false} handleSelect={handleCategoryChange}/>
                         </div>
                         <br/>
                         <FormRow label={"Hashtags"} type={"text"} className={"input-box"} value={uploadFormInputs.hashtags.join(" #")} 
@@ -156,8 +236,8 @@ function EditWorkDetails (props) {
                                 {uploadFormInputs.references.map((ref, idx) => {
                                     return (
                                         <div className="add-ref-box" key={idx}> 
-                                            <SelectReference options={downloads} selectedOptions={selectedRefWork[idx]}
-                                                handleSelect={selectedWork => handleRefSelect(idx, selectedWork.length ? selectedWork[0].id : "", selectedWork)}/>
+                                            <SelectReference options={downloads} selectedOptions={[defaultSelectedReferences][idx]}
+                                                handleSelect={selectedWork => handleRefSelect(idx, selectedWork.length ? selectedWork[0].id : "", selectedWork.length ? selectedWork[0].name : "", selectedWork)}/>
                                             <textarea className="description-text-box ref-description" name="description" value={uploadFormInputs.references[idx].description}
                                                 onChange={event => handleDescriptionChange(idx, event)} placeholder={"How did you use this work?"}/>
                                             {uploadFormInputs.references.length > 1 && <button className="remove-ref-btn red-box-btn"
@@ -170,7 +250,7 @@ function EditWorkDetails (props) {
                     </form>
                 </div>
             </div>
-            <EditCoverPhoto coverImageSrc={uploadFormInputs.coverImage} handleImgChange={handleInputChange} handleUpload={handleUpload} saveChanges={saveChanges}/>
+            <EditCoverPhoto coverImageSrc={uploadFormInputs.coverImage} handleImgChange={handleInputChange} handleUpload={handleUpload}/>
         </div>
     );
 
@@ -179,7 +259,8 @@ function EditWorkDetails (props) {
 EditWorkDetails.propTypes = {
     currentUser: PropTypes.object,
     currentPost: PropTypes.object,
-    setInfo: PropTypes.func
+    setInfo: PropTypes.func,
+    updateUser: PropTypes.func
 };
 
 export default EditWorkDetails;

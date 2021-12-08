@@ -39,7 +39,7 @@ import AdminProfile from './pages/Profile/AdminProfile';
 import AdminProfileSettings from './pages/ProfileSettings/AdminProfileSettings';
 import ReportView from './components/AdminComponents/ReportView';
 
-import ExplorePage from './pages/ExplorePage/ExplorePage';
+import ExplorePage from './pages/Explore';
 import PersonalizedFeed from './pages/PersonalizedFeed';
 import { getUserByID } from './actions/user';
 
@@ -211,26 +211,18 @@ function App() {
     setState(child)
   }
 
-  const [user, setUser] = useState();
-
-  const changeUser = (newUser) => {setUser(newUser)};
-
   useEffect(() => {
 
-      checkSession(changeState, changeUser); // sees if a user is logged in
+      checkSession(changeState); // sees if a user is logged in
+
   }, [])
   
-  const updateUser = () => {
-
-    getUserByID(user._id, changeUser) 
-
-  }
 
   return (
     //this should be home page
     <div>
       <BrowserRouter>
-        {state.username && !state.isAdmin && <NavigationBar changeState={changeState} currentUser={user}/>}
+        {state.username && !state.isAdmin && <NavigationBar changeState={changeState} currentUser={state}/>}
         {state.username && state.isAdmin && <AdminNavigationBar changeState={changeState} />}
         <Switch> 
           <Route exact path='/SignUp' render={() => (<SignUp/>)}/>
@@ -238,23 +230,25 @@ function App() {
           <Route
               exact path={["/", "/LogIn", '/AdminProfile'] /* any of these URLs are accepted. */ }
               render={ () => (
-                !state.username ? <LogInPage changeState={changeState} /> : !state.isAdmin ? <PersonalizedFeed works={works}/> : <AdminProfile currentUser={state.id}/>
+                !state.username ? <LogInPage changeState={changeState} /> : !state.isAdmin ? <ExplorePage currentUser={state}/> : <AdminProfile currentUser={state.id}/>
               )}
           />
 
           <Route exact path='/ExternalCoverPage' render={() => (<ExternalCoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           {/* <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/> */}
           <Route exact path='/CoverPage/:title' render={() => (<CoverPage setComment={setPostComment} currentUser={state.id} setUserInfo={setUserInfo}/>)}/>
-          <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentPost={currentPost} currentUser={currentUser} setInfo={setPostInfo}/>)}/>
-
-          <Route exact path='/Profile' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
-          <Route path='/Profile/:rofileName' render={() => (<Profile currentUser={user} updateUser={updateUser}/>)}/>
-          <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={currentUser}/>)}/>
-          <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={user}/>)}/>
-          <Route exact path='/Followers' render={() => (<Follows currentUser={user}/>)}/>
-          <Route exact path='/Followings' render={() => (<Follows currentUser={user}/>)}/>
           <Route exact path='/Features/:title' render={() => (<Features/>)}/>
-          <Route exact path='/Explore' render={() => (<ExplorePage works={works}/>)}/>
+          <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
+          <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentUser={state}/>)}/>
+
+          <Route exact path='/Profile' render={() => (<Profile currentUser={state}/>)}/>
+          <Route path='/Profile/:profileName' render={() => (<Profile currentUser={state}/>)}/>
+          <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={state}/>)}/>
+          <Route exact path='/UploadWork' render={() => (<UploadWork currentUser={state}/>)}/>
+          <Route exact path='/Followers' render={() => (<Follows currentUser={state}/>)}/>
+          <Route exact path='/Followings' render={() => (<Follows currentUser={state}/>)}/>
+          <Route exact path='/Features' render={() => (<Features/>)}/>
+          <Route exact path='/Explore' render={() => (<ExplorePage currentUser={state}/>)}/>
           <Route exact path='/Home' render={() => (<PersonalizedFeed works={works}/>)}/>
 
 
@@ -264,7 +258,7 @@ function App() {
           <Route exact path="/ReportManagement" component={() => (<ReportManagementPage setLog={setLog} currentUser={state.id} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
           <Route exact path="/ArchivedReportManagement" component={() => (<ArchivedReportManagementPage setLog={setLog} currentUser={state.id} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
           <Route exact path='/AdminProfile' render={() => (<AdminProfile currentUser={state.id}/>)}/>
-          <Route exact path='/AdminProfileSettings' render={() => (<AdminProfileSettings currentUser={adminUser}/>)}/>
+          <Route exact path='/AdminProfileSettings' render={() => (<AdminProfileSettings currentUser={state}/>)}/>
           <Route exact path='/ProfileView' render={() => (<ProfileView currentUser={currentUser}/>)}/>
           <Route exact path='/ProfileSettingsView' render={() => (<ProfileSettingsView currentUser={currentUser}/>)}/>
           <Route exact path='/FollowersView' render={() => (<FollowsView currentUser={currentUser}/>)}/>

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import "./styles.css";
 import SelectCategories from '../SelectCategories';
 import FormRow from '../FormRow';
+import { updateUserProfileById, updateUserPasswordById } from '../../actions/user';
+import { checkPassword } from '../../actions/user';
 
 
 function ProfileSettingsContent (props) {
@@ -38,6 +40,18 @@ function ProfileSettingsContent (props) {
     const handleEdit = (event) => {
         //on save changes a post request will be made to the server with the profile form inputs
         event.preventDefault();
+        if(editProfile) {
+            if(!profileFormInputs.profileName || !profileFormInputs.email) {
+                setEditProfile(!editProfile);
+                alert("Invalid Inputs");
+                return;
+            }
+            else {
+                const id = {"id": props.currentUser._id, "isAdmin": false};
+                updateUserProfileById({...id, ...profileFormInputs});
+            }
+        }
+        
         setEditProfile(!editProfile);
         
     };
@@ -48,20 +62,56 @@ function ProfileSettingsContent (props) {
         setPasswordFormInputs(inputs => ({...inputs, [name]: value}))
     }
 
+    const changeValidPassword = (changed) => {
+        if(changed === 1) {
+            alert("Successfully changed password")
+            setPasswordFormInputs(defaultPasswordInput);
+            setChangePassword(!changePassword);
+            props.updateUser()
+        }
+        else if(changed === 0) {
+            alert("Failed to change password")
+            setPasswordFormInputs(defaultPasswordInput);
+            setChangePassword(!changePassword);
+        }
+    }
+
+    const passwordValidation = (validity) => {
+        if(validity === 1){
+            if(passwordFormInputs.newPassword === "" || passwordFormInputs.confirmPassword === ""){
+                return alert("You must fill all fields")
+            }
+            if(passwordFormInputs.newPassword !== passwordFormInputs.confirmPassword) {
+                return alert("Passwords don't match!");
+            } else {
+                //call to server
+                updateUserPasswordById(props.currentUser._id, passwordFormInputs.newPassword, changeValidPassword);
+                return;
+            }
+        }
+        else if(validity === 0){
+            return alert("Wrong password!");
+        }
+        else {
+            return alert("Could not verify password"); 
+        }
+    }
+    
+
 
     const handlePasswordChange = (event) => {
         event.preventDefault();
         if(changePassword) {
-            if(passwordFormInputs.oldPassword !== props.currentUser.password) {
-                return alert("Wrong password!");
-            } else if(passwordFormInputs.newPassword !== passwordFormInputs.confirmPassword) {
-                return alert("Passwords don't match!");
-            } else {
-                setPasswordFormInputs(defaultPasswordInput);
+            if(passwordFormInputs.oldPassword === ""){
+                return alert("You must fill all fields")
             }
+            checkPassword(props.currentUser.username, passwordFormInputs.oldPassword, passwordValidation)
+        }
+        else {
+            setChangePassword(!changePassword);
         }
         //a post request will be made to the server with the new password
-        setChangePassword(!changePassword);
+        
         
     };
 
@@ -134,7 +184,8 @@ function ProfileSettingsContent (props) {
     
 
 ProfileSettingsContent.propTypes = {
-    currentUser: PropTypes.object
+    currentUser: PropTypes.object,
+    updateUser: PropTypes.func
 };
 
 export default ProfileSettingsContent;

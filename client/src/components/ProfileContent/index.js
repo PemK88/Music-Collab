@@ -11,10 +11,10 @@ function ProfileContent (props) {
 
     const[editMode, setEditMode] = useState(false);
     const[editBtnVal, setEditBtnVal] = useState('Edit');
-    const[bio, setBio] = useState(props.user.biography)
+    const[bio, setBio] = useState()
     const[profileWorks, setProfileWorks] = useState([]);
     const[downloadedWorks, setDownloadedWorksState] = useState([]);
-    const[interests, setInterests] = useState(props.user.interests)
+    const[interests, setInterests] = useState()
 
     const setProfileWorksState = (works) => {
         setProfileWorks(works)
@@ -38,12 +38,12 @@ function ProfileContent (props) {
                         pathname:'/coverpage',
                         id: work._id
                     }}>
-                        <img src={work.coverPhotoUrl} alt='work cover'/>
+                        <img src={work.coverPhoto.imageUrl} alt='work cover'/>
                     </Link> 
                     <Link className="profile-works-link" to={{
-                        pathname:'/coverpage',
-                        id: work._id
-                    }}>{work.title}</Link> 
+                                pathname: `/CoverPage/${work.title}`,
+                                state: { postId: work._id }
+                                }}>{work.title}</Link> 
                 </li>
             );   
         });

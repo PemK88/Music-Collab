@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import "./styles.css";
 import { getUsersWithIds } from '../../actions/user';
+import defaultProfilePhoto from '../../data/default_profile_photo.jpeg';
 
 
 function FollowList(props) {
@@ -35,7 +36,7 @@ function FollowList(props) {
                             userId: user._id
                         }
                     }}>
-                        <img className="small-profile-picture"src={user.imgSrc} alt='Small Profile'/>
+                        <img className="small-profile-picture"src={user.profilePhoto ? user.profilePhoto.imageUrl : defaultProfilePhoto} alt='Small Profile'/>
                     </Link> 
                     <Link className="follow-list-link" to={{
                         pathname:`/Profile/${user.profileName}`,

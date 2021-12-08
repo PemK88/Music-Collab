@@ -15,10 +15,9 @@ export const addPost = async (workForm) => {
     // Create our request constructor with all the parameters we need
     const request = new Request(url, {
         method: "post",
-        body: JSON.stringify(post),
+        body: post,
         headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json"
+            Accept: "application/json, text/plain, */*"
         }
     });
 
@@ -29,19 +28,67 @@ export const addPost = async (workForm) => {
             // Usually check the error codes to see what happened.
             if (res.status === 200) {
                 // If student was added successfully, tell the user.
+                alert("Your work was successfully uploaded");
                 console.log("Post was successfully added")
-                return 1;
+                
             } else {
                 // If server couldn't add the student, tell the user.
                 // Here we are adding a generic message, but you could be more specific in your app.
+                alert("Your work was not uploaded. Try again");
                 console.log("failed to add post")
+                
             }
         })
         .catch(error => {
             console.log("post error: " + error);
+            alert("Your work was not uploaded. Try again");
+            
+        });
+};
+
+export const updatePost = async (workForm) => {
+    // the URL for the request
+    const url = `${API_HOST}/posts/updatePost`;
+    console.log("in add post")
+
+    // The data we are going to send in our request
+    const post = workForm;
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "PATCH",
+        body: post,
+        headers: {
+            Accept: "application/json, text/plain, */*"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(function (res) {
+            // Handle response we get from the API.
+            // Usually check the error codes to see what happened.
+            if (res.status === 200) {
+                // If student was added successfully, tell the user.
+                alert("Your work was successfully uploaded");
+                console.log("Post was successfully added")
+                
+            } else {
+                // If server couldn't add the student, tell the user.
+                // Here we are adding a generic message, but you could be more specific in your app.
+                alert("Your work was not uploaded. Try again");
+                console.log("failed to add post")
+                
+            }
+        })
+        .catch(error => {
+            console.log("post error: " + error);
+            alert("Your work was not uploaded. Try again");
+            
         });
         return 0;
 };
+
 
 
 export const getUsersPosts = async (userID,setState) => {
@@ -120,33 +167,73 @@ export const getPostsWithIds = async (idsList, setState) => {
     
 };
 
-export const getPostInfo = (setPostData) => {
-    // the URL for the request
-    const url = `${API_HOST}/api/posts`;
+export const getExplorePosts = async (type, setState) => {
+    let url;
+    if(type === 'trending') {
+        url = `${API_HOST}/posts/trendingWorks`;
+    }
+    else if(type === 'recent'){
+        url = `${API_HOST}/posts/recentWorks`
+    }
+    else {
+        return;
+    }
 
-    // Create our request constructor with all the parameters we need
-    const request = new Request(url, {
-        method: "get",
-        headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json"
+    try {
+        const res =  await fetch(url);
+
+        if (res.status !== 200) {
+            console.log("Could not get works");
+            return;
         }
-    });
 
-    // Send the request with fetch()
-    fetch(request)
-        .then(res => {
-            if (res.status === 200) {
-                console.log('200')
-                return res.json();
+        const result = res.json();
+
+        result.then(json => {
+            console.log("got works");
+            // the resolved promise with the JSON body
+            if(json) {
+                setState([...json]);
             }
+            
         })
-        .then(json => {
-            setPostData({posts: json.posts});
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
+};
+
+
+export const getAllPosts = async (setState) => {
+
+    const url = `${API_HOST}/posts/allWorks`;
+
+    try {
+        const res =  await fetch(url);
+
+        if (res.status !== 200) {
+            console.log("Could not get works");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            console.log("got all works");
+            // the resolved promise with the JSON body
+            if(json) {
+                setState([...json]);
+            }
+            
         })
-        .catch(error => {
-            console.log(error);
-        });
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
 };
 
 export const getPost = (id, setPost) => {
@@ -158,7 +245,7 @@ export const getPost = (id, setPost) => {
     const request = new Request(url, {
         method: "get",
         headers: {
-            Accept: "application/json, text/plain, */*",
+            Accept: "application/json, text/plain, /",
             "Content-Type": "application/json"
         }
     });
@@ -400,6 +487,36 @@ export const changeLikedCounts = (postID, number) => {
         });
 };
 
+export const getPostInfo = (setPostData) => {
+    // the URL for the request
+    const url = `${API_HOST}/api/posts`;
+
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: "get",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                console.log('200')
+                return res.json();
+            }
+        })
+        .then(json => {
+            setPostData({posts: json.posts});
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+
 // export const getIsLiked = (id, userId, setIsLiked) => {
 
 //     const url = `${API_HOST}/api/posts/isLiked/${id}/${userId}`;
@@ -428,4 +545,5 @@ export const changeLikedCounts = (postID, number) => {
 //             console.log(error);
 //         });
 // };
+
 

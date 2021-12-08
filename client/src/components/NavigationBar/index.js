@@ -29,7 +29,7 @@ function NavigationBar(props) {
                 to={{
                   pathname: "/Profile",
                   state: {
-                      userId: props.currentUser ? props.currentUser._id : ""
+                      userId: props.currentUser ? props.currentUser.id : ""
                   }}}
                 activeClassName="active"
                 className="nav-links"
@@ -60,7 +60,7 @@ function NavigationBar(props) {
                 Explore
               </NavLink>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <NavLink
                 exact
                 to="/Home"
@@ -70,7 +70,7 @@ function NavigationBar(props) {
               >
 	               Home Page
               </NavLink>
-            </li>
+            </li> */}
             <li className="nav-item">
               <NavLink
                 exact

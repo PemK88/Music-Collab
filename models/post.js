@@ -76,17 +76,12 @@ const Post = mongoose.model('Post', {
         default: Date.now
     },
 
-    likesCount: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-
     coverPhoto: {
         type: coverPhotoSchema,
-		required: false
-    },
+        required: true
+	},
 
+ 
     audio: {
         type: audioSchema,
 		required: true
@@ -138,6 +133,11 @@ const Post = mongoose.model('Post', {
         type: [commentSchema],
         required: true,
         default: []
+    },
+    likesCount: {
+        type: Number,
+        required: true,
+        default: 0
     }
 })
 

@@ -107,27 +107,6 @@ export const checkSession = (changeState, changeUser) => {
     });
 }
 
-// export const checkSessionFunction = (changeState) => {
-//     const url = `${API_HOST}/users/check-session`;
-
-//     fetch(url)
-//     .then(res => {
-//         if (res.status === 200) {
-//             console.log('200')
-//             return res.json();
-//         }
-//     })
-//     .then(json => {
-//         if (json && json.username) {
-//             console.log('change')
-//             changeState({ username: json.username, isAdmin: json.isAdmin, id: json.id });
-//             return json.username;
-//         }
-//     })
-//     .catch(error => {
-//         console.log(error + '1');
-//     });
-// }
 
 // A function to send a POST request with the user to be logged in
 export const login = (loginComp, changeState, time) => {
@@ -278,20 +257,21 @@ export const getUserByID = (userId, changeState) => {
         });
 };
 
-export const updateUserBioByID = (userId, biography) => {
 
-    const url = `${API_HOST}/users/bio`;
+export const updateUserPasswordById = (userId, password, changeValidPassword) => {
+
+    const url = `${API_HOST}/users/updatePassword`;
 
     const body = {
-        userId: userId,
-        biography: biography
+        id: userId,
+        password: password
     }
 
     const request = new Request(url, {
         method: "PATCH",
         body: JSON.stringify(body),
         headers: {
-            Accept: "application/json, text/plain, */*",
+            Accept: "application/json, text/plain, /",
             "Content-Type": "application/json"
         }
     });
@@ -301,13 +281,16 @@ export const updateUserBioByID = (userId, biography) => {
         .then(res => {
             if (res.status === 200) {
                 // return a promise that resolves with the JSON body
-                console.log("updated bio")
+                changeValidPassword(1)
+                console.log("updated password")
                 return;
             } else {
-                console.log("Could not update bio");
+                changeValidPassword(0)
+                console.log("Could not update password");
             }
         })
         .catch(error => {
+            changeValidPassword(0)
             console.log(error);
         });
 };
@@ -421,6 +404,205 @@ export const addActivty = (log, adminID) => {
             console.log(error);
         });
 };
+
+export const updateUserBioByID = (userId, biography) => {
+
+    const url =`${API_HOST}/users/bio`;
+
+    const body = {
+        userId: userId,
+        biography: biography
+    }
+
+    const request = new Request(url, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+        headers: {
+            Accept: "application/json, text/plain, /",
+            "Content-Type": "application/json"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("updated bio")
+                return;
+            } else {
+                console.log("Could not update bio");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const updateUserProfileById = (data) => {
+
+    const url = `${API_HOST}/users/updateProfile`;
+
+    const request = new Request(url, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+        headers: {
+            Accept: "application/json, text/plain, /",
+            "Content-Type": "application/json"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("updated user")
+                return;
+            } else {
+                console.log("Could not update user");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+
+export const updateUserPhotoByID = (form) => {
+
+    const url = `${API_HOST}/users/updateCoverPhoto`;
+
+    const formData = form;
+
+    const request = new Request(url, {
+        method: "PATCH",
+        body: formData,
+        headers: {
+            Accept: "application/json, text/plain, /"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("updated photo")
+                return;
+            } else {
+                console.log("Could update not photo");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const checkPassword = async (username, password, passwordValidation) => {
+
+    const url = `${API_HOST}/users/checkPassword`;
+
+    const  data = {
+        username: username,
+        password: password
+    }
+
+    const request = new Request(url, {
+        method: "post",
+        body: JSON.stringify(data),
+        headers: {
+            Accept: "application/json, text/plain, /",
+            "Content-Type": "application/json"
+        }
+    });
+
+    try {
+        const res =  await fetch(request);
+
+        if (res.status !== 200) {
+            console.log("Could not check password");
+            return;
+        }
+
+        const result = res.json();
+
+        result.then(json => {
+            if(json) {
+                passwordValidation(json.result === "valid" ? 1 : 0)
+            }
+            else{
+                passwordValidation("")
+            }
+            
+        })
+
+    }
+    catch(error) {
+        console.log(error);
+    };
+    
+};
+
+
+export const addFollowing = (userId, addedUserId) => {
+
+    const url = `${API_HOST}/users/addFollowing/${userId}/${addedUserId}`;
+
+    const request = new Request(url, {
+        method: "POST",
+        headers: {
+            Accept: "application/json, text/plain, /",
+            "Content-Type": "application/json"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("added following")
+                return;
+            } else {
+                console.log("Could not add following");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+
+export const removeFollowing = (userId, addedUserId) => {
+
+    const url = `${API_HOST}/users/removeFollowing/${userId}/${addedUserId}`;
+
+    const request = new Request(url, {
+        method: "DELETE",
+        headers: {
+            Accept: "application/json, text/plain, /",
+            "Content-Type": "application/json"
+        }
+    });
+
+
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // return a promise that resolves with the JSON body
+                console.log("removed following")
+                return;
+            } else {
+                console.log("Could not remove following");
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+
 
 export const clearActivity = (adminID) => {
     // the URL for the request
@@ -595,4 +777,3 @@ const setLastLogIn = (userID, time) => {
             console.log(error);
         });
 };
-

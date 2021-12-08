@@ -61,8 +61,7 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		minlegth: 1,
-		trim: true,
-        unique: true
+		trim: true
 	},
 
     profilePhoto: {

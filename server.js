@@ -22,6 +22,7 @@ const app = express();
 // enable CORS if in development, for React local development server to connect to the web server.
 const cors = require('cors')
 if (env !== 'production') { app.use(cors()) }
+//app.use(cors())
 
 // mongoose and mongo connection
 const { mongoose } = require("./db/mongoose");
@@ -35,16 +36,38 @@ const { Report } = require("./models/report");
 // to validate object IDs
 const { ObjectID } = require("mongodb");
 
+// multipart middleware: allows you to access uploaded file from req.file
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
+
+// cloudinary: configure using credentials found on your Cloudinary Dashboard
+// sign up for a free account here: https://cloudinary.com/users/register/free
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'drb9bln9e',
+    api_key: '613421648522464',
+    api_secret: 'u2mxWbV7NoXdDAo9pzfMh1lodw8'
+});
+
 // body-parser: middleware for parsing parts of the request into a usable object (onto req.body)
 const bodyParser = require('body-parser') 
-app.use(bodyParser.json()) // parsing JSON body
-app.use(bodyParser.urlencoded({ extended: true })); // parsing URL-encoded form data (from form POST requests)
+app.use(bodyParser.json({
+    limit: '50mb'
+  }));
+  
+  app.use(bodyParser.urlencoded({
+    limit: '50mb',
+    parameterLimit: 100000,
+    extended: true 
+  }));
+  
+// app.use(bodyParser.json()) // parsing JSON body
+// app.use(bodyParser.urlencoded({ extended: true })); // parsing URL-encoded form data (from form POST requests)
 
 
 // express-session for managing user sessions
 const session = require("express-session");
 const MongoStore = require('connect-mongo'); // to store session information on the database in production
-const { tupleExpression } = require('@babel/types');
 
 
 function isMongoError(error) { // checks for first error returned by promise rejection if Mongo database suddently disconnects
@@ -103,6 +126,7 @@ app.use(
     })
 );
 
+// A route to login and create a session
 // A route to login and create a session
 app.post("/users/login", (req, res) => {
     const username = req.body.username;
@@ -163,10 +187,46 @@ app.get("/users/details/:username", async (req, res) => {
     }
     
     const username = req.params.username;
+    console.log("this is username: " + username)
 
 	try {
 
 		const user = await User.findOne({username: username})
+
+        console.log("this is user details: " + user)
+		
+		if(!user) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        
+
+		res.send(user)
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+
+// A route to get user info
+app.get("/users/:id", async (req, res) => {
+    
+    if(!req.params.id) {
+        res.status(401).send('Invalid id provided');
+        return;
+    }
+    
+    const id = req.params.id;
+
+	try {
+
+		const user = await User.findOne({_id: id})
 		
 		if(!user) {
 			res.status(404).send('Resource not found')
@@ -184,56 +244,35 @@ app.get("/users/details/:username", async (req, res) => {
 	
 });
 
+app.post("/users/checkPassword", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
 
-// A route to get user info
-app.get("/api/users/:id", async (req, res) => {
-    
-    const id = req.params.id
-
-	// Good practise: Validate id immediately.
-	if (!ObjectID.isValid(id)) {
-		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
-		return;  // so that we don't run the rest of the handler.
-	}
-
-	// check mongoose connection established.
-	if (mongoose.connection.readyState != 1) {
-		log('Issue with mongoose connection')
-		res.status(500).send('Internal server error')
-		return;
-	}
-
-	// If id valid, findById
-	try {
-		const user = await User.findById(id)
-		if (!user) {
-			user.status(404).send('Resource not found')  // could not find this student
-		} else {
-			/// sometimes we might wrap returned object in another object:
-			//res.send({student})   
-			res.send({  
-                id: user._id,
-                username: user.username,
-                isAdmin: user.isAdmin,
-                password: user.password,
-                profileName: user.profileName,
-                email: user.email,
-                interests: user.interests,
-                uploadedWorks: user.uploadedWorks,
-                downloadedWorks: user.downloadedWorks,
-                likedWorks: user.likedWorks, 
-                followers: user.followers,
-                followings: user.followings,
-                lastLogIn: user.lastLogIn,
-                activityLog: user.activityLog,
-                profilePhoto: user.profilePhoto
-            });
-		}
-	} catch(error) {
-		log(error)
-		res.status(500).send('Internal Server Error')  // server error
-	}
-	
+    // log(email, password);
+    // Use the static method on the User model to find a user
+    // by their username and password
+    User.findByUsernamePassword(username, password)
+        .then(user => {
+            // Add the user's id to the session.
+            // We can check later if this exists to ensure we are logged in.
+            if(user){
+                res.send({result: "valid"});
+            }
+            else{
+                res.send({result: "invalid"});
+            }
+        })
+        .catch(error => {
+            if(error){
+                console.log(error);
+                res.status(400).send(err);
+            }
+            else {
+                res.send({result: "invalid"});
+            }
+            
+            
+        });
 });
 
 
@@ -259,7 +298,148 @@ app.patch("/users/bio", async (req, res) => {
 
 	} catch(error) {
 		log(error) // log server error to the console, not to the client.
-		
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+
+app.patch("/users/updatePassword", async (req, res) => {
+
+    const id = req.body.id;
+    const password = req.body.password;
+
+	try {
+
+        User.findById(id, function(err, doc) {
+            if(err){
+                console.log(err)
+                res.status(400).send(err)
+                return
+            }
+            if(doc){
+                doc.password = password;
+                doc.save();
+                res.send("successfully changed password")
+            }
+            else{
+                res.status(404).send('Resource not found')
+            }
+            
+          });	
+		//const result = await User.findOneAndUpdate({_id: id} , {$set: {"password" : password }}, {new: true, useFindAndModify: false})
+
+
+		// if(!result) {
+		// 	res.status(404).send('Resource not found')
+		// 	return;
+		// }
+
+		// res.send(result)
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+app.patch("/users/updateProfile", async (req, res) => {
+
+    const id = req.body.id;
+    let data;
+
+    if(req.body.isAdmin) {
+        data = {
+            "profileName": req.body.profileName,
+            "email": req.body.email
+        }
+    }
+    else {
+        data = {
+            "profileName" : req.body.profileName,
+            "email" : req.body.email,
+            "interests" : req.body.interests
+        }
+    }
+
+	try {
+
+        		
+		const result = await User.findOneAndUpdate({_id: id} , {$set: data}, {new: true, useFindAndModify: false})
+
+
+		if(!result) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        
+
+		res.send(result)
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+        res.status(500).send(error) // 400 for bad request gets sent to client.
+        return;
+	}
+	
+});
+
+app.patch("/users/updateCoverPhoto", multipartMiddleware, async (req, res) => {
+
+    const id = req.body.userId;
+    const imageId = req.body.imageId;
+
+    if(!id) {
+        return res.status(400).send("Invald IDs")
+    }
+
+	try {
+
+        await cloudinary.v2.uploader.upload(
+            req.files.image.path, // req.files contains uploaded files
+            function async (err, result) {
+                if(err) {
+                    console.log(err)
+                    return res.status(400).send(err)
+                }
+                // Create a new image using the Image mongoose model
+                const img = {
+                    imageId: result.public_id, // image id on cloudinary server
+                    imageUrl: result.url, // image url on cloudinary server
+                    createdOn: new Date(),
+                };
+
+                User.findOneAndUpdate({_id: id} , {$set: {"profilePhoto" : img }}, {new: true, useFindAndModify: false})
+                    .then( result2 => {
+                        if(!result2) {
+                            res.status(404).send('Resource not found')
+                        }
+                        else {
+                            res.send(result2)
+                        }
+        
+                        
+                    })
+            });
+
+        if(imageId) {
+            await cloudinary.v2.uploader.destroy(
+                imageId, // req.files contains uploaded files
+                function (err, result) {
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+                });
+    }
+
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
         res.status(500).send(error) // 400 for bad request gets sent to client.
         return;
 	}
@@ -290,7 +470,68 @@ app.post('/users/getUsersByIds', async (req, res) => {
 
 })
 
+//add a user to another users followings list 
+app.post('/users/addFollowing/:userId/:addedUserId', async (req, res) => {
+	// Add code here
 
+
+    const userId = req.params.userId;
+    const addedUserId = req.params.addedUserId;
+
+
+	try {
+		
+        const results = await User.findOneAndUpdate({_id: userId}, {$addToSet: {followings: addedUserId} }, {new: true, useFindAndModify: false})
+        console.log(results)
+        if(!results) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        const results2 = await User.findOneAndUpdate({_id: addedUserId}, {$addToSet: {followers: userId} }, {new: true, useFindAndModify: false})
+        console.log(results2)
+        results2 ? res.send(results2) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+app.delete('/users/removeFollowing/:userId/:addedUserId', async (req, res) => {
+	// Add code here
+
+    const userId = req.params.userId;
+    const addedUserId = req.params.addedUserId;
+
+	try {
+		
+        const results = await User.findOneAndUpdate({_id: userId}, {$pull: {followings: addedUserId} }, {new: true, useFindAndModify: false})
+
+        if(!results) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        const results2 = await User.findOneAndUpdate({_id: addedUserId}, {$pull: {followers: userId} }, {new: true, useFindAndModify: false})
+
+        results2 ? res.send(results2) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
 
 
 /// Route for getting works for 1 user
@@ -340,40 +581,297 @@ app.post('/posts/getWorksByIds', async (req, res) => {
 	}
 
 })
+app.get('/posts/allWorks', async (req, res) => {
+	// Add code here
+
+	try {
+		const result = await Post.find()
+        res.send(result)
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
 
 
+app.get('/posts/recentWorks', async (req, res) => {
+	// Add code here
+
+	try {
+		await Post.find({}).sort({dateCreated: 'desc'}).exec((err, docs) => { 
+            if(err){
+                console.log(err)
+                res.status(404).send('Resource not found')
+                return;
+            }
+
+            log("ordered by trending works")
+            res.send(docs)
+
+        });
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
+
+app.get('/posts/trendingWorks', async (req, res) => {
+	// Add code here
+
+	try {
+		await Post.find({}).sort({likesCount: 'desc'}).exec((err, docs) => { 
+            if(err){
+                console.log(err)
+                res.status(404).send('Resource not found')
+                return;
+            }
+
+            log("ordered by recent works")
+            res.send(docs)
+
+        });
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
 
 
-//Post Routes
-
-app.post('/posts', async (req, res) => {
+app.post('/posts', multipartMiddleware, async (req, res) => {
     log(`Adding post`)
-
+ 
     // Create a new student using the Student mongoose model
     const post = new Post({
-        coverPhotoUrl: req.body.coverImage,
-        audioUrl: req.body.audio,
+        coverPhoto: {},
+        audio: {},
         artist: {id: req.body.userId, profileName: req.body.artist},
         description: req.body.description,
-        tags: req.body.hashtags,
+        tags: JSON.parse(req.body.hashtags),
         categories: req.body.categories,
-        references: req.body.references,
+        references: JSON.parse(req.body.references),
         title: req.body.title
     })
 
-    console.log("this is post: " + post)
-
-
-    // Save student to the database
-    // async-await version:
     try {
+
+        await cloudinary.v2.uploader.upload(
+            req.files.originalImage.path, // req.files contains uploaded files
+            function (err, result) {
+                if(err) {
+                    console.log(err)
+                    return res.status(400).send(err)
+                }
+                // Create a new image using the Image mongoose model
+                const img = {
+                    imageId: result.public_id, // image id on cloudinary server
+                    imageUrl: result.url, // image url on cloudinary server
+                    createdOn: new Date(),
+                };
+
+                post.coverPhoto = img
+            });
+
+        console.log("uploaded image")
+
+        await cloudinary.v2.uploader.upload(
+            req.files.originalAudio.path, 
+            {
+                resource_type: "video",
+            },
+            function (err, result) {
+
+                
+                if(err) {
+                    console.log(err)
+                    return res.status(400).send(err)
+                }
+
+                // Create a new image using the Image mongoose model
+                const audio = {
+                    audioId: result.public_id, // image id on cloudinary server
+                    audioUrl: result.url, // image url on cloudinary server
+                    createdOn: new Date(),
+                };
+
+                post.audio = audio;
+            });
+
+        console.log("uploaded audio")
+
+
         const result = await post.save() 
-        res.send(result)
+        result ? res.send(result) :  res.status(400).send('Failed to add work')
+
     } catch(error) {
         log(error) // log server error to the console, not to the client.
         res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
     }
 })
+
+app.patch('/posts/updatePost', multipartMiddleware, async (req, res) => {
+    log(`Updating post`)
+
+    const id = req.body.postId;
+    const imageId = req.body.imageId;
+    const audioId = req.body.audioId;
+ 
+    // Create a new student using the Student mongoose model
+    let post = {
+        description: req.body.description,
+        tags: JSON.parse(req.body.hashtags),
+        categories: req.body.categories,
+        references: JSON.parse(req.body.references),
+        title: req.body.title
+    }
+
+    try {
+
+        if(req.files && req.files.originalImage) {
+
+            await cloudinary.v2.uploader.upload(
+                req.files.originalImage.path, // req.files contains uploaded files
+                function (err, result) {
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+                    // Create a new image using the Image mongoose model
+                    const img = {
+                        imageId: result.public_id, // image id on cloudinary server
+                        imageUrl: result.url, // image url on cloudinary server
+                        createdOn: new Date(),
+                    };
+
+                    post.coverPhoto = img
+                });
+
+                console.log("uploaded image")
+        }
+        
+        if(req.files && req.files.originalAudio) {
+        
+            await cloudinary.v2.uploader.upload(
+                req.files.originalAudio.path, 
+                {
+                    resource_type: "video",
+                },
+                function (err, result) {
+
+                    
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+
+                    // Create a new image using the Image mongoose model
+                    const audio = {
+                        audioId: result.public_id, // image id on cloudinary server
+                        audioUrl: result.url, // image url on cloudinary server
+                        createdOn: new Date(),
+                    };
+
+                    post.audio = audio;
+                });
+
+            console.log("uploaded audio")
+        }
+
+        Post.findOneAndUpdate({_id: id} , {$set: post}, {new: true, useFindAndModify: false})
+                    .then( result2 => {
+                        if(!result2) {
+                            res.status(404).send('Resource not found')
+                        }
+                        else {
+                            res.send(result2)
+                        }
+                        
+                    })
+        if(req.files && req.files.originalImage) {
+            await cloudinary.v2.uploader.destroy(
+                imageId, // req.files contains uploaded files
+                function (err, result) {
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+                });
+        }
+        if(req.files && req.files.originalAudio) {
+
+            await cloudinary.v2.uploader.destroy(
+                audioId, // req.files contains uploaded files
+                function (err, result) {
+                    if(err) {
+                        console.log(err)
+                        return res.status(400).send(err)
+                    }
+                });
+        }
+
+    } catch(error) {
+        log(error) // log server error to the console, not to the client.
+        res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+    }
+})
+
+
+app.get("/api/posts/:id", async (req, res) => {
+    
+    const id = req.params.id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const post = await Post.findById(id)
+		if (!post) {
+			post.status(404).send('Resource not found')  // could not find this student
+		} else {
+			/// sometimes we might wrap returned object in another object:
+			//res.send({student})   
+			res.send({  
+                id: post._id,
+                coverPhoto: post.coverPhoto,
+                audio: post.audio,
+                title: post.title,
+                artist: post.artist,
+                description: post.description,
+                likesCount: post.likesCount,
+                recievedLikes: post.recievedLikes,
+                categories: post.categories,            
+                tags: post.tags,
+                references: post.references,
+                comments: post.comments,
+                dateCreated: post.dateUploaded
+            });
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send('Internal Server Error')  // server error
+	}
+	
+});
 
 
 /*********************************************************/
