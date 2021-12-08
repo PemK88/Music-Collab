@@ -8,7 +8,7 @@ function SelectCategories(props) {
     
     //a get request will be made to the server to get the categories
     //OR they will be passsed as props
-    const options = ['R&B', 'Pop', 'Jazz', 'Hiphop', 'Instrumentals', 'Acapella'];
+    const options = ['R&B', 'Pop', 'Jazz', 'Hiphop', 'Instrumental', 'Acapella', 'Classical', 'Rock', 'Other'];
 
     return (
         <Multiselect isObject={false} options={options} selectedValues={props.selectedValues} disable={props.disabled} 

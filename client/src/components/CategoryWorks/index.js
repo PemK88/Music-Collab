@@ -6,7 +6,7 @@ function CategoryWork (props) {
 
     //a get request will be made to the server to get the categories
     //OR they will be passsed as props
-    const categories = ['R&B', 'Pop', 'Jazz', 'Hiphop', 'Instrumentals', 'Acapella'];
+    const categories = ['R&B', 'Pop', 'Jazz', 'Hiphop', 'Instrumental', 'Acapella', 'Classical', 'Rock', 'Other'];
     const defaultClass = new Array(categories.length).fill("btn btn-margin");
 
     const [categoriesClass, setCategoriesClass] = useState(defaultClass);
