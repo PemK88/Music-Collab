@@ -37,8 +37,7 @@ class PostTable extends React.Component {
                 <th id='inputText'> Title </th>
 	 			<th id='inputText'> Artist </th>
                 <th id='inputText'> Date Posted </th>
-                <th id='inputText'> Edit </th>
-                <th id='inputText'> View </th>
+                <th id='inputText'> View / Edit </th>
                 <th id='inputText'> Delete </th>
             </tr>
         )
@@ -108,13 +107,12 @@ class PostTable extends React.Component {
                     <td id='inputText'>{post._id}</td>
                     <td id='inputText'>{post.title}</td>
                     <td id='inputText'>{post.artist.profileName}</td>
-                    <td id='inputText'>{post.dateUploaded}</td>
-                    <td><Link to='/CoverPageSettings'><button type="edit">Edit</button></Link></td>
+                    <td id='inputText'>{post.dateCreated}</td>
                     <td><Link to={{
                                 pathname: `/CoverPage/${post.title}`,
                                 state: { postId: post._id }
                                 }}>
-                        <button type="view">View</button></Link></td>
+                        <button type="view"> View / Edit </button></Link></td>
                     <td><button type="select" onClick={ () => this.removePost(post) }>Delete</button></td>
                 </tr>
             )

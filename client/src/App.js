@@ -23,6 +23,8 @@ import Features from './pages/Features';
 import LogInPage from './pages/LoginBox/LogInPage';
 import SignUp from './pages/SignUp/SignUp';
 
+import EditUser from './pages/ProfileSettings/editUser';
+
 import CoverPage from './pages/Coverpage/CoverPage';
 import CoverpageSettings from './pages/CoverpageSettings';
 import ExternalCoverPage from './pages/Coverpage/ExternalCoverPage';
@@ -234,13 +236,15 @@ function App() {
               )}
           />
 
+          
           <Route exact path='/ExternalCoverPage' render={() => (<ExternalCoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           {/* <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/> */}
           <Route exact path='/CoverPage/:title' render={() => (<CoverPage setComment={setPostComment} currentUser={state.id} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/Features/:title' render={() => (<Features/>)}/>
           <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/CoverPageSettings' render={() => (<CoverpageSettings currentUser={state}/>)}/>
-
+          
+          <Route exact path='/EditUser' render={() => (<EditUser/>)}/>
           <Route exact path='/Profile' render={() => (<Profile currentUser={state}/>)}/>
           <Route path='/Profile/:profileName' render={() => (<Profile currentUser={state}/>)}/>
           <Route exact path='/ProfileSettings' render={() => (<ProfileSettings currentUser={state}/>)}/>

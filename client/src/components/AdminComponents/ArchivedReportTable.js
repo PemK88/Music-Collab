@@ -37,9 +37,8 @@ class ArchivedReportTable extends React.Component {
                 <th id='inputText'> Item ID </th>
 	 			<th id='inputText'> Type </th>
 	 			<th id='inputText'> Reported By </th>
-                <th id='inputText'> Date Reported </th>
+                <th id='inputText'> Reason </th>
                 <th id='inputText'> Unarchive </th>
-                <th id='inputText'> View </th>
                 <th id='inputText'> Delete </th>
             </tr>
         )
@@ -135,13 +134,9 @@ class ArchivedReportTable extends React.Component {
                     <td id='inputText'>{r._id}</td>
                     <td id='inputText'>{(r.type==='post')?r.reported.title:r.reported.username}</td>
                     <td id='inputText'>{r.type}</td>
-                    <td id='inputText'>{r.user.username}</td>
-                    <td id='inputText'>{r.date}</td>
+                    <td id='inputText'>{r.user.profileName}</td>
+                    <td id='inputText'>{r.reason}</td>
                     <td><button type="archive" onClick={ () => this.archiveReport(r) }>Unarchive</button></td>
-                    <td><Link to={{
-                                pathname: `/ReportView`,
-                                state: { reportId: r._id }
-                                }}><button type="view">View</button></Link></td>
                     <td><button type="select" onClick={ () => this.removeReport(r) }>Delete</button></td>
                 </tr>
             )

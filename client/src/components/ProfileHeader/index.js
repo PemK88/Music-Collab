@@ -116,10 +116,10 @@ function ProfileHeader (props) {
             <br/>
             <ProfileSideNav page={props.page} currentUser={props.currentUser} externalView={props.externalView} loggedUser={props.loggedUser} followersNum={followersNum} followingsNum={followingsNum}/>
             <br/>
-            </div>
+            </div>d
             {props.externalView && 
                 (<div id="overflow-container">
-                    <ReportPopup trigger={reportPopupTrigger} handleTrigger={handleReport}/>
+                    <ReportPopup reportType={"user"} currentUser={props.loggedUser} reported={props.currentUser} trigger={reportPopupTrigger} handleTrigger={handleReport}/>
                     <button id="report-btn" className="btn" onClick={handleReport}>Report</button>
                 </div>)}
         </div>

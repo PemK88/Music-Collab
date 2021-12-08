@@ -118,14 +118,20 @@ class UserTable extends React.Component {
                     <td id='inputText'>{user.isAdmin ? 'admin' : 'user'}</td>
                     <td id='inputText'>{user.profileName}</td>
                     <td id='inputText'>{user.lastLogIn}</td>
-                    <td><Link to="/ProfileSettingsView"><button type="edit">Edit</button></Link></td>
-                    <td><Link to="/ProfileView"><button type="view">View</button></Link></td>
+                    <td><Link to={{
+                            pathname: `/EditUser`,
+                            state: { userId: user._id }
+                            }}>{!user.isAdmin && <button type="edit">Edit</button>}</Link></td>
+                    <td><Link to={{
+                            pathname: `/Profile/${user.profileName}`,
+                            state: { userId: user._id }
+                            }}> {!user.isAdmin && <button type="view">View</button>}</Link></td>
                     <td><button type="select" onClick={ () => this.removeUser(user) }>Delete</button></td>
                 </tr>
             )
         })
     }
-
+ 
    render() { 
       return (
         <div className="table-container">

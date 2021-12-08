@@ -108,7 +108,11 @@ function CoverPage (props) {
         if (post.id) {
             if (user.id === post.artist.id) {
                 setExternalView(false)
-            } else {
+            } 
+            else if (user.isAdmin) {
+                setExternalView(false)
+            }
+            else {
                 setExternalView(true)
             }
         }
