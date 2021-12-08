@@ -1010,6 +1010,51 @@ app.get('/api/users', mongoChecker, async (req, res) => {
 
 })
 
+// A route to get user info
+app.get("/api/users/:id", async (req, res) => {
+    
+    const id = req.params.id
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const user = await User.findById(id)
+		if (!user) {
+			user.status(404).send('Resource not found')  // could not find this student
+		} else {
+			/// sometimes we might wrap returned object in another object:
+			//res.send({student})   
+			res.send({  
+                id: user.id,
+                username: user.username,
+                isAdmin: user.isAdmin,
+                password: user.password,
+                profileName: user.profileName,
+                email: user.email,
+                interests: user.interests,
+                uploadedWorks: user.uploadedWorks,
+                downloadedWorks: user.downloadedWorks,
+                likedWorks: user.likedWorks, 
+                followers: user.followers,
+                followings: user.followings,
+                lastLogIn: user.lastLogIn,
+                activityLog: user.activityLog,
+                profilePhoto: user.profilePhoto
+            });
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send('Internal Server Error')  // server error
+	}
+	
+});
+
 
 // Delete User
 app.delete('/api/users/:id', async (req, res) => {
