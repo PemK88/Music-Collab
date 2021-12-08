@@ -108,7 +108,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'Not Yet Logged In'
-    }
+    },
+
+	accessTo: {
+		type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+        required: false
+	}
 })
 
 // An example of Mongoose middleware.

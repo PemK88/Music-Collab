@@ -365,18 +365,25 @@ app.patch("/users/updateProfile", async (req, res) => {
         }
     }
 
-	try {
-
-        		
+	try {		
 		const result = await User.findOneAndUpdate({_id: id} , {$set: data}, {new: true, useFindAndModify: false})
-
+        const test = await Post.updateMany({"artist.id": id }, { $set: { "artist.profileName": req.body.profileName } } );
+        const test2 = await Post.updateMany({"comments.userId": id}, { $set: { "comments.$[].profileName": req.body.profileName } } );
 
 		if(!result) {
 			res.status(404).send('Resource not found')
 			return;
 		}
 
-        
+        if(!test) {
+			res.status(404).send('Resource not found')
+			return;
+		}
+
+        if(!test2) {
+			res.status(404).send('Resource not found')
+			return;
+		}
 
 		res.send(result)
 
@@ -1039,7 +1046,8 @@ app.get("/api/users/:id", async (req, res) => {
                 followings: user.followings,
                 lastLogIn: user.lastLogIn,
                 activityLog: user.activityLog,
-                profilePhoto: user.profilePhoto
+                profilePhoto: user.profilePhoto,
+                accessTo: user.accessTo
             });
 		}
 	} catch(error) {
@@ -1068,7 +1076,7 @@ app.delete('/api/users/:id', async (req, res) => {
         await User.updateMany({}, { $pull: { "followings": id } });
         await User.updateMany({}, { $pull: { "followers": id } });
         await Post.updateMany({}, { $pull: { "recievedLikes": id } });
-        await Report.updateMany({}, { $pull: { "reported": {"_id": id} } });
+        await Report.updateMany({}, { $pull: { "reported.$._id": id} });
 		if (!student) {
 			res.status(404).send()
 		} else {   
@@ -1401,7 +1409,7 @@ app.delete('/api/posts/:id', async (req, res) => {
         await User.updateMany({}, { $pull: { "likedWorks": id } });
         await User.updateMany({}, { $pull: { "downloadedWorks": id } });
         await Post.updateMany({}, { $pull: { "references": {"id": id} } });
-        await Report.updateMany({}, { $pull: { "reported": {"id": id} } });
+        await Report.updateMany({}, { $pull: { "reported.$.id": id} });
 		if (!post) {
 			res.status(404).send()
 		} else {   

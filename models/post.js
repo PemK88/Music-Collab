@@ -36,14 +36,6 @@ const commentSchema = mongoose.Schema({
     comment: {
 		type: String,
 		required: true
-	},
-
-    username: {
-		type: String,
-		required: true,
-		minlegth: 1,
-		trim: true,
-        unique: true
 	}
 })
 

@@ -99,23 +99,22 @@ function CoverPage (props) {
         if (user.id) {
             checkLiked()
         }
-        if (user.isAdmin) {
-            setExternalView(false)
-        }
         console.log('chnaged')
     }, [user])
 
     useEffect(() => {
-        if (post.id) {
+        if (post.id && user.id) {
             if (user.id === post.artist.id) {
                 setExternalView(false)
-            } 
+            } else if (user.isAdmin) {
+                setExternalView(false)
+            }
             else {
                 setExternalView(true)
             }
         }
         console.log('chnaged')
-    }, [post])
+    }, [post, user])
 
 
     return (
