@@ -47,7 +47,7 @@ function ProfileSettingsContent (props) {
                 return;
             }
             else {
-                const id = {"id": props.currentUser._id};
+                const id = {"id": props.currentUser._id, "isAdmin": false};
                 updateUserProfileById({...id, ...profileFormInputs});
             }
         }

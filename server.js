@@ -349,14 +349,26 @@ app.patch("/users/updatePassword", async (req, res) => {
 app.patch("/users/updateProfile", async (req, res) => {
 
     const id = req.body.id;
-    const profileName = req.body.profileName;
-    const email = req.body.email;
-    const interests = req.body.interests;
+    let data;
+
+    if(req.body.isAdmin) {
+        data = {
+            "profileName": req.body.profileName,
+            "email": req.body.email
+        }
+    }
+    else {
+        data = {
+            "profileName" : req.body.profileName,
+            "email" : req.body.email,
+            "interests" : req.body.interests
+        }
+    }
 
 	try {
 
         		
-		const result = await User.findOneAndUpdate({_id: id} , {$set: {"profileName" : profileName, "email": email, "interests": interests }}, {new: true, useFindAndModify: false})
+		const result = await User.findOneAndUpdate({_id: id} , {$set: data}, {new: true, useFindAndModify: false})
 
 
 		if(!result) {

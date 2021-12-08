@@ -274,7 +274,7 @@ function App() {
           <Route
               exact path={["/", "/LogIn"] /* any of these URLs are accepted. */ }
               render={ () => (
-                !state.username ? <LogInPage changeState={changeState} /> : !state.isAdmin ? <PersonalizedFeed works={works}/> : <AdminProfile currentUser={adminUser}/>
+                !state.username ? <LogInPage changeState={changeState} /> : !state.isAdmin ? <ExplorePage currentUser={state}/> : <AdminProfile currentUser={adminUser}/>
               )}
           />
 
@@ -299,7 +299,7 @@ function App() {
           <Route exact path="/ReportManagement" component={() => (<ReportManagementPage setLog={setLog} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
           <Route exact path="/ArchivedReportManagement" component={() => (<ArchivedReportManagementPage setLog={setLog} currentUser={adminUser} reports={reportData.reports} archived={archivedData.archivedReports} setReports = {setReportChanged} setArchived = {setArchivedChanged}/>)} />
           <Route exact path='/AdminProfile' render={() => (<AdminProfile currentUser={adminUser}/>)}/>
-          <Route exact path='/AdminProfileSettings' render={() => (<AdminProfileSettings currentUser={adminUser}/>)}/>
+          <Route exact path='/AdminProfileSettings' render={() => (<AdminProfileSettings currentUser={state}/>)}/>
           <Route exact path='/ProfileView' render={() => (<ProfileView currentUser={currentUser}/>)}/>
           <Route exact path='/ProfileSettingsView' render={() => (<ProfileSettingsView currentUser={currentUser}/>)}/>
           <Route exact path='/FollowersView' render={() => (<FollowsView currentUser={currentUser}/>)}/>

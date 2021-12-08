@@ -62,22 +62,6 @@ function Profile (props) {
                 updateLoggedUser(); 
             }
     
-        // if(props.currentUser && userId) {
-        //     console.log("in here")
-        //     if(props.currentUser._id !== userId) {
-        //         if(passedUser) {
-        //             userId === passedUser._id ? setUser(passedUser) : getUser()
-        //         }
-        //         else {
-        //             getUser()
-        //         }
-        //         setExternalView(true);
-        //     }
-        //     else {
-        //         setUser(props.currentUser)
-        //         setExternalView(false);
-        //     }
-        // }
   
     }, [userId, props.currentUser])
 

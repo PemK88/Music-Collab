@@ -33,16 +33,13 @@ function ProfileHeader (props) {
             setFollowersNum(props.currentUser.followers.length)
             setFollowingsNum(props.currentUser.followings.length)
         }
-    }, [props.loggedUser, props.currentUser])
+    }, [props.loggedUser, props.currentUser, props.externalView, props.page])
 
     const handleReport = () => {
         setReportPopupTrigger(!reportPopupTrigger);
     };
 
     //This function is here temporarily to switch between external and profile view
-    const handleViewChange = () => {
-        props.toggleView();
-    };
 
     const following = async (flag) => {
         try  {
@@ -119,8 +116,6 @@ function ProfileHeader (props) {
             <br/>
             <ProfileSideNav page={props.page} currentUser={props.currentUser} externalView={props.externalView} loggedUser={props.loggedUser} followersNum={followersNum} followingsNum={followingsNum}/>
             <br/>
-
-            {props.page === 'profile' && <button className="btn" onClick={handleViewChange}>{props.externalView ? 'Internal View': 'External View'}</button>}
             </div>
             {props.externalView && 
                 (<div id="overflow-container">
@@ -138,8 +133,7 @@ ProfileHeader.propTypes = {
     loggedUser: PropTypes.object,
     page: PropTypes.string,
     updateUser: PropTypes.func,
-    updateLoggedUser: PropTypes.func,
-    toggleView: PropTypes.func
+    updateLoggedUser: PropTypes.func
 };
 
 export default ProfileHeader;
