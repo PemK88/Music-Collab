@@ -20,7 +20,7 @@ function RequestPopup (props) {
             postId: props.requestedPost.id,
             acceptor: acceptorInfo,
             requestor: requestorInfo,
-            comments: {userId: props.currentUser.id, profileName: props.currentUser.profileName, comment: state.value}
+            comments: [{userId: props.currentUser.id, profileName: props.currentUser.profileName, comment: state.value}]
         }
 
         addRequest(form)
