@@ -96,12 +96,6 @@ export const checkSession = (changeState, changeUser) => {
             return json.username;
         }
     })
-    .then(username => { 
-        if(username) {
-            getUserDetails(username, changeUser)
-        }
-
-    })
     .catch(error => {
         console.log(error + '1');
     });

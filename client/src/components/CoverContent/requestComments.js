@@ -28,7 +28,7 @@ function RequestComment (props) {
 
     const addComment = () => {
         const commentList = props.currentPost.comments
-        const newComment = {profileName: props.currentUser.profileName, comment: state.comment, userId: props.currentUser.id}
+        const newComment = {profileName: props.currentUser.profileName, comment: state.comment, userId: props.currentUser._id}
         commentList.push(newComment)
         props.setComment(commentList)
         addRequestComment(newComment, props.currentPost._id)
@@ -36,6 +36,7 @@ function RequestComment (props) {
 
     const generateComments = (list) => {
         if(!list) return;
+        if(!list.length===0) return;
 
         return list.map((comment, idx) => {
             if (comment.userId !== props.currentUser._id) {

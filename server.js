@@ -949,6 +949,55 @@ app.get('/request/receivedRequests/:acceptorId', async (req, res) => {
 	}
 
 })
+
+app.delete('/request/deleteRequest/:requestId', async (req, res) => {
+	// Add code here
+
+    const id = req.params.requestId
+
+	try {
+        await Request.find({
+            '_id': id
+        }).remove((err, docs) => { 
+            if(err){
+                console.log(err)
+                res.status(404).send('Resource not found')
+                return;
+            }
+            res.send(docs)
+        });
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+})
+
+
+app.patch('/request/acceptRequest/:requestId', async (req, res) => {
+	// Add code here
+    log("in heer")
+    const id = req.params.requestId
+
+	try {
+
+        const results = await Request.findOneAndUpdate({_id: id} , {isAccepted : true}, {new: true, useFindAndModify: false})
+        results ? res.send(results) : res.status(404).send('Resource not found')
+
+	} catch(error) {
+		log(error) // log server error to the console, not to the client.
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	}
+
+})
 /*********************************************************/
 
 /*** API Routes below ************************************/
@@ -1740,7 +1789,6 @@ app.delete('/request/comment/:id/:comment_id', (req, res) => {
 		}
 	}) 
 })
-
 // other student API routes can go here...
 // ...
 
