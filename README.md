@@ -1,13 +1,138 @@
-# Music Colab - team63
+# Music Collab - team63
+
+## Deployed Website Link
+https://musiccollabb.herokuapp.com/
 
 ## Important Notes
-* Files written by Bessey are marked at the top with the comment "Put together by Bessey"
-* The only component used from his work in the final submission is the navigation bar
+**Taking 1 day late penalty**
 
-## Third Party Libraries
-* react-h5-audio-player (https://www.npmjs.com/package/react-h5-audio-player)
-* multiselect-react-dropdown (https://www.npmjs.com/package/multiselect-react-dropdown)
+## New Feature
+Request Feature
+In order for users to download other user's work, they must be approved by the owner of the user.
+User can send request to another user, if user is approved, then user can download the song. Furthermore they will be able to communicate with each other on comment section in request pages.
 
+## Overview of the Routes
+Only showing the main requests
+
+### User
+    - Add a user to the database
+        type: POST
+        url: /api/users
+        send: 
+            {
+                "isAdmin": false,
+                "username": "username",
+                "profileName": "profileName",
+                "email": "email",
+                "interests": ["string"],
+                "password": "password"
+            }
+         return:
+         {
+            "isAdmin": false,
+            "username": "username",
+            "password": "$2a$10$/L62gIEbXvTnfyo2ORIEcOS5/c92bRrAY3whbV6.uY3OtLPFO8xl2",
+            "profileName": "profileName",
+            "email": "email",
+            "biography": "",
+            "interests": [
+                "string"
+            ],
+            "downloadedWorks": [],
+            "likedWorks": [],
+            "followers": [],
+            "followings": [],
+            "activityLog": [],
+            "lastLogIn": "Not Yet Logged In",
+            "accessTo": [],
+            "_id": "61b180987110589cc76fb6f8",
+            "__v": 0
+        }
+            
+    - Get all the users in the database
+        type: GET
+        url: /api/users
+        recieve: all ther users in user database
+        
+    - Get a specific user by id
+        type: GET
+        url: /api/users/:id
+        recieve: full info of the user with "id"
+        
+    - Delete a specific user by id
+        type: DELETE
+        url: /api/users/:id
+        recieve: None
+        
+    - Update a specific user by id (There are different urls for updating different info)
+        - One example is updating bio
+        type: PATCH
+        url:/users/bio
+        send:
+            {
+               "userId": object id of user,
+               "biography": "Some bio"
+            }
+        recieve:
+            {
+                "accessTo": [],
+                "_id": "61aa9537401b196afb7303e7",
+                "isAdmin": false,
+                "username": "user",
+                "password": "$2a$10$PSl19UiOySvkMyXZBwJaeuBufArqG8UnYtunfWDvzaxPy/fgWFdKK",
+                "profileName": "admin",
+                "email": "user@mail.com",
+                "interests": [],
+                "uploadedWorks": [],
+                "downloadedWorks": [
+                    "61aec196a291734b8e4abd59"
+                ],
+                "likedWorks": [],
+                "followers": [],
+                "followings": [],
+                "activityLog": [],
+                "lastLogIn": "2021-12-8 21:21:30",
+                "__v": 0,
+                "profilePhoto": {
+                    "imageId": "l14zgkihocpw48su45ez",
+                    "imageUrl": "http://res.cloudinary.com/drb9bln9e/image/upload/v1638951972/l14zgkihocpw48su45ez.jpg",
+                    "createdOn": "2021-12-08T08:26:13.926Z"
+                },
+                "biography": "Some bio"
+            }
+    
+### Post
+    The funtionalities are similar to user
+    - Add a post to the dataset
+        type: POST
+        url: /posts
+    - Get all the post in the dataset
+        type: GET
+        url: /api/posts
+    - Get a specific post by id
+        type: GET
+        url: /api/posts/:id
+    - Delete a specific post by id
+        type: DELETE
+        url: /api/posts/:id
+    - Update a specific post by id
+        Similar  to user we have different routes for updating different part of the posts
+        
+### Request
+    The functionalities are similar to user
+    - Add a request to the dataset
+    - Get all the request in the dataset
+    - Get a specific request by id
+    - Delete a specific request by id
+    - Update a specifice request by id
+    
+### Report
+    The functionalities are similar to user
+   - Add report to the dataset
+   - Get all the report in the dataset
+   - Get a specific report by id
+   - Delete a specific report by id
+   - Update a specific report by id
 
 ## Site Navigation Instructions
 
@@ -15,7 +140,7 @@
 After cloning the repository run the following commands
 ```
 npm install
-npm start
+node server.js
 ```
 
 ## Login
@@ -28,18 +153,7 @@ You must enter the credentials below to view the administrator pages
 * username: admin
 * password: admin
 
-**Do not reload pages after login!** The admin and user navigation bars are different, and the correct bar is displayed based on the type of user which is determined through logging in.
-
-There is also a link to the signup page which allows you to create an account. However, the account credentials cannot be used to log in during this phase of the project.
-
 # User
-
-### Home
-Upon logging in you will be directed to the home page. On this page, we have the notification wall, work recommendations and liked works.
-
-Users can see works by other users who have featured their work, comments and likes made on their work posts, and new followings. Clicking on a notification will direct you to the page being referred to in the notification (for the following notifications this is the user’s profile page). This information can also be cleared using the clear button.
-
-Works that may interest you are random works generations determined by the categories listed as interests in your profile. Clicking on any work title will lead you to its cover page
 
 ### Explore
 
@@ -49,8 +163,6 @@ By clicking on the search box you can search and select multiple works. When you
 
 ### Profile
 
-**Internal View refers to what the current user sees**
-**External View refers to what other users see**
 
 As you are logged in, you will be directed to the internal view of the profile page.
 
@@ -88,7 +200,7 @@ User can navigate through pages using the navigation bar:
     When first logged in as admin, it directs to admin profile.
     The user will able to see the past activites they have performed, and any new activity(deleting, adding, archiving, unarchiving) will be recorded to this page. Through the settings on side, admin will be able to edit their information.
 
-**All the links to the page are hardcoded** In the later phase, it will direct to the corresponding user, post, and report 
+
 - Users
     Page for managing users in the system
     - Search specific users by their USERNAME on searchbar
@@ -101,21 +213,20 @@ User can navigate through pages using the navigation bar:
     Page for managing posts in the system
     - Search specific posts by their TITLE on searchbar
     - Delete post (Can delete multiple users by selecting, and clicking DELETE SELECTED)
-    - View cover page for the post
+    - View/Edit cover page for the post
     - Edit post information
 
 - Reports
     Page for managing reports in the system
     - Search specific reports by POSTID if post, USERNAME if user on searchbar
     - Delete reports (Can delete multiple users by selecting, and clicking DELETE SELECTED)
-    - View report detail
-        - In report view page, clicking reported will link to the profile or post cover page
+    - Clicking on reported will take the admin user to reported page
     - Reports can be archived, which will move the report to archived reports when archived
         - You can go to archived reports buy the button on the bottom left
         - Archived report page is similar, but unarchiving will move report back to report page
 
 - Explore
-    Admin has access to same explore page as user
+    Admin has access to same explore page as user but without the liked posts
 
 - Log Out
     Redirects back to Log In Page
