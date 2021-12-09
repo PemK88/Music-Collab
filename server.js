@@ -955,25 +955,18 @@ app.delete('/request/deleteRequest/:requestId', async (req, res) => {
 
     const id = req.params.requestId
 
+	// Delete a user by their _id
 	try {
-        await Request.find({
-            '_id': id
-        }).remove((err, docs) => { 
-            if(err){
-                console.log(err)
-                res.status(404).send('Resource not found')
-                return;
-            }
-            res.send(docs)
-        });
+		const student = await Request.findByIdAndRemove(id)
 
-	} catch(error) {
-		log(error) // log server error to the console, not to the client.
-		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
-			res.status(500).send('Internal server error')
-		} else {
-			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		if (!student) {
+			res.status(404).send()
+		} else {   
+			res.send(student)
 		}
+	} catch(error) {
+		log(error)
+		res.status(500).send() // server error, could not delete.
 	}
 })
 
