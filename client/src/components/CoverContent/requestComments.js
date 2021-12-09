@@ -36,14 +36,16 @@ function RequestComment (props) {
 
     const generateComments = (list) => {
         if(!list) return;
-        if(!list.length===0) return;
 
         return list.map((comment, idx) => {
             if (comment.userId !== props.currentUser._id) {
                 return (
                     <li key={idx} className='comment-box'>
                         <div className='comment-username-container'>
-                            <Link to="/Profile"><button id='comment-username-btn'>{comment.profileName}</button></Link>
+                        <Link to={{
+                                    pathname: `/Profile/${comment.profileName}`,
+                                    state: { userId: comment.id }
+                                    }}><button id='comment-username-btn'>{comment.profileName}</button></Link>
                         </div>
                         <div className='comment-content-container'>
                             <p id='comment-content'> {comment.comment} </p>
@@ -56,7 +58,10 @@ function RequestComment (props) {
                 return (
                     <li key={idx} className='curr-comment-box'>
                         <div className='comment-username-container'>
-                        <Link to="/Profile"><button className='btn'>{comment.profileName}</button></Link>
+                        <Link to={{
+                                    pathname: `/Profile/${comment.profileName}`,
+                                    state: { userId: comment.id }
+                                    }}><button className='btn'>{comment.profileName}</button></Link>
                         </div>
                         <div className='comment-content-container'>
                             <p id='comment-content'> {comment.comment} </p>

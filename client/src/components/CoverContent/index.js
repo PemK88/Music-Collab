@@ -70,7 +70,10 @@ function CoverContent (props) {
                     return (
                         <li key={idx} className='comment-box'>
                             <div className='comment-username-container'>
-                                <Link to="/Profile"><button id='comment-username-btn'>{comment.profileName}</button></Link>
+                            <Link to={{
+                                    pathname: `/Profile/${comment.profileName}`,
+                                    state: { userId: comment.id }
+                                    }}><button id='comment-username-btn'>{comment.profileName}</button></Link>
                             </div>
                             <div className='comment-content-container'>
                                 <p id='comment-content'> {comment.comment} </p>
@@ -83,7 +86,10 @@ function CoverContent (props) {
                     return (
                         <li key={idx} className='curr-comment-box'>
                             <div className='comment-username-container'>
-                            <Link to="/Profile"><button className='btn'>{comment.profileName}</button></Link>
+                            <Link to={{
+                                    pathname: `/Profile/${comment.profileName}`,
+                                    state: { userId: comment.id }
+                                    }}><button className='btn'>{comment.profileName}</button></Link>
                             </div>
                             <div className='comment-content-container'>
                                 <p id='comment-content'> {comment.comment} </p>

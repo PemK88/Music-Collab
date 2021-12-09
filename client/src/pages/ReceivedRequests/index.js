@@ -9,7 +9,7 @@ import RequestComment from '../../components/CoverContent/requestComments';
 function ReceivedRequests (props) {
 
     const [requests, setRequest] = useState([]);
-    const [viewedRequest, setViewed] = useState();
+    const [viewedRequest, setViewed] = useState({comments: [], _id: null});
     const [user, setUser] = useState()
 
     const setUserInfo  = (data) => {
@@ -41,7 +41,7 @@ function ReceivedRequests (props) {
         <div className="page">
             {(requests.length === 0) && <h2>No feature Requests</h2>}
             {(requests.length!== 0) && <RequestsHeader requests={requests} setViewedRequest={setViewedRequest} sentRequest={false}/>}
-            {(requests.length!== 0) && viewedRequest && <RequestComment setComment={setComment} currentPost={viewedRequest} currentUser={user}/>}
+            {(requests.length!== 0) && viewedRequest._id && <RequestComment setComment={setComment} currentPost={viewedRequest} currentUser={user}/>}
         </div>
     );
 }

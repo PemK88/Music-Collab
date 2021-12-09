@@ -19,8 +19,8 @@ function RequestHeader (props) {
                         {props.sentRequest && <p className="request-title">{request.postId.title + " to "} <span className="color-purple"> {request.acceptor.profileName}</span></p>}
                         <div classname="requests-btns-container">
                             <button className="btn right-margin" onClick={() => {props.setViewedRequest(props.requests[idx])}}>View</button>
-                            {!request.isAccepted && <button className="btn background-green right-margin" onClick={() => {acceptRequest(request._id)}}>Accept</button>}
-                            {!request.isAccepted && <button className="btn background-red right-margin" onClick={() => {deleteRequest(request._id)}}>Deny</button>}
+                            {!props.sentRequest && !request.isAccepted && <button className="btn background-green right-margin" onClick={() => {acceptRequest(request._id)}}>Accept</button>}
+                            {!props.sentRequest && !request.isAccepted && <button className="btn background-red right-margin" onClick={() => {deleteRequest(request._id)}}>Deny</button>}
                         </div>
                     </li>
                     
