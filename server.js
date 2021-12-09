@@ -367,7 +367,8 @@ app.patch("/users/updateProfile", async (req, res) => {
 		const result = await User.findOneAndUpdate({_id: id} , {$set: data}, {new: true, useFindAndModify: false})
         const test = await Post.updateMany({"artist.id": id }, { $set: { "artist.profileName": req.body.profileName } } );
         const test2 = await Post.updateMany({"comments.userId": id}, { $set: { "comments.$[].profileName": req.body.profileName } } );
-
+        const test3 = await Request.updateMany({"comments.userId": id}, { $set: { "comments.$[].profileName": req.body.profileName } } );
+        
 		if(!result) {
 			res.status(404).send('Resource not found')
 			return;
