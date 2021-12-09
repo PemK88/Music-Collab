@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
 import ReportPopup from '../ReportPopup';
+import RequestPopup from '../ReportPopup/RequestPopup';
 import {Link } from "react-router-dom";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
@@ -12,7 +13,7 @@ import { removedLikeUser, addLikedUser, changeLikedCounts } from '../../actions/
 function CoverHeader (props) {
 
     const [reportPopupTrigger, setReportPopupTrigger] = useState(false);
-
+    const [requestPopupTrigger, setRequestPopupTrigger] = useState(false);
 
 
     // const checkLiked = () => {
@@ -44,6 +45,10 @@ function CoverHeader (props) {
 
     const handleReport = () => {
         setReportPopupTrigger(!reportPopupTrigger);
+    };
+
+    const handleRequest = () => {
+        setRequestPopupTrigger(!requestPopupTrigger);
     };
 
     const handleDownload = () => {
@@ -124,8 +129,11 @@ function CoverHeader (props) {
                     </ul>
                 </div>
             <ReportPopup reportType={"post"} currentUser={props.currentUser} reported={props.currentPost} trigger={reportPopupTrigger} handleTrigger={handleReport}/>
+            <RequestPopup currentUser={props.currentUser} requestedPost={props.currentPost} trigger={requestPopupTrigger} handleTrigger={handleRequest}/>
             <div id="coverButtons">
-                {props.externalView && <a href={props.currentPost.audio.audioUrl} target="_blank" onClick={handleDownload} id="download-btn" className="btn" download>Download</a>}
+                {props.externalView && (props.hasAccess ? 
+                <a href={props.currentPost.audio.audioUrl} target="_blank" onClick={handleDownload} id="download-btn" className="btn" download>Download</a>
+                : <button className="btn" onClick={handleRequest}>Request</button>) }
                 <Link to={{
                             pathname: `/Features/${props.currentPost.title}`,
                             state: { postId: props.currentPost.id, userId: props.currentUser.id }
@@ -151,7 +159,8 @@ CoverHeader.propTypes = {
     page: PropTypes.string,
     toggleView: PropTypes.func,
     setIsLiked: PropTypes.func,
-    isLiked: PropTypes.bool
+    isLiked: PropTypes.bool,
+    hasAccess: PropTypes.bool
 };
 
 export default CoverHeader;
