@@ -742,7 +742,8 @@ app.patch('/posts/updatePost', multipartMiddleware, async (req, res) => {
     }
 
     try {
-
+        const test = await Request.updateMany({"postId.id": id }, { $set: { "postId.title": req.body.title } } );
+        
         if(req.files && req.files.originalImage) {
 
             await cloudinary.v2.uploader.upload(

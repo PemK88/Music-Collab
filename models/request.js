@@ -5,6 +5,11 @@ const artistSchema2 = new mongoose.Schema({
     profileName: String
 }, { _id : false });
 
+const postSchema = new mongoose.Schema({
+    id: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'},
+    title: String
+}, { _id : false });
+
 const commentSchema = mongoose.Schema({
 	userId: {
 		type: mongoose.Schema.Types.ObjectId, ref: 'User',
@@ -33,7 +38,7 @@ const Request = mongoose.model('Request', {
 	// 	required: true,
     //     unique: true
 	// },
-    postId: {type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
+    postId: postSchema,
    
 	requestor: {
         type: artistSchema2 ,

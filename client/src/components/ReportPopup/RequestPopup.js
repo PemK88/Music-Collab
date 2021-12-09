@@ -17,7 +17,7 @@ function RequestPopup (props) {
         const acceptorInfo = {id: props.requestedPost.artist.id, profileName: props.requestedPost.artist.profileName }
     
         const form = {
-            postId: props.requestedPost.id,
+            postId: {id: props.requestedPost.id, title: props.requestedPost.title},
             acceptor: acceptorInfo,
             requestor: requestorInfo,
             comments: [{userId: props.currentUser.id, profileName: props.currentUser.profileName, comment: state.value}]
