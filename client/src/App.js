@@ -43,7 +43,8 @@ import ReportView from './components/AdminComponents/ReportView';
 
 import ExplorePage from './pages/Explore';
 import PersonalizedFeed from './pages/PersonalizedFeed';
-import { getUserByID } from './actions/user';
+import SentRequests from './pages/SentRequests';
+import ReceivedRequests from './pages/ReceivedRequests';
 
 
 function App() {
@@ -241,6 +242,8 @@ function App() {
           <Route exact path='/Features/:title' render={() => (<Features/>)}/>
           <Route exact path='/CoverPage' render={() => (<CoverPage setComment={setPostComment} currentPost={currentPost} currentUser={currentUser} setUserInfo={setUserInfo}/>)}/>
           <Route exact path='/CoverPageSettings/:title' render={() => (<CoverpageSettings currentUser={state}/>)}/>
+          <Route exact path='/SentRequests' render={() => (<SentRequests currentUser={state}/>)}/>
+          <Route exact path='/ReceivedRequests' render={() => (<ReceivedRequests currentUser={state}/>)}/>
           
           <Route exact path='/EditUser' render={() => (<EditUser/>)}/>
           <Route exact path='/Profile' render={() => (<Profile currentUser={state}/>)}/>

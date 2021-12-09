@@ -42,7 +42,7 @@ function CoverpageSettings (props) {
        //get post
        getPost(postId, updatePost)
 
-    })
+    }, [])
 
     return (
         <div className="page">
