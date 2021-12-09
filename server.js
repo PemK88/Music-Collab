@@ -368,7 +368,9 @@ app.patch("/users/updateProfile", async (req, res) => {
         const test = await Post.updateMany({"artist.id": id }, { $set: { "artist.profileName": req.body.profileName } } );
         const test2 = await Post.updateMany({"comments.userId": id}, { $set: { "comments.$[].profileName": req.body.profileName } } );
         const test3 = await Request.updateMany({"comments.userId": id}, { $set: { "comments.$[].profileName": req.body.profileName } } );
-        
+        const test4 = await Request.updateMany({"requestor.id": id }, { $set: { "requestor.profileName": req.body.profileName } } );
+        const test5 = await Request.updateMany({"acceptor.id": id }, { $set: { "acceptor.profileName": req.body.profileName } } );
+
 		if(!result) {
 			res.status(404).send('Resource not found')
 			return;
@@ -880,9 +882,10 @@ app.post('/request', multipartMiddleware, async (req, res) => {
  
     // Create a new student using the Student mongoose model
     const request = new Request({
-        requestor: { id: req.body.requestorId, profileName: req.body.requestorProfileName },
-        acceptor: { id: req.body.acceptorId, profileName: req.body.acceptorProfileName },
-        postId: req.body.postId
+        requestor: req.body.requestor,
+        acceptor: req.body.acceptor,
+        postId: req.body.postId,
+        comments: req.body.comments
     })
 
     try {

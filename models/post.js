@@ -22,8 +22,7 @@ const commentSchema = mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId, ref: 'User',
 		required: true,
 		minlegth: 1,
-		trim: true,
-        unique: true
+		trim: true
 	},
 
     profileName: {

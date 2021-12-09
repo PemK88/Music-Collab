@@ -11,7 +11,6 @@ const commentSchema = mongoose.Schema({
 		required: true,
 		minlegth: 1,
 		trim: true,
-        unique: true
 	},
 
     profileName: {
