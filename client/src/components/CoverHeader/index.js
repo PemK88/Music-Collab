@@ -133,7 +133,7 @@ function CoverHeader (props) {
             <div id="coverButtons">
                 {props.externalView && (props.hasAccess ? 
                 <a href={props.currentPost.audio.audioUrl} target="_blank" onClick={handleDownload} id="download-btn" className="btn" download>Download</a>
-                : <button className="btn" onClick={handleRequest}>Request</button>) }
+                : <button className="btn" id="download-btn" onClick={handleRequest}>Request</button>) }
                 <Link to={{
                             pathname: `/Features/${props.currentPost.title}`,
                             state: { postId: props.currentPost.id, userId: props.currentUser.id }

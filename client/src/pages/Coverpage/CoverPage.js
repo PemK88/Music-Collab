@@ -11,6 +11,7 @@ import { getUser } from '../../actions/user';
 function CoverPage (props) {
 
     const [externalView, setExternalView] = useState(true);
+    const [hasAccess, setHasAccess] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const location = useLocation();
     const { postId } = location.state;
@@ -59,7 +60,8 @@ function CoverPage (props) {
         followings: null,
         lastLogIn: null,
         activityLog: null,
-        profilePhoto: null
+        profilePhoto: null,
+        accessTo: null
     })
 
     function setComment(child) {
@@ -112,6 +114,12 @@ function CoverPage (props) {
             else {
                 setExternalView(true)
             }
+
+            for (let pID of user.accessTo) {
+                if (pID === postId) {
+                    setHasAccess(true)
+                }
+            }
         }
         console.log('chnaged')
     }, [post, user])
@@ -119,7 +127,7 @@ function CoverPage (props) {
 
     return (
        <div className="page"> 
-            <CoverHeader externalView={externalView} currentPost={post} currentUser={user} setWork={props.setWork} page={'cover'} toggleView={toggleView} isLiked={isLiked} setIsLiked={setIsLiked}/>
+            <CoverHeader hasAccess={hasAccess} externalView={externalView} currentPost={post} currentUser={user} setWork={props.setWork} page={'cover'} toggleView={toggleView} isLiked={isLiked} setIsLiked={setIsLiked}/>
             <CoverContent setComment={setComment} externalView={externalView} currentPost={post} currentUser={user}/>
         </div>
 
