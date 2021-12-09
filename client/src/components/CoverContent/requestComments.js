@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './styles.css';
-import { addPostComment, deleteComment } from '../../actions/post';
+import { addRequestComment, deleteRequestComment } from '../../actions/request';
 
 
 function RequestComment (props) {
@@ -10,7 +10,6 @@ function RequestComment (props) {
     const [state, setState] = useState ({
         comment: ""
     })
-    const [isAdmin, setIsAdmin] = useState(false);
 
     const handleInputChange = (event) => {
         const target=event.target
@@ -24,7 +23,7 @@ function RequestComment (props) {
     const removeComment = (comment) => {
         const filteredList = props.currentPost.comments.filter((c) => { return c !== comment })
         props.setComment(filteredList)
-        deleteComment(props.currentPost.id, comment._id)
+        deleteRequestComment(props.currentPost._id, comment._id)
     }
 
     const addComment = () => {
@@ -32,22 +31,14 @@ function RequestComment (props) {
         const newComment = {profileName: props.currentUser.profileName, comment: state.comment, userId: props.currentUser.id}
         commentList.push(newComment)
         props.setComment(commentList)
-        addPostComment(newComment, props.currentPost.id)
+        addRequestComment(newComment, props.currentPost._id)
     }
-
-    useEffect(() => {
-        if (props.currentUser) {
-            if (props.currentUser.isAdmin) {
-                setIsAdmin(true)
-            }
-        }
-    }, [props.currentUser])
 
     const generateComments = (list) => {
         if(!list) return;
 
         return list.map((comment, idx) => {
-            if (comment.userId !== props.currentUser.id) {
+            if (comment.userId !== props.currentUser._id) {
                 return (
                     <li key={idx} className='comment-box'>
                         <div className='comment-username-container'>

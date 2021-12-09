@@ -1481,6 +1481,7 @@ app.delete('/api/posts/:id', async (req, res) => {
 	try {
 		const post = await Post.findByIdAndRemove(id)
         await User.updateMany({}, { $pull: { "likedWorks": id } });
+        await User.updateMany({}, { $pull: { "accessTo": id } });
         await User.updateMany({}, { $pull: { "downloadedWorks": id } });
         await Post.updateMany({}, { $pull: { "references": {"id": id} } });
         await Report.updateMany({}, { $pull: { "reported.$.id": id} });
@@ -1678,6 +1679,66 @@ app.post('/api/reports/changeArchive/:id', mongoChecker, async (req, res) => {
 			res.status(400).send('Bad Request') // bad request for changing the student.
 		}
 	}
+})
+
+app.post('/request/comment/:id', mongoChecker, async (req, res) => {
+    log(`Adding comment`)
+    const id = req.params.id
+
+   // check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	// If id valid, findById
+	try {
+		const comment = await Request.findOneAndUpdate({_id: id}, {$push: {"comments": req.body }}, {new: true, useFindAndModify: false})
+		if (!comment) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(comment)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}
+})
+
+app.delete('/request/comment/:id/:comment_id', (req, res) => {
+	// Add code here
+	const id = req.params.id
+	const comment_id = req.params.comment_id
+
+
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	Request.findOneAndUpdate({_id: id}, {$pull: {"comments": {"_id": comment_id}}}, {new: true, useFindAndModify: false})
+	.then((comment) => {
+		if (!comment) {
+			res.status(404).send()
+		} else {   
+			res.send(comment)
+		}
+	})
+	.catch((error) => {
+		log(error)
+		if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request') // bad request for changing the student.
+		}
+	}) 
 })
 
 // other student API routes can go here...
