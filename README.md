@@ -103,15 +103,49 @@ Only showing the main requests
     
 ### Post
     The funtionalities are similar to user
+    - Get a specific post by id
+        type: GET
+        url: /api/posts/:id
+        recieve:
+        {
+            "id": "61aeec3cfb533be3cba86257",
+            "coverPhoto": {
+                "imageId": "uqeovddqpmcmqqrb7fti",
+                "imageUrl": "http://res.cloudinary.com/drb9bln9e/image/upload/v1638853693/uqeovddqpmcmqqrb7fti.jpg",
+                "createdOn": "2021-12-07T05:08:13.414Z"
+            },
+            "audio": {
+                "audioId": "e2pobhwrayseiwyarhlp",
+                "audioUrl": "http://res.cloudinary.com/drb9bln9e/video/upload/v1638853693/e2pobhwrayseiwyarhlp.mp3",
+                "createdOn": "2021-12-07T05:08:14.297Z"
+            },
+            "title": "Tina",
+            "artist": {
+                "id": "61aede2ff12dae84eec13877",
+                "profileName": "BeatMaker"
+            },
+            "description": "love her",
+            "likesCount": 3,
+            "recievedLikes": [
+                "61b049aa57f94e89c28ade63",
+                "61b1585fe7877d7c2ac4ee4b"
+            ],
+            "categories": [
+                "Jazz"
+            ],
+            "tags": [
+                ",jazz"
+            ],
+            "references": [],
+            "comments": []
+        }
+        
     - Add a post to the dataset
         type: POST
         url: /posts
     - Get all the post in the dataset
         type: GET
         url: /api/posts
-    - Get a specific post by id
-        type: GET
-        url: /api/posts/:id
     - Delete a specific post by id
         type: DELETE
         url: /api/posts/:id
@@ -119,15 +153,14 @@ Only showing the main requests
         Similar  to user we have different routes for updating different part of the posts
         
 ### Request
-    The functionalities are similar to user
+    The functionalities are similar to user, in order to get the url refer to server.js
     - Add a request to the dataset
     - Get all the request in the dataset
-    - Get a specific request by id
     - Delete a specific request by id
     - Update a specifice request by id
     
 ### Report
-    The functionalities are similar to user
+    The functionalities are similar to user, in order to get the url refer to server.js
    - Add report to the dataset
    - Get all the report in the dataset
    - Get a specific report by id
