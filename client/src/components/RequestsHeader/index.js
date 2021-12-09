@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import "./styles.css";
-import ProfileSideNav from '../ProfileSideNav';
-import ReportPopup from '../ReportPopup';
-import defaultProfilePhoto from '../../data/default_profile_photo.jpeg';
-import { addFollowing, removeFollowing } from '../../actions/user';
+
 
 
 function RequestHeader (props) {
@@ -27,7 +24,8 @@ function RequestHeader (props) {
 
 RequestHeader.propTypes = {
     requests: PropTypes.object,
-    setViewedRequest: PropTypes.func
+    setViewedRequest: PropTypes.func,
+    sentRequest: PropTypes.bool
 };
 
-export default ProfileHeader;
+export default RequestHeader;

@@ -60,17 +60,28 @@ function NavigationBar(props) {
                 Explore
               </NavLink>
             </li>
-            {/* <li className="nav-item">
+            <li className="nav-item">
               <NavLink
                 exact
-                to="/Home"
+                to="/SentRequests"
                 activeClassName="active"
                 className="nav-links"
                 onClick={handleClick}
               >
-	               Home Page
+	               Sent Requests
               </NavLink>
-            </li> */}
+            </li>
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/ReceivedRequests"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+	               Received Requests
+              </NavLink>
+            </li>
             <li className="nav-item">
               <NavLink
                 exact
