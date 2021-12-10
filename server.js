@@ -979,6 +979,7 @@ app.patch('/request/acceptRequest/:requestId', async (req, res) => {
 	try {
 
         const results = await Request.findOneAndUpdate({_id: id} , {isAccepted : true}, {new: true, useFindAndModify: false})
+		const result = await User.findOneAndUpdate({_id: results.requestor.id } , {$push: {"accessTo": results.postId.id}}, {new: true, useFindAndModify: false})
         results ? res.send(results) : res.status(404).send('Resource not found')
 
 	} catch(error) {

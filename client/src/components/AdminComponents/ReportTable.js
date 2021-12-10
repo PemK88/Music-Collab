@@ -118,8 +118,14 @@ class ReportTable extends React.Component {
         const lowerQuery = query.toLowerCase()
 
         const filteredList =  reports.filter((report) => {
-            const reported = report.reported.toLowerCase()
-            return reported.includes(lowerQuery)
+            let reported1 = ""
+            if (report.reported.title) {
+                reported1 = report.reported.title.toLowerCase()
+            }
+            else {
+                reported1 = report.reported.username.toLowerCase()
+            }
+            return reported1.includes(lowerQuery)
         })
 
         return this.tableData(filteredList)

@@ -51,7 +51,7 @@ function EditWorkDetails (props) {
 
 
     const downloads = downloadedWorks.map(work => {
-        return {name: work.title + " by " + work.artist.profileName, id: work.id }});
+        return {name: work.title + " by " + work.artist.profileName, id: work._id }});
 
 
     // const saveChanges = () => {
@@ -99,7 +99,7 @@ function EditWorkDetails (props) {
 
     const handleRefAdd = (event) => {
         event.preventDefault();
-        const references = [...uploadFormInputs.references, {workId: null, description: ""}];
+        const references = [...uploadFormInputs.references, {id: null, description: ""}];
         const name = 'references';
         setUploadFormInputs(inputs => ({...inputs, [name]: references}));
         const works = [...selectedRefWork, []];
@@ -169,7 +169,7 @@ function EditWorkDetails (props) {
         for ( var key in uploadFormInputs ) {
             if(key !== "coverImage"  && key !== "audio") {
                 if(key === "references") {
-                    let value = (uploadFormInputs[key]) ? JSON.stringify(uploadFormInputs[key]) : JSON.stringify([])
+                    let value = (uploadFormInputs[key] && (uploadFormInputs[key].id !== null)) ? JSON.stringify(uploadFormInputs[key]) : JSON.stringify([])
                     formData.append(key, value);
                 }
                 else if(key === "hashtags" || key === "categories"){

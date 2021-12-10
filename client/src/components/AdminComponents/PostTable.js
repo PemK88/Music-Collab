@@ -91,7 +91,7 @@ class PostTable extends React.Component {
         const lowerQuery = query.toLowerCase()
 
         const filteredList =  posts.filter((post) => {
-            const name = post.name.toLowerCase()
+            const name = post.title.toLowerCase()
             return name.includes(lowerQuery)
         })
 
