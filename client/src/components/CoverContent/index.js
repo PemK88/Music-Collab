@@ -53,7 +53,7 @@ function CoverContent (props) {
                         <div className='comment-username-container'>
                         <Link to={{
                                     pathname: `/Profile/${comment.profileName}`,
-                                    state: { userId: comment.id }
+                                    state: { userId: comment.userId }
                                     }}><button className='btn'>{comment.profileName}</button></Link>
                         </div>
                         <div className='comment-content-container'>
@@ -72,7 +72,7 @@ function CoverContent (props) {
                             <div className='comment-username-container'>
                             <Link to={{
                                     pathname: `/Profile/${comment.profileName}`,
-                                    state: { userId: comment.id }
+                                    state: { userId: comment.userId }
                                     }}><button id='comment-username-btn'>{comment.profileName}</button></Link>
                             </div>
                             <div className='comment-content-container'>
@@ -88,7 +88,7 @@ function CoverContent (props) {
                             <div className='comment-username-container'>
                             <Link to={{
                                     pathname: `/Profile/${comment.profileName}`,
-                                    state: { userId: comment.id }
+                                    state: { userId: comment.userId }
                                     }}><button className='btn'>{comment.profileName}</button></Link>
                             </div>
                             <div className='comment-content-container'>
