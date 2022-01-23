@@ -1,171 +1,11 @@
-# Music Collab - team63
+# Music Collab
 
 ## Deployed Website Link
 https://musiccollabb.herokuapp.com/
 
-## Important Notes
-**Taking 1 day late penalty**
+* username: user
+* password: user
 
-## New Feature
-Request Feature
-In order for users to download other user's work, they must be approved by the owner of the user.
-User can send request to another user, if user is approved, then user can download the song. Furthermore they will be able to communicate with each other on comment section in request pages.
-
-## Overview of the Routes
-Only showing the main requests
-
-### User
-    - Add a user to the database
-        type: POST
-        url: /api/users
-        send: 
-            {
-                "isAdmin": false,
-                "username": "username",
-                "profileName": "profileName",
-                "email": "email",
-                "interests": ["string"],
-                "password": "password"
-            }
-         return:
-         {
-            "isAdmin": false,
-            "username": "username",
-            "password": "$2a$10$/L62gIEbXvTnfyo2ORIEcOS5/c92bRrAY3whbV6.uY3OtLPFO8xl2",
-            "profileName": "profileName",
-            "email": "email",
-            "biography": "",
-            "interests": [
-                "string"
-            ],
-            "downloadedWorks": [],
-            "likedWorks": [],
-            "followers": [],
-            "followings": [],
-            "activityLog": [],
-            "lastLogIn": "Not Yet Logged In",
-            "accessTo": [],
-            "_id": "61b180987110589cc76fb6f8",
-            "__v": 0
-        }
-            
-    - Get all the users in the database
-        type: GET
-        url: /api/users
-        recieve: all ther users in user database
-        
-    - Get a specific user by id
-        type: GET
-        url: /api/users/:id
-        recieve: full info of the user with "id"
-        
-    - Delete a specific user by id
-        type: DELETE
-        url: /api/users/:id
-        recieve: None
-        
-    - Update a specific user by id (There are different urls for updating different info)
-        - One example is updating bio
-        type: PATCH
-        url:/users/bio
-        send:
-            {
-               "userId": object id of user,
-               "biography": "Some bio"
-            }
-        recieve:
-            {
-                "accessTo": [],
-                "_id": "61aa9537401b196afb7303e7",
-                "isAdmin": false,
-                "username": "user",
-                "password": "$2a$10$PSl19UiOySvkMyXZBwJaeuBufArqG8UnYtunfWDvzaxPy/fgWFdKK",
-                "profileName": "admin",
-                "email": "user@mail.com",
-                "interests": [],
-                "uploadedWorks": [],
-                "downloadedWorks": [
-                    "61aec196a291734b8e4abd59"
-                ],
-                "likedWorks": [],
-                "followers": [],
-                "followings": [],
-                "activityLog": [],
-                "lastLogIn": "2021-12-8 21:21:30",
-                "__v": 0,
-                "profilePhoto": {
-                    "imageId": "l14zgkihocpw48su45ez",
-                    "imageUrl": "http://res.cloudinary.com/drb9bln9e/image/upload/v1638951972/l14zgkihocpw48su45ez.jpg",
-                    "createdOn": "2021-12-08T08:26:13.926Z"
-                },
-                "biography": "Some bio"
-            }
-    
-### Post
-    The funtionalities are similar to user
-    - Get a specific post by id
-        type: GET
-        url: /api/posts/:id
-        recieve:
-        {
-            "id": "61aeec3cfb533be3cba86257",
-            "coverPhoto": {
-                "imageId": "uqeovddqpmcmqqrb7fti",
-                "imageUrl": "http://res.cloudinary.com/drb9bln9e/image/upload/v1638853693/uqeovddqpmcmqqrb7fti.jpg",
-                "createdOn": "2021-12-07T05:08:13.414Z"
-            },
-            "audio": {
-                "audioId": "e2pobhwrayseiwyarhlp",
-                "audioUrl": "http://res.cloudinary.com/drb9bln9e/video/upload/v1638853693/e2pobhwrayseiwyarhlp.mp3",
-                "createdOn": "2021-12-07T05:08:14.297Z"
-            },
-            "title": "Tina",
-            "artist": {
-                "id": "61aede2ff12dae84eec13877",
-                "profileName": "BeatMaker"
-            },
-            "description": "love her",
-            "likesCount": 3,
-            "recievedLikes": [
-                "61b049aa57f94e89c28ade63",
-                "61b1585fe7877d7c2ac4ee4b"
-            ],
-            "categories": [
-                "Jazz"
-            ],
-            "tags": [
-                ",jazz"
-            ],
-            "references": [],
-            "comments": []
-        }
-        
-    - Add a post to the dataset
-        type: POST
-        url: /posts
-    - Get all the post in the dataset
-        type: GET
-        url: /api/posts
-    - Delete a specific post by id
-        type: DELETE
-        url: /api/posts/:id
-    - Update a specific post by id
-        Similar  to user we have different routes for updating different part of the posts
-        
-### Request
-    The functionalities are similar to user, in order to get the url refer to server.js
-    - Add a request to the dataset
-    - Get all the request in the dataset
-    - Delete a specific request by id
-    - Update a specifice request by id
-    
-### Report
-    The functionalities are similar to user, in order to get the url refer to server.js
-   - Add report to the dataset
-   - Get all the report in the dataset
-   - Get a specific report by id
-   - Delete a specific report by id
-   - Update a specific report by id
 
 ## Site Navigation Instructions
 
@@ -220,6 +60,11 @@ In the internal view, any comments you leave are highlighted and you can delete 
 ### Features
 
 Using the feature button on a work's cover page, you can see all the works that it features (parent works) and works that it is featured in (children works). The works are displayed like music notes on a music sheet and you can scroll through each section. By clicking on a music note, a card pops up with the work's title and artist, as well as a description of how it was used. By clicking on the title, you will be directed to the work's cover page. Clicking on the title of the work in the "Feature History" title will take you back to its cover page.
+
+### Request Feature
+
+In order for users to download other user's work, they must be approved by the owner of the work.
+Users can send request to another user, if the user is approved, then the user can download the song. Furthermore they will be able to communicate with each other in the chat sections of the request pages.
 
 ### Logout
 Clicking the logout button will direct you to the login page.
